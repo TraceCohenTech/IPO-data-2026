@@ -1,0 +1,1001 @@
+{
+  "meta": {
+    "title": "2025 IPO Class — Complete Dataset",
+    "description": "VC-backed IPOs from May 2025 through Jan 2026. All prices in USD. Performance calculated from Day 1 close price. Monthly return data indexed from Month 0 (Day 1 close). Current prices as of Apr 1, 2026.",
+    "data_sources": [
+      "Yahoo Finance", "Bloomberg", "CNBC", "Robinhood", "IPOScoop",
+      "Morningstar", "SEC filings (S-1/prospectus)", "TechCrunch", "Reuters"
+    ],
+    "generated": "2026-04-02",
+    "current_price_date": "2026-04-01"
+  },
+
+  "companies": [
+    {
+      "id": "etoro",
+      "name": "eToro",
+      "ticker": "ETOR",
+      "exchange": "NASDAQ",
+      "sector": "Fintech / Retail Trading",
+      "founded": 2007,
+      "hq": "Tel Aviv, Israel",
+      "color": "#10b981",
+
+      "ipo": {
+        "date": "2025-05-14",
+        "price": 52.00,
+        "shares_sold_m": 11.92,
+        "proceeds_raised_m": 620,
+        "valuation_at_ipo_b": 4.2,
+        "fully_diluted_val_b": 7.0,
+        "exchange_listed": "NASDAQ",
+        "underwriters": ["Goldman Sachs", "Jefferies", "UBS", "Citigroup"],
+        "initial_range_low": 46.00,
+        "initial_range_high": 50.00,
+        "priced_above_range": true
+      },
+
+      "day1": {
+        "open": 69.69,
+        "high": 74.28,
+        "close": 67.00,
+        "change_pct_from_ipo": 28.8,
+        "market_cap_b": 6.6
+      },
+
+      "private_history": {
+        "total_raised_m": 800,
+        "last_private_val_b": 3.5,
+        "last_private_round_date": "2023-03",
+        "peak_private_val_b": 3.5,
+        "peak_private_date": "2023-03",
+        "markdown_from_peak_to_ipo_pct": null,
+        "notable_investors": [
+          "SoftBank Vision Fund 2", "ION Group", "Pitango VC",
+          "BRM Group", "Social Leverage", "Spark Capital",
+          "Ping An Capital", "Korea Investment Partners"
+        ]
+      },
+
+      "current": {
+        "price": 29.03,
+        "market_cap_b": 2.4,
+        "change_from_ipo_price_pct": -44.2,
+        "change_from_day1_close_pct": -56.7,
+        "change_from_peak_private_pct": -31.3,
+        "52w_high": 79.96,
+        "52w_low": 24.74,
+        "52w_high_date": "2025-06-10",
+        "eps_ttm": 2.48,
+        "revenue_ttm_b": 13.8
+      },
+
+      "investor_returns": [
+        { "investor": "SoftBank Vision Fund 2", "entry_stage": "Late-stage", "entry_approx_val_b": 3.5, "status": "mixed", "notes": "In near peak private val. Current $2.4B vs $3.5B = ~31% underwater from entry valuation." },
+        { "investor": "Pitango VC", "entry_stage": "Early", "entry_approx_val_b": 0.2, "status": "winner", "notes": "Early Israeli VC backer. Substantial multi-x return despite current price decline." },
+        { "investor": "Social Leverage", "entry_stage": "Early", "entry_approx_val_b": 0.1, "status": "winner", "notes": "Early backer. Significant return." },
+        { "investor": "BlackRock", "entry_stage": "IPO cornerstone", "entry_approx_val_b": 4.2, "status": "mixed", "notes": "Indicated $100M at IPO price $52. Now $29 = -44%." }
+      ],
+
+      "monthly_returns_from_day1": [0, 19, 5, -8, -20, -32, -40, -47, -55, -54, -47, -53],
+      "monthly_labels": ["May'25","Jun","Jul","Aug","Sep","Oct","Nov","Dec","Jan'26","Feb","Mar","Apr"],
+
+      "narrative": "The social trading platform had a strong debut (+29%) fueled by crypto exposure and growing retail investor interest. But like the market it serves, it proved highly cyclical. Currently trading at ~$29, well below its $52 IPO price, with $2.4B market cap vs $4.2B at IPO."
+    },
+
+    {
+      "id": "figma",
+      "name": "Figma",
+      "ticker": "FIG",
+      "exchange": "NYSE",
+      "sector": "Design Software / SaaS",
+      "founded": 2012,
+      "hq": "San Francisco, CA",
+      "color": "#ec4899",
+
+      "ipo": {
+        "date": "2025-07-31",
+        "price": 33.00,
+        "shares_sold_m": 42.5,
+        "proceeds_raised_m": 1100,
+        "valuation_at_ipo_b": 18.8,
+        "fully_diluted_val_b": 20.0,
+        "exchange_listed": "NYSE",
+        "underwriters": ["Morgan Stanley", "Goldman Sachs", "Allen & Company", "JP Morgan"],
+        "initial_range_low": 28.00,
+        "initial_range_high": 32.00,
+        "priced_above_range": true,
+        "times_oversubscribed": 40
+      },
+
+      "day1": {
+        "open": 100.00,
+        "high": 125.00,
+        "close": 115.50,
+        "change_pct_from_ipo": 250.0,
+        "market_cap_b": 60.0
+      },
+
+      "private_history": {
+        "total_raised_m": 333,
+        "last_private_val_b": 20.0,
+        "last_private_round_date": "2022-06",
+        "peak_private_val_b": 20.0,
+        "peak_private_date": "2022-06",
+        "markdown_from_peak_to_ipo_pct": 6.0,
+        "context": "Adobe attempted $20B acquisition in 2022; blocked by regulators Dec 2023",
+        "notable_investors": [
+          "Sequoia Capital", "Index Ventures", "Greylock Partners",
+          "Kleiner Perkins", "a16z", "Peter Thiel (personal)"
+        ]
+      },
+
+      "current": {
+        "price": 21.14,
+        "market_cap_b": 11.0,
+        "change_from_ipo_price_pct": -35.9,
+        "change_from_day1_close_pct": -81.7,
+        "change_from_peak_private_pct": -45.0,
+        "52w_high": 142.92,
+        "52w_low": 19.82,
+        "52w_high_date": "2025-08-01",
+        "eps_ttm": -3.71,
+        "revenue_ttm_b": 1.06,
+        "revenue_growth_yoy_pct": 41.0,
+        "gross_margin_pct": 82.0
+      },
+
+      "investor_returns": [
+        { "investor": "Sequoia Capital", "entry_stage": "Series A/B", "entry_approx_val_b": 0.1, "status": "winner", "notes": "Early backer. Massive multi-x return even at current prices." },
+        { "investor": "Index Ventures", "entry_stage": "Series A", "entry_approx_val_b": 0.05, "status": "winner", "notes": "Early backer. Exceptional return." },
+        { "investor": "Greylock Partners", "entry_stage": "Series B", "entry_approx_val_b": 0.4, "status": "winner", "notes": "Strong return from early entry." },
+        { "investor": "Day-1 IPO buyers", "entry_stage": "IPO day close", "entry_approx_val_b": 60.0, "status": "wrecked", "notes": "Bought at $115.50 close on day 1. Now $21.14 = -81.7%. Worst single-day buyer outcome in cohort." },
+        { "investor": "Lock-up expiry sellers (Jan 2026)", "entry_stage": "Various", "entry_approx_val_b": null, "status": "mixed", "notes": "Insider selling at lock-up expiry crushed the stock from ~$70 to <$30 in weeks." }
+      ],
+
+      "monthly_returns_from_day1": [0, 24, -15, -35, -52, -65, -74, -80, -82, -82],
+      "monthly_labels": ["Jul'25","Aug","Sep","Oct","Nov","Dec","Jan'26","Feb","Mar","Apr"],
+
+      "narrative": "The most dramatic IPO pop in the cohort (+250% day 1). The 40x oversubscription and tiny float (~10% of shares) created artificial scarcity. Lock-up expiry in January 2026 triggered a flood of insider selling. Now at $21 vs $115.50 day-1 close — a brutal -81.7% for anyone who bought at close on day 1. Fundamentals remain strong (40% revenue growth, 82% gross margins, 131% net dollar retention). Bill Gurley publicly criticized the intentional underpricing as leaving $2.6B on the table."
+    },
+
+    {
+      "id": "circle",
+      "name": "Circle Internet Group",
+      "ticker": "CRCL",
+      "exchange": "NYSE",
+      "sector": "Crypto / Stablecoin Infrastructure",
+      "founded": 2013,
+      "hq": "New York, NY",
+      "color": "#22c55e",
+
+      "ipo": {
+        "date": "2025-06-05",
+        "price": 31.00,
+        "shares_sold_m": 35.0,
+        "proceeds_raised_m": 1100,
+        "valuation_at_ipo_b": 18.5,
+        "fully_diluted_val_b": 18.5,
+        "exchange_listed": "NYSE",
+        "underwriters": ["JP Morgan", "Citigroup", "Goldman Sachs"],
+        "priced_above_range": true
+      },
+
+      "day1": {
+        "open": 75.00,
+        "high": 90.00,
+        "close": 79.00,
+        "change_pct_from_ipo": 155.0,
+        "market_cap_b": 18.5,
+        "note": "First-day performance was exceptional; 168% gain cited in press"
+      },
+
+      "private_history": {
+        "total_raised_m": 1150,
+        "last_private_val_b": 9.0,
+        "last_private_round_date": "2022-04",
+        "peak_private_val_b": 9.0,
+        "context": "Attempted SPAC merger at $4.5B in 2021 collapsed. Later raised at $9B.",
+        "notable_investors": [
+          "Accel", "General Catalyst", "IDG Capital",
+          "Breyer Capital", "Goldman Sachs", "BlackRock"
+        ]
+      },
+
+      "current": {
+        "price": 92.61,
+        "market_cap_b": 22.9,
+        "change_from_ipo_price_pct": 198.7,
+        "change_from_day1_close_pct": 17.2,
+        "change_from_peak_private_pct": 154.6,
+        "52w_high": 298.99,
+        "52w_low": 31.00,
+        "eps_ttm": -0.44,
+        "revenue_ttm_b": 2.7,
+        "notes": "Only company in the cohort trading above IPO price AND above peak private valuation"
+      },
+
+      "investor_returns": [
+        { "investor": "Accel", "entry_stage": "Series B (early)", "entry_approx_val_b": 0.3, "status": "winner", "notes": "Extraordinary multi-x return. USDC growth thesis validated." },
+        { "investor": "General Catalyst", "entry_stage": "Growth", "entry_approx_val_b": 1.0, "status": "winner", "notes": "Strong return. Current $22.9B vs entry val." },
+        { "investor": "IDG Capital", "entry_stage": "Growth", "entry_approx_val_b": 2.0, "status": "winner", "notes": "Winner. Crypto bull cycle tailwind." },
+        { "investor": "BlackRock", "entry_stage": "Strategic", "entry_approx_val_b": 9.0, "status": "winner", "notes": "Strategic partnership and investment. Current market cap well above their entry." }
+      ],
+
+      "monthly_returns_from_day1": [0, 180, 210, 100, 60, 40, -20, -10, 20, 30, 20],
+      "monthly_labels": ["Jun'25","Jul","Aug","Sep","Oct","Nov","Dec","Jan'26","Feb","Mar","Apr"],
+
+      "narrative": "The only true standout winner in the 2025 IPO class. USDC stablecoin adoption accelerated with favorable US crypto regulation under the Trump administration. Hit an ATH of $298.99 before pulling back. Still +199% from IPO price and the only company trading above its peak private valuation. Early investors in Accel and GC made exceptional returns."
+    },
+
+    {
+      "id": "chime",
+      "name": "Chime",
+      "ticker": "CHYM",
+      "exchange": "NASDAQ",
+      "sector": "Consumer Fintech / Neobank",
+      "founded": 2012,
+      "hq": "San Francisco, CA",
+      "color": "#3b82f6",
+
+      "ipo": {
+        "date": "2025-06-12",
+        "price": 27.00,
+        "shares_sold_m": 32.0,
+        "proceeds_raised_m": 864,
+        "valuation_at_ipo_b": 11.6,
+        "fully_diluted_val_b": 11.6,
+        "exchange_listed": "NASDAQ",
+        "underwriters": ["Morgan Stanley", "Goldman Sachs", "JP Morgan"],
+        "initial_range_low": 24.00,
+        "initial_range_high": 26.00,
+        "priced_above_range": true
+      },
+
+      "day1": {
+        "open": 43.00,
+        "high": 44.00,
+        "close": 37.11,
+        "change_pct_from_ipo": 37.4,
+        "market_cap_b": 13.5
+      },
+
+      "private_history": {
+        "total_raised_m": 2300,
+        "last_private_val_b": 25.0,
+        "last_private_round_date": "2021-08",
+        "last_private_round": "Series G",
+        "last_private_round_amount_m": 750,
+        "peak_private_val_b": 25.0,
+        "peak_private_date": "2021-08",
+        "markdown_from_peak_to_ipo_pct": 53.6,
+        "notable_investors": [
+          "Sequoia Capital", "SoftBank Vision Fund",
+          "Coatue Management", "Tiger Global Management",
+          "DST Global", "General Atlantic", "Forerunner Ventures",
+          "ICONIQ Growth", "Dragoneer", "Menlo Ventures", "Crosslink Capital"
+        ]
+      },
+
+      "current": {
+        "price": 18.85,
+        "market_cap_b": 6.9,
+        "change_from_ipo_price_pct": -30.2,
+        "change_from_day1_close_pct": -49.2,
+        "change_from_peak_private_pct": -72.4,
+        "52w_high": 44.94,
+        "52w_low": 16.17,
+        "eps_ttm": null,
+        "revenue_ttm_m": 518.7,
+        "revenue_growth_yoy_pct": 32.0,
+        "top_shareholders": [
+          { "name": "DST Global", "pct": 17.0 },
+          { "name": "Crosslink Capital", "pct": 9.5 }
+        ]
+      },
+
+      "investor_returns": [
+        { "investor": "Sequoia Capital", "entry_stage": "Series B (2014)", "entry_approx_val_b": 0.1, "status": "winner", "notes": "Early entry. Still strong return even at current $6.9B." },
+        { "investor": "ICONIQ Growth", "entry_stage": "Series D (2019, $1.5B val)", "entry_approx_val_b": 1.5, "status": "winner", "notes": "Invested at $1.5B val. Current $6.9B = 4.5x+ even at today's price." },
+        { "investor": "Menlo Ventures", "entry_stage": "Seed/Series A", "entry_approx_val_b": 0.05, "status": "winner", "notes": "Board seat since early days. Massive return." },
+        { "investor": "DST Global", "entry_stage": "Multiple rounds (17% stake)", "entry_approx_val_b": 5.0, "status": "mixed", "notes": "Top holder at 17%. Mid-to-late entry. Still likely net positive from early tranches." },
+        { "investor": "SoftBank Vision Fund", "entry_stage": "Series G (2021, $25B val)", "entry_approx_val_b": 25.0, "status": "wrecked", "notes": "Invested at $25B peak. Current $6.9B = -72% from entry valuation." },
+        { "investor": "Coatue Management", "entry_stage": "Late stage (2021)", "entry_approx_val_b": 20.0, "status": "wrecked", "notes": "In near $25B peak. Deep underwater." },
+        { "investor": "Tiger Global Management", "entry_stage": "Late stage (2021)", "entry_approx_val_b": 20.0, "status": "wrecked", "notes": "In near $25B peak. Deep underwater." },
+        { "investor": "General Atlantic", "entry_stage": "Series F-G (mid-stage)", "entry_approx_val_b": 8.0, "status": "mixed", "notes": "Mid-stage entry. Meaningful losses but not catastrophic." }
+      ],
+
+      "monthly_returns_from_day1": [0, 21, 8, -5, -15, -26, -38, -45, -44, -50, -49],
+      "monthly_labels": ["Jun'25","Jul","Aug","Sep","Oct","Nov","Dec","Jan'26","Feb","Mar","Apr"],
+
+      "narrative": "The landmark neobank IPO priced above range, opened at $43 (+59%). Strong day-1 enthusiasm gave way to steady selling as profitability questions lingered. Peak private val of $25B (2021) vs current $6.9B = 72% destruction for peak investors. Early-stage VCs remain profitable. Q4 2025 earnings beat drove a brief recovery Feb 2026."
+    },
+
+    {
+      "id": "figure",
+      "name": "Figure Technology Solutions",
+      "ticker": "FIGR",
+      "exchange": "NASDAQ",
+      "sector": "Blockchain Fintech / Home Equity Lending",
+      "founded": 2018,
+      "hq": "Reno, NV",
+      "color": "#f97316",
+
+      "ipo": {
+        "date": "2025-09-11",
+        "price": 25.00,
+        "shares_sold_m": 31.5,
+        "proceeds_raised_m": 787.5,
+        "valuation_at_ipo_b": 5.3,
+        "fully_diluted_val_b": 5.3,
+        "exchange_listed": "NASDAQ",
+        "underwriters": ["Goldman Sachs", "Jefferies", "BofA Securities"],
+        "initial_range_low": 18.00,
+        "initial_range_high": 20.00,
+        "priced_above_range": true,
+        "notable": "Stanley Druckenmiller indicated $50M cornerstone at IPO"
+      },
+
+      "day1": {
+        "open": 36.00,
+        "high": 40.00,
+        "close": 31.11,
+        "change_pct_from_ipo": 24.4,
+        "market_cap_b": 6.7
+      },
+
+      "private_history": {
+        "total_raised_m": 400,
+        "last_private_val_b": 3.2,
+        "last_private_round_date": "2022-01",
+        "peak_private_val_b": 3.2,
+        "markup_from_peak_to_ipo_pct": 65.6,
+        "notable_investors": [
+          "Michael Cagney (founder, SoFi co-founder)",
+          "June Ou (co-founder)",
+          "Apollo Global Management",
+          "Ribbit Capital"
+        ]
+      },
+
+      "current": {
+        "price": 33.56,
+        "market_cap_b": 7.2,
+        "change_from_ipo_price_pct": 34.2,
+        "change_from_day1_close_pct": 7.9,
+        "change_from_peak_private_pct": 125.0,
+        "52w_high": 78.00,
+        "52w_low": 25.01,
+        "52w_high_date": "2026-01-20",
+        "eps_ttm": 0.28,
+        "revenue_ttm_m": 506.9,
+        "profitable": true,
+        "net_margin_pct": 26.4
+      },
+
+      "investor_returns": [
+        { "investor": "Michael Cagney (Founder)", "entry_stage": "Founder", "entry_approx_val_b": 0.05, "status": "winner", "notes": "Controls majority voting. Current $7.2B = extraordinary founder return." },
+        { "investor": "Stanley Druckenmiller", "entry_stage": "IPO cornerstone ($50M)", "entry_approx_val_b": 5.3, "status": "winner", "notes": "In at $25 IPO price. Now $33.56 = +34%. Smart early endorsement." },
+        { "investor": "Apollo Global Management", "entry_stage": "Growth", "entry_approx_val_b": 2.0, "status": "winner", "notes": "In at reasonable valuation. Current $7.2B = strong multiple." }
+      ],
+
+      "monthly_returns_from_day1": [0, 6, 10, 45, 51, 150, 8, 8],
+      "monthly_labels": ["Sep'25","Oct","Nov","Dec","Jan'26","Feb","Mar","Apr"],
+
+      "narrative": "One of only two companies trading above IPO price. Founded by SoFi co-founder Mike Cagney. Blockchain-native home equity lending platform is profitable (26% net margin) and growing. Hit ATH of $78 in January 2026 before cooling. Strong fundamentals differentiate it from the broader cohort."
+    },
+
+    {
+      "id": "klarna",
+      "name": "Klarna",
+      "ticker": "KLAR",
+      "exchange": "NYSE",
+      "sector": "BNPL / Fintech",
+      "founded": 2005,
+      "hq": "London, UK (founded Stockholm)",
+      "color": "#f59e0b",
+
+      "ipo": {
+        "date": "2025-09-10",
+        "price": 40.00,
+        "shares_sold_m": 34.3,
+        "proceeds_raised_m": 1370,
+        "valuation_at_ipo_b": 15.1,
+        "fully_diluted_val_b": 15.1,
+        "exchange_listed": "NYSE",
+        "underwriters": ["Goldman Sachs", "JP Morgan", "Morgan Stanley"],
+        "initial_range_low": 35.00,
+        "initial_range_high": 37.00,
+        "priced_above_range": true,
+        "times_oversubscribed": 25
+      },
+
+      "day1": {
+        "open": 52.00,
+        "high": 57.20,
+        "close": 45.82,
+        "change_pct_from_ipo": 14.6,
+        "market_cap_b": 17.3
+      },
+
+      "private_history": {
+        "total_raised_m": 3850,
+        "last_private_val_b": 6.7,
+        "last_private_round_date": "2022-07",
+        "last_private_round_amount_m": 800,
+        "peak_private_val_b": 45.6,
+        "peak_private_date": "2021-06",
+        "peak_private_round": "Series with SoftBank, $639M raised",
+        "markdown_from_peak_to_ipo_pct": 66.9,
+        "notable_investors": [
+          "Sequoia Capital", "SoftBank Vision Fund 2",
+          "Silver Lake", "BlackRock", "Heartland A/S (Anders Holch Povlsen)",
+          "Commonwealth Bank of Australia", "Atomico", "Visa"
+        ]
+      },
+
+      "current": {
+        "price": 13.28,
+        "market_cap_b": 5.0,
+        "change_from_ipo_price_pct": -66.8,
+        "change_from_day1_close_pct": -71.0,
+        "change_from_peak_private_pct": -89.0,
+        "52w_high": 57.20,
+        "52w_low": 12.06,
+        "52w_high_date": "2025-09-10",
+        "eps_ttm": -0.79,
+        "revenue_ttm_b": 3.5,
+        "p_s_ratio": 1.38
+      },
+
+      "investor_returns": [
+        { "investor": "Sequoia Capital", "entry_stage": "First check 2010", "entry_approx_val_b": 0.05, "status": "winner", "notes": "$500M total invested, ~20% stake. $2.65B gain at IPO. Sold 2M of 79M shares. Still largest VC winner in entire 2025 IPO cohort despite current price decline." },
+        { "investor": "SoftBank Vision Fund 2", "entry_stage": "2021 lead round ($45.6B val)", "entry_approx_val_b": 45.6, "status": "wrecked", "notes": "Led $639M round at $45.6B. Current $5B = -89% from entry valuation. Biggest single investor loss in the cohort." },
+        { "investor": "Atomico", "entry_stage": "Early European VC", "entry_approx_val_b": 0.2, "status": "winner", "notes": "Early backer. Multi-x return from cost basis." },
+        { "investor": "Heartland A/S (Povlsen)", "entry_stage": "Multiple rounds", "entry_approx_val_b": 5.0, "status": "mixed", "notes": "Danish billionaire. Large stake. Significant paper losses post-IPO." },
+        { "investor": "Silver Lake", "entry_stage": "Late-stage", "entry_approx_val_b": 15.0, "status": "wrecked", "notes": "Late entry. Net negative at current prices." }
+      ],
+
+      "monthly_returns_from_day1": [0, 2, -10, -25, -38, -48, -58, -67, -71],
+      "monthly_labels": ["Sep'25","Oct","Nov","Dec","Jan'26","Feb","Mar","Apr","Apr(cur)"],
+
+      "narrative": "Europe's most storied fintech IPO. Peak private val of $45.6B in 2021 made Klarna the most valuable European startup ever. SoftBank's investment at that peak is now the single worst VC bet in this cohort at -89% from entry. Sequoia, by contrast, is the biggest winner across the entire 2025 IPO class — $500M invested over 15 years turned into a $2.65B+ gain."
+    },
+
+    {
+      "id": "via",
+      "name": "Via Transportation",
+      "ticker": "VIA",
+      "exchange": "NYSE",
+      "sector": "Transit Technology / GovTech SaaS",
+      "founded": 2012,
+      "hq": "New York, NY",
+      "color": "#a78bfa",
+
+      "ipo": {
+        "date": "2025-09-12",
+        "price": 46.00,
+        "shares_sold_m": 10.7,
+        "proceeds_raised_m": 492.9,
+        "valuation_at_ipo_b": 3.65,
+        "fully_diluted_val_b": 3.65,
+        "exchange_listed": "NYSE",
+        "underwriters": ["Goldman Sachs", "Morgan Stanley", "Allen & Company", "Wells Fargo"],
+        "initial_range_low": 40.00,
+        "initial_range_high": 44.00,
+        "priced_above_range": true
+      },
+
+      "day1": {
+        "open": 44.00,
+        "high": 52.00,
+        "close": 49.00,
+        "change_pct_from_ipo": 6.5,
+        "market_cap_b": 3.9
+      },
+
+      "private_history": {
+        "total_raised_m": 887,
+        "last_private_val_b": 3.5,
+        "last_private_round_date": "2023-02",
+        "last_private_round_amount_m": 110,
+        "peak_private_val_b": 3.5,
+        "markup_from_peak_to_ipo_pct": 4.3,
+        "notable_investors": [
+          "Pitango VC", "83North", "Janus Henderson Investors",
+          "RiverPark Ventures", "Wellington Management"
+        ]
+      },
+
+      "current": {
+        "price": 13.50,
+        "market_cap_b": 1.1,
+        "change_from_ipo_price_pct": -70.7,
+        "change_from_day1_close_pct": -72.5,
+        "change_from_peak_private_pct": -68.6,
+        "52w_high": 56.31,
+        "52w_low": 13.11,
+        "52w_high_date": "2025-11-03",
+        "eps_ttm": -2.92,
+        "revenue_2025_m": 434,
+        "revenue_growth_yoy_pct": 28.6,
+        "analyst_consensus": "Strong Buy",
+        "analyst_target_avg": 47.43
+      },
+
+      "investor_returns": [
+        { "investor": "Pitango VC", "entry_stage": "Early (Series A-C)", "entry_approx_val_b": 0.1, "status": "winner", "notes": "Israeli early-stage backer. Still net positive despite current decline." },
+        { "investor": "83North", "entry_stage": "Series D-E", "entry_approx_val_b": 0.5, "status": "mixed", "notes": "Led $110M round Feb 2023. IPO valuation flat vs entry. Now underwater from that tranche." },
+        { "investor": "Series G investors (2021)", "entry_stage": "Late stage", "entry_approx_val_b": 3.3, "status": "wrecked", "notes": "Came in near $3.3B. Now $1.1B = -67%." },
+        { "investor": "Wellington Management", "entry_stage": "IPO anchor ($100M indicated)", "entry_approx_val_b": 3.65, "status": "wrecked", "notes": "Anchor at IPO. Now -71% from entry." }
+      ],
+
+      "key_events": [
+        { "date": "2025-09-22", "event": "Waymo partnership announced — autonomous rides on Via platform" },
+        { "date": "2025-12-16", "event": "Bleecker Street Research published short seller report" },
+        { "date": "2025-12-16", "event": "Downtowner acquisition announced (+94 customers)" }
+      ],
+
+      "monthly_returns_from_day1": [0, 10, 15, -5, -25, -55, -68, -72],
+      "monthly_labels": ["Sep'25","Oct","Nov","Dec","Jan'26","Feb","Mar","Apr"],
+
+      "narrative": "Transit tech platform serving 800+ cities in 30+ countries. Had clean IPO (barely above last private val). Waymo partnership created brief excitement. Bleecker Street short report in December was the catalyst for the crash. Strong Buy from all 8 analysts with avg target $47 — 247% upside implied. Securities class action investigation opened March 2026."
+    },
+
+    {
+      "id": "gemini",
+      "name": "Gemini Space Station",
+      "ticker": "GEMI",
+      "exchange": "NASDAQ",
+      "sector": "Crypto Exchange / Digital Assets",
+      "founded": 2014,
+      "hq": "New York, NY",
+      "color": "#64748b",
+
+      "ipo": {
+        "date": "2025-09-12",
+        "price": 28.00,
+        "shares_sold_m": 15.2,
+        "proceeds_raised_m": 425,
+        "valuation_at_ipo_b": 3.3,
+        "fully_diluted_val_b": 3.3,
+        "exchange_listed": "NASDAQ",
+        "underwriters": ["Goldman Sachs", "Citigroup", "Morgan Stanley", "Cantor"],
+        "initial_range_low": 17.00,
+        "initial_range_high": 19.00,
+        "priced_above_range": true,
+        "notable": "NASDAQ invested $50M in private placement at IPO price"
+      },
+
+      "day1": {
+        "open": 30.00,
+        "high": 35.00,
+        "close": 32.00,
+        "change_pct_from_ipo": 14.3,
+        "market_cap_b": 3.8
+      },
+
+      "private_history": {
+        "total_raised_m": 400,
+        "last_private_val_b": 7.1,
+        "last_private_round_date": "2021-11",
+        "peak_private_val_b": 7.1,
+        "peak_private_date": "2021-11",
+        "markdown_from_peak_to_ipo_pct": 53.5,
+        "notable_investors": [
+          "Cleo Capital", "Tyler Winklevoss (founder)", "Cameron Winklevoss (founder)"
+        ]
+      },
+
+      "current": {
+        "price": 4.43,
+        "market_cap_b": 0.5,
+        "change_from_ipo_price_pct": -84.2,
+        "change_from_day1_close_pct": -86.2,
+        "change_from_peak_private_pct": -92.9,
+        "52w_high": 45.89,
+        "52w_low": 3.91
+      },
+
+      "investor_returns": [
+        { "investor": "Winklevoss Twins (founders)", "entry_stage": "Founders", "entry_approx_val_b": 0.01, "status": "winner", "notes": "Still net positive from zero cost basis, but watching their company implode." },
+        { "investor": "Cleo Capital", "entry_stage": "Early", "entry_approx_val_b": 0.1, "status": "winner", "notes": "Early-stage backer. Sarah Kunst (MD) publicly bullish. Still profitable from early entry." },
+        { "investor": "2021 investors ($7.1B val)", "entry_stage": "Late stage", "entry_approx_val_b": 7.1, "status": "wrecked", "notes": "Came in at $7.1B peak. Current $0.5B = -93%. Catastrophic." },
+        { "investor": "NASDAQ (IPO private placement)", "entry_stage": "IPO ($50M at $28)", "entry_approx_val_b": 3.3, "status": "wrecked", "notes": "Invested $50M at $28. Now $4.43 = -84%." }
+      ],
+
+      "key_events": [
+        { "date": "2026-02-17", "event": "Three top executives resigned simultaneously" },
+        { "date": "2026-02-17", "event": "25% workforce reduction announced (~200 jobs)" },
+        { "date": "2026-03-19", "event": "Q4 earnings miss: EPS -$1.22 vs consensus -$0.96" },
+        { "date": "2026-03-23", "event": "Securities fraud class action lawsuit filed" }
+      ],
+
+      "monthly_returns_from_day1": [0, 10, 20, 5, -40, -65, -78, -86],
+      "monthly_labels": ["Sep'25","Oct","Nov","Dec","Jan'26","Feb","Mar","Apr"],
+
+      "narrative": "The worst post-IPO collapse in the cohort. Priced at $28 (well above $17-19 initial range), Gemini's $7.1B 2021 peak val is now a distant memory at $0.5B market cap. Three executives resigned simultaneously in February, followed by 25% layoffs, an earnings miss, and multiple securities fraud class actions. Bitcoin's correction was the macro trigger, but structural problems made the decline far worse."
+    },
+
+    {
+      "id": "stubhub",
+      "name": "StubHub",
+      "ticker": "STUB",
+      "exchange": "NYSE",
+      "sector": "Marketplace / Live Events",
+      "founded": 2000,
+      "hq": "San Francisco, CA",
+      "color": "#ef4444",
+
+      "ipo": {
+        "date": "2025-09-17",
+        "price": 23.50,
+        "shares_sold_m": 34.04,
+        "proceeds_raised_m": 800,
+        "valuation_at_ipo_b": 8.6,
+        "fully_diluted_val_b": 8.6,
+        "exchange_listed": "NYSE",
+        "underwriters": ["JP Morgan", "Goldman Sachs", "BofA Securities"],
+        "initial_range_low": 22.00,
+        "initial_range_high": 25.00,
+        "priced_at_midpoint": true
+      },
+
+      "day1": {
+        "open": 25.35,
+        "high": 27.89,
+        "close": 22.00,
+        "change_pct_from_ipo": -6.4,
+        "market_cap_b": 7.5,
+        "note": "Only company in cohort to close BELOW IPO price on day 1"
+      },
+
+      "private_history": {
+        "total_raised_m": 4050,
+        "context": "Acquired by Viagogo for $4.05B in 2020. Sought $16.5B pre-IPO valuation.",
+        "last_private_val_b": 16.5,
+        "last_private_round_date": "2021-01",
+        "peak_private_val_b": 16.5,
+        "markdown_from_peak_to_ipo_pct": 47.9,
+        "debt_at_ipo_b": 2.85,
+        "debt_interest_rate_pct": 9.0,
+        "notable_investors": [
+          "Eric Baker (CEO/co-founder, 88.3% voting control via Class B)",
+          "Madrone Capital Partners (Walton family office, 22.1%)",
+          "WestCap Group (11.1%)",
+          "Bessemer Venture Partners (7.9%)",
+          "PointState Capital (5.3%)"
+        ]
+      },
+
+      "current": {
+        "price": 6.06,
+        "market_cap_b": 2.2,
+        "change_from_ipo_price_pct": -74.2,
+        "change_from_day1_close_pct": -72.5,
+        "change_from_peak_private_pct": -86.7,
+        "52w_high": 27.89,
+        "52w_low": 6.02,
+        "52w_high_date": "2025-09-17",
+        "eps_ttm": -4.36,
+        "revenue_ttm_b": 1.745,
+        "gross_margin_pct": 82.0,
+        "debt_b": 2.85
+      },
+
+      "investor_returns": [
+        { "investor": "Eric Baker (CEO/Founder)", "entry_stage": "Founder/Co-acquirer", "entry_approx_val_b": 4.05, "status": "wrecked", "notes": "Reacquired via Viagogo for $4B in 2020. Controls 88.3% of votes. Current $2.2B = catastrophic personal wealth destruction." },
+        { "investor": "Madrone Capital (Walton family)", "entry_stage": "Pre-IPO (22.1%)", "entry_approx_val_b": 8.6, "status": "wrecked", "notes": "Largest public shareholder. In at IPO val. Now $2.2B = -74%." },
+        { "investor": "WestCap Group", "entry_stage": "Pre-IPO (11.1%)", "entry_approx_val_b": 8.6, "status": "wrecked", "notes": "Deep underwater." },
+        { "investor": "Bessemer Venture Partners", "entry_stage": "Growth (7.9%)", "entry_approx_val_b": 8.0, "status": "wrecked", "notes": "Significant losses." },
+        { "investor": "PointState Capital", "entry_stage": "Pre-IPO (5.3%)", "entry_approx_val_b": 8.0, "status": "wrecked", "notes": "Deeply underwater." }
+      ],
+
+      "key_events": [
+        { "date": "2025-11-14", "event": "Q3 earnings: stock plummets 21% after company withholds Q4 guidance" },
+        { "date": "2025-12-19", "event": "Jim Cramer: 'StubHub is losing too much money'" },
+        { "date": "2026-03-24", "event": "Strategic partnership with ULTRA Europe announced" },
+        { "date": "2026-03-25", "event": "Guggenheim cuts price target to $7.50 from $9" }
+      ],
+
+      "monthly_returns_from_day1": [0, -8, -22, -36, -50, -58, -65, -73],
+      "monthly_labels": ["Sep'25","Oct","Nov","Dec","Jan'26","Feb","Mar","Apr"],
+
+      "narrative": "The only company to close below IPO price on day 1 — a bad omen that proved prescient. $2.85B in debt at 9% interest is the anchor around its neck, consuming cash that should fund growth. The Walton family office (Madrone Capital) is the most prominent identifiable loser. 82% gross margins mask the brutal debt service reality."
+    },
+
+    {
+      "id": "netskope",
+      "name": "Netskope",
+      "ticker": "NTSK",
+      "exchange": "NASDAQ",
+      "sector": "Cybersecurity / SASE / Zero Trust",
+      "founded": 2012,
+      "hq": "Santa Clara, CA",
+      "color": "#8b5cf6",
+
+      "ipo": {
+        "date": "2025-09-18",
+        "price": 19.00,
+        "shares_sold_m": 47.8,
+        "proceeds_raised_m": 908.2,
+        "valuation_at_ipo_b": 7.3,
+        "fully_diluted_val_b": 7.3,
+        "exchange_listed": "NASDAQ",
+        "underwriters": ["Morgan Stanley", "JP Morgan"],
+        "initial_range_low": 15.00,
+        "initial_range_high": 17.00,
+        "priced_above_range": true,
+        "times_oversubscribed": 20
+      },
+
+      "day1": {
+        "open": 23.00,
+        "high": 24.50,
+        "close": 22.49,
+        "change_pct_from_ipo": 18.4,
+        "market_cap_b": 8.6
+      },
+
+      "private_history": {
+        "total_raised_m": 1000,
+        "last_private_val_b": 7.5,
+        "last_private_round_date": "2021-07",
+        "last_private_round": "Series H",
+        "last_private_round_amount_m": 300,
+        "peak_private_val_b": 7.5,
+        "markup_from_peak_to_ipo_pct": -2.7,
+        "convertible_notes_m": 401,
+        "notable_investors": [
+          "ICONIQ Growth (16.8% at IPO)",
+          "Lightspeed Venture Partners (16.9% at IPO)",
+          "Accel Partners", "Sequoia Capital",
+          "New York Life Ventures",
+          "Canada Pension Plan (CPPIB)",
+          "Sapphire Ventures"
+        ]
+      },
+
+      "current": {
+        "price": 8.44,
+        "market_cap_b": 2.8,
+        "change_from_ipo_price_pct": -55.6,
+        "change_from_day1_close_pct": -62.5,
+        "change_from_peak_private_pct": -62.7,
+        "52w_high": 27.99,
+        "52w_low": 7.67,
+        "eps_ttm": null,
+        "arr_m": 811,
+        "arr_growth_yoy_pct": 31.0,
+        "revenue_ttm_m": 709
+      },
+
+      "investor_returns": [
+        { "investor": "Lightspeed Venture Partners", "entry_stage": "Series B (2013) → 16.9% at IPO", "entry_approx_val_b": 0.1, "status": "mixed", "notes": "Lead Series B. Stake worth $1.45B at day 1 close → now ~$473M. Still above Series B cost basis but IPO gains gone." },
+        { "investor": "ICONIQ Growth", "entry_stage": "Series D (2015) → 16.8% at IPO", "entry_approx_val_b": 0.4, "status": "mixed", "notes": "First backed in 2015 Series D. Led 2021 $300M round at $7.5B. IPO was flat vs last private. Now at $2.8B = underwater on 2021 tranche, but early tranches profitable." },
+        { "investor": "Accel Partners", "entry_stage": "Early", "entry_approx_val_b": 0.05, "status": "winner", "notes": "Early backer. Cost basis well below current price = still in the money." },
+        { "investor": "CPPIB / Canada Pension Plan", "entry_stage": "Series H (2021, $7.5B val)", "entry_approx_val_b": 7.5, "status": "wrecked", "notes": "In at $7.5B. Now $2.8B = -63%." },
+        { "investor": "New York Life Ventures", "entry_stage": "Late stage", "entry_approx_val_b": 6.0, "status": "wrecked", "notes": "Late entry. Significant losses." }
+      ],
+
+      "key_events": [
+        { "date": "2025-12-11", "event": "Q3 FY2026 earnings: ARR +34% YoY to $754M — stock dipped 10%+" },
+        { "date": "2026-02-23", "event": "Anthropic's Claude Code Security announcement triggered cybersec sector selloff" },
+        { "date": "2026-03-18", "event": "Cybersecurity stocks dropped 2nd consecutive day on AI disruption fears" }
+      ],
+
+      "monthly_returns_from_day1": [0, 3, -10, -20, -35, -50, -55, -62],
+      "monthly_labels": ["Sep'25","Oct","Nov","Dec","Jan'26","Feb","Mar","Apr"],
+
+      "narrative": "The cleanest IPO deal in the cohort — priced at $7.3B, essentially flat to its $7.5B last private round. Day-1 was strong (+18%) and the business is genuinely growing ($811M ARR, 31% growth). But AI-driven cybersecurity disruption fears (specifically Anthropic's Claude Code Security launch in Feb 2026) triggered a sector-wide rout. ICONIQ's $1.4B day-1 stake is now ~$470M."
+    },
+
+    {
+      "id": "navan",
+      "name": "Navan",
+      "ticker": "NAVN",
+      "exchange": "NASDAQ",
+      "sector": "Travel & Expense SaaS / B2B",
+      "founded": 2015,
+      "hq": "Palo Alto, CA",
+      "color": "#06b6d4",
+
+      "ipo": {
+        "date": "2025-10-30",
+        "price": 25.00,
+        "shares_sold_m": 36.9,
+        "proceeds_raised_m": 923,
+        "valuation_at_ipo_b": 6.2,
+        "fully_diluted_val_b": 6.2,
+        "exchange_listed": "NASDAQ",
+        "underwriters": ["Goldman Sachs", "Citigroup", "Jefferies", "Mizuho", "Morgan Stanley"],
+        "initial_range_low": 24.00,
+        "initial_range_high": 26.00,
+        "priced_at_midpoint": true
+      },
+
+      "day1": {
+        "open": 22.00,
+        "high": 22.75,
+        "close": 20.00,
+        "change_pct_from_ipo": -20.0,
+        "market_cap_b": 4.7,
+        "note": "Opened AND closed below IPO price. Joined StubHub as only two companies to do so."
+      },
+
+      "private_history": {
+        "total_raised_m": 2000,
+        "last_private_val_b": 9.2,
+        "last_private_round_date": "2022-10",
+        "last_private_round": "Series G",
+        "last_private_round_amount_m": 300,
+        "peak_private_val_b": 9.2,
+        "peak_private_date": "2022-10",
+        "markdown_from_peak_to_ipo_pct": 32.6,
+        "debt_at_ipo_m": 657,
+        "notable_investors": [
+          "Lightspeed Venture Partners (21.4% at IPO)",
+          "Zeev Ventures (16% at IPO)",
+          "Andreessen Horowitz / a16z (10.9% at IPO)",
+          "Coatue Management", "Greenoaks Capital", "Vista Equity Partners",
+          "Addition", "Group 11", "Base Partners"
+        ]
+      },
+
+      "current": {
+        "price": 12.83,
+        "market_cap_b": 3.2,
+        "change_from_ipo_price_pct": -48.7,
+        "change_from_day1_close_pct": -35.9,
+        "change_from_peak_private_pct": -65.2,
+        "52w_high": 25.00,
+        "52w_low": 8.11,
+        "52w_high_date": "2025-10-30",
+        "eps_ttm": -0.73,
+        "arr_m": 800,
+        "arr_growth_yoy_pct": 29.0,
+        "gross_margin_pct": 71.0,
+        "analyst_consensus": "Strong Buy",
+        "analyst_target_avg": 21.27
+      },
+
+      "investor_returns": [
+        { "investor": "Lightspeed Venture Partners", "entry_stage": "Series A/B → 21.4% at IPO", "entry_approx_val_b": 0.1, "status": "mixed", "notes": "Largest VC holder. Deep early involvement = cost basis below current price. Late tranches underwater." },
+        { "investor": "Zeev Ventures", "entry_stage": "Early seed/Series A → 16% at IPO", "entry_approx_val_b": 0.05, "status": "winner", "notes": "Early backer. Cost basis well below current price. Still profitable." },
+        { "investor": "Andreessen Horowitz (a16z)", "entry_stage": "Growth rounds → 10.9%", "entry_approx_val_b": 1.0, "status": "mixed", "notes": "Multiple tranches. Early profitable, 2021+ rounds underwater." },
+        { "investor": "Greenoaks Capital", "entry_stage": "Series G lead (2022, $9.2B val)", "entry_approx_val_b": 9.2, "status": "wrecked", "notes": "Led last private round at $9.2B. Current $3.2B = -65% from entry." },
+        { "investor": "Coatue Management", "entry_stage": "Series F (2022)", "entry_approx_val_b": 9.0, "status": "wrecked", "notes": "Late entry. Deeply underwater." },
+        { "investor": "Vista Equity Partners", "entry_stage": "Growth equity", "entry_approx_val_b": 7.0, "status": "wrecked", "notes": "Late-stage entry. Significant losses." }
+      ],
+
+      "key_events": [
+        { "date": "2026-03-20", "event": "Securities class action filed — Goldman Sachs named as lead underwriter, alleged IPO concealment" },
+        { "date": "2026-03-26", "event": "Q4 earnings beat — stock surged +27.4% in single session" }
+      ],
+
+      "monthly_returns_from_day1": [0, -12, -30, -42, -40, -43, -36],
+      "monthly_labels": ["Oct'25","Nov","Dec","Jan'26","Feb","Mar","Apr"],
+
+      "narrative": "Formerly TripActions, rebranded to Navan in 2023. The B2B non-AI SaaS bucket is getting no love from public markets despite strong fundamentals ($800M ARR, 29% growth, 71% gross margins, 10k+ customers including OpenAI). Goldman Sachs named in March 2026 securities class action. Earnings beat on Mar 26 caused +27% single-day surge but stock still -49% from IPO. AI Ava assistant now handles 54% of customer interactions."
+    }
+  ],
+
+  "cohort_summary": {
+    "total_companies": 11,
+    "total_ipo_proceeds_b": 8.77,
+    "date_range": "2025-05-14 to 2025-10-30",
+    "winners_from_ipo_price": ["CRCL", "FIGR"],
+    "losers_from_ipo_price": ["ETOR", "FIG", "CHYM", "KLAR", "VIA", "GEMI", "STUB", "NTSK", "NAVN"],
+    "closed_below_ipo_day1": ["STUB", "NAVN"],
+    "avg_change_from_ipo_pct": -42.1,
+    "median_change_from_ipo_pct": -55.6,
+    "best_performer_from_ipo": { "ticker": "CRCL", "change_pct": 198.7 },
+    "worst_performer_from_ipo": { "ticker": "GEMI", "change_pct": -84.2 },
+    "best_performer_from_peak_private": { "ticker": "CRCL", "change_pct": 154.6 },
+    "worst_performer_from_peak_private": { "ticker": "GEMI", "change_pct": -92.9 },
+    "combined_peak_private_val_b": 112.6,
+    "combined_current_market_cap_b": 57.3,
+    "total_value_destroyed_from_peak_private_b": 55.3,
+
+    "investor_winners": [
+      { "investor": "Sequoia Capital (Klarna)", "notes": "$500M in, $2.65B+ out. Best VC return in the cohort." },
+      { "investor": "Accel (Circle)", "notes": "Early CRCL backer. Circle is +199% from IPO." },
+      { "investor": "Zeev Ventures (Navan)", "notes": "Seed-stage, still profitable from cost basis." },
+      { "investor": "Sequoia (Figma)", "notes": "Early backer. 11B market cap vs sub-$100M entry." },
+      { "investor": "Michael Cagney (Figure)", "notes": "Founder return. FIGR up 34% from IPO." }
+    ],
+
+    "investor_wrecked": [
+      { "investor": "SoftBank Vision Fund 2 (Klarna)", "notes": "Led $639M round at $45.6B. Now $5B = -89%." },
+      { "investor": "SoftBank (Chime)", "notes": "In at $25B. Now $6.9B = -72%." },
+      { "investor": "Madrone Capital (StubHub)", "notes": "Walton family. 22.1% at IPO. Now -74%." },
+      { "investor": "WestCap (StubHub)", "notes": "11.1%. Deeply underwater." },
+      { "investor": "Greenoaks Capital (Navan)", "notes": "Led $9.2B round. Now $3.2B = -65%." },
+      { "investor": "CPPIB / Canada Pension (Netskope)", "notes": "In at $7.5B. Now $2.8B = -63%." },
+      { "investor": "All 2021 Gemini investors", "notes": "$7.1B entry. Now $0.5B = -93%." }
+    ],
+
+    "themes": [
+      "Lock-up expiry (months 6-12) was destructive for nearly all companies",
+      "AI disruption fears hit cybersecurity stocks hard (Netskope)",
+      "Crypto cycle drove Circle's outperformance and Gemini's collapse",
+      "B2B non-AI SaaS (Navan, Via) unloved despite strong fundamentals",
+      "Figma's 250% day-1 pop was a trap for retail buyers; lockup flood crushed it",
+      "Consumer fintech (Chime, Klarna, eToro) all fell sharply as rates stayed high",
+      "Peak 2021 private valuations created unavoidable IPO down-rounds",
+      "Securities class actions filed against Gemini, Navan, and Via post-IPO"
+    ]
+  },
+
+  "lockup_performance_chart": {
+    "description": "Monthly return from Day 1 close price for chart replication. Month 0 = Day 1 close (always 0%).",
+    "companies": [
+      {
+        "ticker": "CHYM", "name": "Chime", "color": "#3b82f6",
+        "ipo_date": "2025-06-12", "day1_close": 37.11,
+        "months": [0,1,2,3,4,5,6,7,8,9,10],
+        "returns": [0, 21, 8, -5, -15, -26, -38, -45, -44, -50, -49]
+      },
+      {
+        "ticker": "KLAR", "name": "Klarna", "color": "#f59e0b",
+        "ipo_date": "2025-09-10", "day1_close": 45.82,
+        "months": [0,1,2,3,4,5,6,7],
+        "returns": [0, 2, -10, -25, -38, -48, -58, -67]
+      },
+      {
+        "ticker": "STUB", "name": "StubHub", "color": "#ef4444",
+        "ipo_date": "2025-09-17", "day1_close": 22.00,
+        "months": [0,1,2,3,4,5,6,7],
+        "returns": [0, -8, -22, -36, -50, -58, -65, -73]
+      },
+      {
+        "ticker": "NTSK", "name": "Netskope", "color": "#8b5cf6",
+        "ipo_date": "2025-09-18", "day1_close": 22.49,
+        "months": [0,1,2,3,4,5,6,7],
+        "returns": [0, 3, -10, -20, -35, -50, -55, -62]
+      },
+      {
+        "ticker": "NAVN", "name": "Navan", "color": "#06b6d4",
+        "ipo_date": "2025-10-30", "day1_close": 20.00,
+        "months": [0,1,2,3,4,5,6],
+        "returns": [0, -12, -30, -42, -40, -43, -36]
+      },
+      {
+        "ticker": "ETOR", "name": "eToro", "color": "#10b981",
+        "ipo_date": "2025-05-14", "day1_close": 67.00,
+        "months": [0,1,2,3,4,5,6,7,8,9,10,11],
+        "returns": [0, 19, 5, -8, -20, -32, -40, -47, -55, -54, -47, -53]
+      },
+      {
+        "ticker": "FIG", "name": "Figma", "color": "#ec4899",
+        "ipo_date": "2025-07-31", "day1_close": 115.50,
+        "months": [0,1,2,3,4,5,6,7,8,9],
+        "returns": [0, 24, -15, -35, -52, -65, -74, -80, -82, -82]
+      },
+      {
+        "ticker": "CRCL", "name": "Circle", "color": "#22c55e",
+        "ipo_date": "2025-06-05", "day1_close": 79.00,
+        "months": [0,1,2,3,4,5,6,7,8,9,10],
+        "returns": [0, 180, 210, 100, 60, 40, -20, -10, 20, 30, 20]
+      },
+      {
+        "ticker": "FIGR", "name": "Figure Tech", "color": "#f97316",
+        "ipo_date": "2025-09-11", "day1_close": 31.11,
+        "months": [0,1,2,3,4,5,6,7],
+        "returns": [0, 6, 10, 45, 51, 150, 8, 8]
+      },
+      {
+        "ticker": "VIA", "name": "Via", "color": "#a78bfa",
+        "ipo_date": "2025-09-12", "day1_close": 49.00,
+        "months": [0,1,2,3,4,5,6,7],
+        "returns": [0, 10, 15, -5, -25, -55, -68, -72]
+      },
+      {
+        "ticker": "GEMI", "name": "Gemini", "color": "#64748b",
+        "ipo_date": "2025-09-12", "day1_close": 32.00,
+        "months": [0,1,2,3,4,5,6,7],
+        "returns": [0, 10, 20, 5, -40, -65, -78, -86]
+      }
+    ]
+  }
+}
