@@ -123,7 +123,7 @@ const companies = [
   },
   {
     id: "gemini", name: "Gemini", ticker: "GEMI", exchange: "NASDAQ",
-    sector: "Crypto Exchange", founded: 2014, hq: "New York, NY", color: "#64748b",
+    sector: "Crypto Exchange", founded: 2014, hq: "New York, NY", color: "#475569",
     ipo: { date: "2025-09-12", price: 28.0, proceeds_m: 425, valuation_b: 3.3, above_range: true },
     day1: { open: 37.01, close: 32.0, change_pct: 14.3, market_cap_b: 4.4 },
     private: { raised_m: 424, peak_val_b: 7.0, notable: ["Winklevoss Twins (founders)", "Cleo Capital"] },
@@ -218,7 +218,7 @@ const allTickers = ["ETOR","HNGE","MNTN","CRCL","OMDA","CHYM","FIG","KLAR","FIGR
 const perfColors: Record<string, string> = {
   ETOR: "#10b981", HNGE: "#14b8a6", MNTN: "#f43f5e", CRCL: "#22c55e",
   OMDA: "#0d9488", CHYM: "#3b82f6", FIG: "#ec4899", KLAR: "#f59e0b",
-  FIGR: "#f97316", GEMI: "#64748b", VIA: "#a78bfa", STUB: "#ef4444",
+  FIGR: "#f97316", GEMI: "#475569", VIA: "#a78bfa", STUB: "#ef4444",
   NTSK: "#0ea5e9", NAVN: "#06b6d4", EQPT: "#eab308",
 };
 const perfNames: Record<string, string> = {
@@ -284,8 +284,8 @@ function fmt(n: number | null | undefined, d = 1): string {
 }
 
 function pctColor(pct: number | null | undefined): string {
-  if (pct == null) return "text-slate-400";
-  return pct > 0 ? "text-emerald-600" : pct < 0 ? "text-red-600" : "text-slate-600";
+  if (pct == null) return "text-slate-600";
+  return pct > 0 ? "text-emerald-600" : pct < 0 ? "text-red-600" : "text-slate-700";
 }
 
 function pctBadge(pct: number): React.ReactNode {
@@ -303,7 +303,7 @@ function pctBadge(pct: number): React.ReactNode {
 function InfoTip({ text }: { text: string }) {
   return (
     <span className="group relative inline-flex ml-1 cursor-help">
-      <Info size={12} className="text-slate-400 group-hover:text-slate-600 transition-colors" />
+      <Info size={12} className="text-slate-500 group-hover:text-slate-800 transition-colors" />
       <span className="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-56 rounded-lg bg-slate-900 px-3 py-2 text-xs text-white opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-50 shadow-xl leading-relaxed">
         {text}
         <span className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-slate-900" />
@@ -319,11 +319,11 @@ function StatCard({ label, value, sub, icon, accent = "text-slate-900", tip }: {
 }) {
   return (
     <div className="bg-white rounded-xl border border-slate-200 p-3 sm:p-5 flex flex-col gap-1 hover:shadow-md transition-shadow">
-      <div className="flex items-center gap-1.5 text-slate-500 text-[10px] sm:text-xs font-medium uppercase tracking-wide">
+      <div className="flex items-center gap-1.5 text-slate-600 text-[10px] sm:text-xs font-medium uppercase tracking-wide">
         {icon}{label}{tip && <InfoTip text={tip} />}
       </div>
       <div className={`text-xl sm:text-3xl font-bold tracking-tight ${accent}`}>{value}</div>
-      {sub && <div className="text-[10px] sm:text-xs text-slate-500">{sub}</div>}
+      {sub && <div className="text-[10px] sm:text-xs text-slate-600">{sub}</div>}
     </div>
   );
 }
@@ -339,7 +339,7 @@ function CompanyCard({ c }: { c: typeof companies[0] }) {
             <div className="w-3 h-3 rounded-full flex-shrink-0" style={{ backgroundColor: c.color }} />
             <div className="min-w-0">
               <h3 className="font-bold text-slate-900 text-sm sm:text-base truncate">{c.name}</h3>
-              <span className="text-[10px] sm:text-xs text-slate-500">{c.ticker} · {c.exchange} · {c.sector}</span>
+              <span className="text-[10px] sm:text-xs text-slate-600">{c.ticker} · {c.exchange} · {c.sector}</span>
             </div>
           </div>
           <div className="text-right flex-shrink-0">
@@ -349,37 +349,37 @@ function CompanyCard({ c }: { c: typeof companies[0] }) {
         </div>
         <div className="grid grid-cols-3 gap-1.5 sm:gap-2 text-center mb-3">
           <div className="bg-slate-50 rounded-lg p-1.5 sm:p-2">
-            <div className="text-[9px] sm:text-[10px] text-slate-500 uppercase">IPO Price</div>
+            <div className="text-[9px] sm:text-[10px] text-slate-600 uppercase">IPO Price</div>
             <div className="text-xs sm:text-sm font-semibold text-slate-800">${c.ipo.price}</div>
           </div>
           <div className="bg-slate-50 rounded-lg p-1.5 sm:p-2">
-            <div className="text-[9px] sm:text-[10px] text-slate-500 uppercase">Day 1 Close</div>
+            <div className="text-[9px] sm:text-[10px] text-slate-600 uppercase">Day 1 Close</div>
             <div className="text-xs sm:text-sm font-semibold text-slate-800">${c.day1.close}</div>
           </div>
           <div className="bg-slate-50 rounded-lg p-1.5 sm:p-2">
-            <div className="text-[9px] sm:text-[10px] text-slate-500 uppercase">Mkt Cap</div>
+            <div className="text-[9px] sm:text-[10px] text-slate-600 uppercase">Mkt Cap</div>
             <div className="text-xs sm:text-sm font-semibold text-slate-800">${fmt(c.current.mcap_b)}B</div>
           </div>
         </div>
         <div className="grid grid-cols-2 gap-x-3 gap-y-1 text-xs mb-3">
           <div className="flex justify-between">
-            <span className="text-slate-500">Day 1 Pop</span>
+            <span className="text-slate-600">Day 1 Pop</span>
             <span className={`font-semibold ${pctColor(c.day1.change_pct)}`}>{c.day1.change_pct > 0 ? "+" : ""}{fmt(c.day1.change_pct)}%</span>
           </div>
           <div className="flex justify-between">
-            <span className="text-slate-500">From Day 1</span>
+            <span className="text-slate-600">From Day 1</span>
             <span className={`font-semibold ${pctColor(c.current.from_day1)}`}>{c.current.from_day1 > 0 ? "+" : ""}{fmt(c.current.from_day1)}%</span>
           </div>
           <div className="flex justify-between">
-            <span className="text-slate-500">From Peak Private</span>
+            <span className="text-slate-600">From Peak Private</span>
             <span className={`font-semibold ${pctColor(c.current.from_peak)}`}>{c.current.from_peak > 0 ? "+" : ""}{fmt(c.current.from_peak)}%</span>
           </div>
           <div className="flex justify-between">
-            <span className="text-slate-500">IPO Valuation</span>
+            <span className="text-slate-600">IPO Valuation</span>
             <span className="font-semibold text-slate-800">${fmt(c.ipo.valuation_b)}B</span>
           </div>
         </div>
-        <button onClick={() => setOpen(!open)} className="w-full flex items-center justify-center gap-1 text-xs text-slate-500 hover:text-slate-700 transition-colors py-1 min-h-[44px]">
+        <button onClick={() => setOpen(!open)} className="w-full flex items-center justify-center gap-1 text-xs text-slate-600 font-medium hover:text-slate-900 transition-colors py-1 min-h-[44px]">
           {open ? "Less" : "More details"} {open ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
         </button>
       </div>
@@ -387,16 +387,16 @@ function CompanyCard({ c }: { c: typeof companies[0] }) {
         <div className="border-t border-slate-100 p-3 sm:p-5 bg-slate-50 space-y-3">
           <p className="text-xs text-slate-700 leading-relaxed">{c.narrative}</p>
           <div className="grid grid-cols-2 gap-2 text-xs">
-            <div><span className="text-slate-500">Founded:</span> <span className="text-slate-800 font-medium">{c.founded}</span></div>
-            <div><span className="text-slate-500">HQ:</span> <span className="text-slate-800 font-medium">{c.hq}</span></div>
-            <div><span className="text-slate-500">IPO Proceeds:</span> <span className="text-slate-800 font-medium">${c.ipo.proceeds_m}M</span></div>
-            <div><span className="text-slate-500">Total Raised:</span> <span className="text-slate-800 font-medium">${c.private.raised_m}M</span></div>
-            <div><span className="text-slate-500">Peak Private:</span> <span className="text-slate-800 font-medium">${fmt(c.private.peak_val_b)}B</span></div>
-            <div><span className="text-slate-500">52w Range:</span> <span className="text-slate-800 font-medium">${fmt(c.current.lo52, 2)} – ${fmt(c.current.hi52, 2)}</span></div>
+            <div><span className="text-slate-600">Founded:</span> <span className="text-slate-900 font-medium">{c.founded}</span></div>
+            <div><span className="text-slate-600">HQ:</span> <span className="text-slate-900 font-medium">{c.hq}</span></div>
+            <div><span className="text-slate-600">IPO Proceeds:</span> <span className="text-slate-900 font-medium">${c.ipo.proceeds_m}M</span></div>
+            <div><span className="text-slate-600">Total Raised:</span> <span className="text-slate-900 font-medium">${c.private.raised_m}M</span></div>
+            <div><span className="text-slate-600">Peak Private:</span> <span className="text-slate-900 font-medium">${fmt(c.private.peak_val_b)}B</span></div>
+            <div><span className="text-slate-600">52w Range:</span> <span className="text-slate-900 font-medium">${fmt(c.current.lo52, 2)} – ${fmt(c.current.hi52, 2)}</span></div>
           </div>
           {c.private.notable && (
             <div>
-              <div className="text-[10px] text-slate-500 uppercase mb-1">Key Investors</div>
+              <div className="text-[10px] text-slate-600 font-semibold uppercase mb-1">Key Investors</div>
               <div className="flex flex-wrap gap-1">
                 {c.private.notable.map((inv) => (
                   <span key={inv} className="bg-white border border-slate-200 text-slate-700 text-[10px] px-2 py-0.5 rounded-full">{inv}</span>
@@ -422,7 +422,7 @@ function ChartTooltip({ active, payload, label }: { active?: boolean; payload?: 
           <div key={p.name} className="flex items-center justify-between gap-3">
             <div className="flex items-center gap-1.5">
               <div className="w-2 h-2 rounded-full flex-shrink-0" style={{ backgroundColor: p.color }} />
-              <span className="text-slate-600">{perfNames[p.name] || p.name}</span>
+              <span className="text-slate-800">{perfNames[p.name] || p.name}</span>
             </div>
             <span className={`font-semibold ${pctColor(p.value)}`}>{p.value > 0 ? "+" : ""}{p.value}%</span>
           </div>
@@ -593,20 +593,20 @@ export default function Dashboard() {
         <div className="bg-white rounded-xl border border-slate-200 p-4 sm:p-6 hover:shadow-md transition-shadow">
           <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-1">
             <h2 className="text-lg font-bold text-slate-900 flex items-center gap-1.5">
-              <BarChart3 size={18} className="text-slate-400" />
+              <BarChart3 size={18} className="text-slate-500" />
               Cumulative Post-IPO Performance
             </h2>
           </div>
-          <p className="text-xs text-slate-500 mb-4">
+          <p className="text-xs text-slate-700 mb-4">
             Tracks total return from each company&apos;s Day 1 closing price. Month 0 = IPO day close. Circle&apos;s 485% M1 spike driven by USDC regulatory tailwind.
             <InfoTip text="Monthly returns sourced from PortfoliosLab for most companies. Via, StubHub, Netskope, and Navan use cumulative data from the JSON dataset." />
           </p>
           <div className="h-[280px] sm:h-[420px]">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={unifiedLineData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-                <XAxis dataKey="month" tick={{ fontSize: 10, fill: "#64748b" }} />
-                <YAxis tick={{ fontSize: 10, fill: "#64748b" }} tickFormatter={(v: any) => `${v}%`} domain={["auto", "auto"]} />
+                <CartesianGrid strokeDasharray="3 3" stroke="#cbd5e1" />
+                <XAxis dataKey="month" tick={{ fontSize: 10, fill: "#334155" }} />
+                <YAxis tick={{ fontSize: 10, fill: "#334155" }} tickFormatter={(v: any) => `${v}%`} domain={["auto", "auto"]} />
                 <Tooltip content={<ChartTooltip />} />
                 <ReferenceLine y={0} stroke="#94a3b8" strokeWidth={1.5} strokeDasharray="6 3" />
                 {allTickers.map((t) => (
@@ -617,8 +617,8 @@ export default function Dashboard() {
           </div>
           <div className="flex flex-wrap gap-x-3 gap-y-1 mt-3">
             {allTickers.map((t) => (
-              <div key={t} className="flex items-center gap-1 text-[10px] sm:text-xs text-slate-600">
-                <div className="w-3 h-0.5 rounded-full" style={{ backgroundColor: perfColors[t] }} />
+              <div key={t} className="flex items-center gap-1 text-[10px] sm:text-xs text-slate-800 font-medium">
+                <div className="w-3 h-1 rounded-full" style={{ backgroundColor: perfColors[t] }} />
                 {perfNames[t]}
               </div>
             ))}
@@ -629,15 +629,15 @@ export default function Dashboard() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           <div className="bg-white rounded-xl border border-slate-200 p-4 sm:p-6 hover:shadow-md transition-shadow">
             <h2 className="text-lg font-bold text-slate-900 mb-1">Current Return from IPO Price</h2>
-            <p className="text-xs text-slate-500 mb-4">
+            <p className="text-xs text-slate-700 mb-4">
               {winnersCount} of {companies.length} trade above IPO price.
               <InfoTip text="Calculated as (current price - IPO offer price) / IPO offer price. Measures returns for investors who bought at the institutional offer price." />
             </p>
             <div className="h-[400px] sm:h-[520px]">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={ipoReturnBars} layout="vertical" margin={{ left: 5 }}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" horizontal={false} />
-                  <XAxis type="number" tick={{ fontSize: 10, fill: "#64748b" }} tickFormatter={(v: any) => `${v}%`} />
+                  <CartesianGrid strokeDasharray="3 3" stroke="#cbd5e1" horizontal={false} />
+                  <XAxis type="number" tick={{ fontSize: 10, fill: "#334155" }} tickFormatter={(v: any) => `${v}%`} />
                   <YAxis type="category" dataKey="name" tick={{ fontSize: 9, fill: "#334155", fontWeight: 600 }} width={40} />
                   <ReferenceLine x={0} stroke="#334155" />
                   <Tooltip formatter={(v: any) => [`${v > 0 ? "+" : ""}${v}%`, "Return"]}
@@ -652,15 +652,15 @@ export default function Dashboard() {
 
           <div className="bg-white rounded-xl border border-slate-200 p-4 sm:p-6 hover:shadow-md transition-shadow">
             <h2 className="text-lg font-bold text-slate-900 mb-1">Day 1 Performance</h2>
-            <p className="text-xs text-slate-500 mb-4">
+            <p className="text-xs text-slate-700 mb-4">
               % change from IPO price to Day 1 close.
               <InfoTip text="A big Day 1 'pop' means the IPO was underpriced — banks left money on the table. Figma's 250% pop was extreme; Bill Gurley estimated $2.6B in underpricing." />
             </p>
             <div className="h-[400px] sm:h-[520px]">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={day1Bars} layout="vertical" margin={{ left: 5 }}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" horizontal={false} />
-                  <XAxis type="number" tick={{ fontSize: 10, fill: "#64748b" }} tickFormatter={(v: any) => `${v}%`} />
+                  <CartesianGrid strokeDasharray="3 3" stroke="#cbd5e1" horizontal={false} />
+                  <XAxis type="number" tick={{ fontSize: 10, fill: "#334155" }} tickFormatter={(v: any) => `${v}%`} />
                   <YAxis type="category" dataKey="name" tick={{ fontSize: 9, fill: "#334155", fontWeight: 600 }} width={40} />
                   <ReferenceLine x={0} stroke="#334155" />
                   <Tooltip formatter={(v: any) => [`${v > 0 ? "+" : ""}${v}%`, "Day 1"]}
@@ -677,25 +677,25 @@ export default function Dashboard() {
         {/* VALUE DESTRUCTION */}
         <div className="bg-white rounded-xl border border-slate-200 p-4 sm:p-6 hover:shadow-md transition-shadow">
           <h2 className="text-lg font-bold text-slate-900 mb-1">Value Destruction: Peak Private vs Current Market Cap</h2>
-          <p className="text-xs text-slate-500 mb-4">
+          <p className="text-xs text-slate-700 mb-4">
             ${fmt(destroyed)}B in combined value destroyed from peak private valuations. Klarna alone lost ${fmt(45.6 - 5.0)}B from its 2021 high.
             <InfoTip text="Peak private valuation is the highest valuation achieved during private fundraising rounds. Most peaks were in 2021 during the zero-interest-rate era." />
           </p>
           <div className="h-[260px] sm:h-[360px]">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={destructionData} margin={{ left: 5 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-                <XAxis dataKey="name" tick={{ fontSize: 9, fill: "#64748b" }} interval={0} angle={-45} textAnchor="end" height={50} />
-                <YAxis tick={{ fontSize: 10, fill: "#64748b" }} tickFormatter={(v: any) => `$${v}B`} />
+                <CartesianGrid strokeDasharray="3 3" stroke="#cbd5e1" />
+                <XAxis dataKey="name" tick={{ fontSize: 9, fill: "#334155" }} interval={0} angle={-45} textAnchor="end" height={50} />
+                <YAxis tick={{ fontSize: 10, fill: "#334155" }} tickFormatter={(v: any) => `$${v}B`} />
                 <Tooltip formatter={(v: any, name: any) => [`$${v}B`, name === "peak" ? "Peak Private" : "Current Mkt Cap"]}
                   labelFormatter={(l: any) => destructionData.find((d) => d.name === l)?.fullName || l} />
-                <Bar dataKey="peak" name="peak" fill="#cbd5e1" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="peak" name="peak" fill="#94a3b8" radius={[4, 4, 0, 0]} />
                 <Bar dataKey="current" name="current" fill="#3b82f6" radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>
-          <div className="flex gap-4 mt-2 text-xs text-slate-600">
-            <div className="flex items-center gap-1.5"><div className="w-3 h-3 rounded bg-slate-300" /> Peak Private Valuation</div>
+          <div className="flex gap-4 mt-2 text-xs text-slate-800 font-medium">
+            <div className="flex items-center gap-1.5"><div className="w-3 h-3 rounded bg-slate-400" /> Peak Private Valuation</div>
             <div className="flex items-center gap-1.5"><div className="w-3 h-3 rounded bg-blue-500" /> Current Market Cap</div>
           </div>
         </div>
@@ -704,7 +704,7 @@ export default function Dashboard() {
         <div>
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
             <h2 className="text-lg font-bold text-slate-900 flex items-center gap-1.5">
-              <Layers size={18} className="text-slate-400" />
+              <Layers size={18} className="text-slate-500" />
               Company Profiles
             </h2>
             <div className="flex gap-1 bg-white border border-slate-200 rounded-lg p-1">
@@ -734,8 +734,8 @@ export default function Dashboard() {
                 <div key={i} className="flex gap-3 items-start group">
                   <div className="w-6 h-6 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">{i + 1}</div>
                   <div>
-                    <div className="text-sm font-semibold text-slate-900">{w.investor} <span className="text-slate-400 font-normal">· {w.company}</span></div>
-                    <div className="text-xs text-slate-600">{w.notes}</div>
+                    <div className="text-sm font-semibold text-slate-900">{w.investor} <span className="text-slate-500 font-normal">· {w.company}</span></div>
+                    <div className="text-xs text-slate-700">{w.notes}</div>
                   </div>
                 </div>
               ))}
@@ -753,10 +753,10 @@ export default function Dashboard() {
                   <div className="w-6 h-6 rounded-full bg-red-100 text-red-700 flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">{i + 1}</div>
                   <div className="flex-1">
                     <div className="flex items-center justify-between gap-2">
-                      <div className="text-sm font-semibold text-slate-900">{w.investor} <span className="text-slate-400 font-normal">· {w.company}</span></div>
+                      <div className="text-sm font-semibold text-slate-900">{w.investor} <span className="text-slate-500 font-normal">· {w.company}</span></div>
                       <span className="text-xs font-bold text-red-600 flex-shrink-0">{w.loss}%</span>
                     </div>
-                    <div className="text-xs text-slate-600">{w.notes}</div>
+                    <div className="text-xs text-slate-700">{w.notes}</div>
                   </div>
                 </div>
               ))}
@@ -767,20 +767,20 @@ export default function Dashboard() {
         {/* FULL TABLE */}
         <div className="bg-white rounded-xl border border-slate-200 p-4 sm:p-6 hover:shadow-md transition-shadow">
           <h2 className="text-lg font-bold text-slate-900 mb-1">Full Cohort Table</h2>
-          <p className="text-xs text-slate-500 mb-4">All {companies.length} IPOs sorted by current return from IPO price. Prices as of April 1, 2026.</p>
+          <p className="text-xs text-slate-700 mb-4">All {companies.length} IPOs sorted by current return from IPO price. Prices as of April 1, 2026.</p>
           <div className="overflow-x-auto -mx-4 sm:mx-0">
             <table className="w-full text-xs min-w-[700px]">
               <thead>
                 <tr className="border-b-2 border-slate-200">
-                  <th className="text-left py-2.5 px-2 sm:px-3 text-slate-500 font-semibold">Company</th>
-                  <th className="text-right py-2.5 px-2 text-slate-500 font-semibold">IPO Date</th>
-                  <th className="text-right py-2.5 px-2 text-slate-500 font-semibold">IPO $</th>
-                  <th className="text-right py-2.5 px-2 text-slate-500 font-semibold">Day 1</th>
-                  <th className="text-right py-2.5 px-2 text-slate-500 font-semibold">Current</th>
-                  <th className="text-right py-2.5 px-2 text-slate-500 font-semibold">From IPO</th>
-                  <th className="text-right py-2.5 px-2 text-slate-500 font-semibold">From Peak</th>
-                  <th className="text-right py-2.5 px-2 text-slate-500 font-semibold">Mkt Cap</th>
-                  <th className="text-right py-2.5 px-2 text-slate-500 font-semibold">Raised</th>
+                  <th className="text-left py-2.5 px-2 sm:px-3 text-slate-700 font-semibold">Company</th>
+                  <th className="text-right py-2.5 px-2 text-slate-700 font-semibold">IPO Date</th>
+                  <th className="text-right py-2.5 px-2 text-slate-700 font-semibold">IPO $</th>
+                  <th className="text-right py-2.5 px-2 text-slate-700 font-semibold">Day 1</th>
+                  <th className="text-right py-2.5 px-2 text-slate-700 font-semibold">Current</th>
+                  <th className="text-right py-2.5 px-2 text-slate-700 font-semibold">From IPO</th>
+                  <th className="text-right py-2.5 px-2 text-slate-700 font-semibold">From Peak</th>
+                  <th className="text-right py-2.5 px-2 text-slate-700 font-semibold">Mkt Cap</th>
+                  <th className="text-right py-2.5 px-2 text-slate-700 font-semibold">Raised</th>
                 </tr>
               </thead>
               <tbody>
@@ -790,10 +790,10 @@ export default function Dashboard() {
                       <div className="flex items-center gap-2">
                         <div className="w-2 h-2 rounded-full flex-shrink-0" style={{ backgroundColor: c.color }} />
                         <span className="font-semibold text-slate-900">{c.name}</span>
-                        <span className="text-slate-400 hidden sm:inline">{c.ticker}</span>
+                        <span className="text-slate-600 hidden sm:inline">{c.ticker}</span>
                       </div>
                     </td>
-                    <td className="py-2.5 px-2 text-right text-slate-600 whitespace-nowrap">{c.ipo.date}</td>
+                    <td className="py-2.5 px-2 text-right text-slate-700 whitespace-nowrap">{c.ipo.date}</td>
                     <td className="py-2.5 px-2 text-right text-slate-800 font-medium">${c.ipo.price}</td>
                     <td className="py-2.5 px-2 text-right text-slate-800 font-medium">${c.day1.close}</td>
                     <td className="py-2.5 px-2 text-right text-slate-900 font-bold">${fmt(c.current.price, 2)}</td>
@@ -804,7 +804,7 @@ export default function Dashboard() {
                       {c.current.from_peak > 0 ? "+" : ""}{fmt(c.current.from_peak)}%
                     </td>
                     <td className="py-2.5 px-2 text-right text-slate-800">${fmt(c.current.mcap_b)}B</td>
-                    <td className="py-2.5 px-2 text-right text-slate-600">${c.ipo.proceeds_m}M</td>
+                    <td className="py-2.5 px-2 text-right text-slate-700">${c.ipo.proceeds_m}M</td>
                   </tr>
                 ))}
               </tbody>
@@ -815,10 +815,10 @@ export default function Dashboard() {
         {/* THEMES */}
         <div className="bg-white rounded-xl border border-slate-200 p-4 sm:p-6 hover:shadow-md transition-shadow">
           <h2 className="text-lg font-bold text-slate-900 mb-1 flex items-center gap-1.5">
-            <Zap size={18} className="text-slate-400" />
+            <Zap size={18} className="text-slate-500" />
             Key Themes
           </h2>
-          <p className="text-xs text-slate-500 mb-4">Hover over each theme for more context.</p>
+          <p className="text-xs text-slate-700 mb-4">Hover over each theme for more context.</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
             {themes.map((t, i) => (
               <div
@@ -828,10 +828,10 @@ export default function Dashboard() {
                 onMouseLeave={() => setHoveredTheme(null)}
               >
                 <div className={`flex items-start gap-2 text-sm rounded-lg p-3 transition-all border ${hoveredTheme === i ? "bg-slate-100 border-slate-300 text-slate-900" : "bg-slate-50 border-transparent text-slate-700"}`}>
-                  <span className="text-slate-400 font-bold text-xs mt-0.5 flex-shrink-0">{i + 1}</span>
+                  <span className="text-slate-500 font-bold text-xs mt-0.5 flex-shrink-0">{i + 1}</span>
                   <div>
                     <span>{t.text}</span>
-                    <div className={`text-xs text-slate-500 mt-1 overflow-hidden transition-all duration-200 ${hoveredTheme === i ? "max-h-24 opacity-100" : "max-h-0 opacity-0"}`}>
+                    <div className={`text-xs text-slate-600 mt-1 overflow-hidden transition-all duration-200 ${hoveredTheme === i ? "max-h-24 opacity-100" : "max-h-0 opacity-0"}`}>
                       {t.detail}
                     </div>
                   </div>
@@ -844,16 +844,16 @@ export default function Dashboard() {
         {/* SECTOR BREAKDOWN */}
         <div className="bg-white rounded-xl border border-slate-200 p-4 sm:p-6 hover:shadow-md transition-shadow">
           <h2 className="text-lg font-bold text-slate-900 mb-1 flex items-center gap-1.5">
-            <Users size={18} className="text-slate-400" />
+            <Users size={18} className="text-slate-500" />
             Sector Breakdown
           </h2>
-          <p className="text-xs text-slate-500 mb-4">Current market cap by sector. Hover for company list.</p>
+          <p className="text-xs text-slate-700 mb-4">Current market cap by sector. Hover for company list.</p>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-3">
             {Object.entries(sectorMap).sort(([, a], [, b]) => b.val - a.val).map(([sector, data]) => (
               <div key={sector} className="group bg-slate-50 rounded-lg p-3 border border-slate-100 hover:border-slate-300 hover:bg-slate-100 transition-all cursor-default">
-                <div className="text-[10px] sm:text-xs text-slate-500 truncate">{sector}</div>
+                <div className="text-[10px] sm:text-xs text-slate-700 truncate">{sector}</div>
                 <div className="text-base sm:text-lg font-bold text-slate-900">${fmt(data.val)}B</div>
-                <div className="text-[10px] sm:text-xs text-slate-400">{data.count} {data.count === 1 ? "company" : "companies"}</div>
+                <div className="text-[10px] sm:text-xs text-slate-600">{data.count} {data.count === 1 ? "company" : "companies"}</div>
                 <div className="text-[10px] text-slate-500 mt-1 overflow-hidden max-h-0 group-hover:max-h-8 transition-all duration-200">
                   {data.names.join(", ")}
                 </div>
@@ -863,13 +863,13 @@ export default function Dashboard() {
         </div>
 
         {/* DATA SOURCES */}
-        <div className="text-center text-xs text-slate-400 py-2">
+        <div className="text-center text-xs text-slate-600 py-2">
           Data sourced from Yahoo Finance, Bloomberg, CNBC, SEC filings, IPOScoop, Morningstar, PortfoliosLab, TechCrunch, and Reuters. Prices as of April 1, 2026.
         </div>
       </main>
 
       {/* FOOTER */}
-      <footer className="border-t border-gray-200 py-6 text-center text-sm text-gray-500">
+      <footer className="border-t border-gray-300 py-6 text-center text-sm text-gray-600">
         <a href="https://x.com/Trace_Cohen" target="_blank" rel="noopener" className="hover:text-slate-700 transition-colors">Twitter</a>
         {" | "}
         <a href="mailto:t@nyvp.com" className="hover:text-slate-700 transition-colors">t@nyvp.com</a>
