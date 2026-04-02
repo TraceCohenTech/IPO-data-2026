@@ -689,13 +689,13 @@ export default function Dashboard() {
                 <YAxis tick={{ fontSize: 10, fill: "#334155" }} tickFormatter={(v: any) => `$${v}B`} />
                 <Tooltip formatter={(v: any, name: any) => [`$${v}B`, name === "peak" ? "Peak Private" : "Current Mkt Cap"]}
                   labelFormatter={(l: any) => destructionData.find((d) => d.name === l)?.fullName || l} />
-                <Bar dataKey="peak" name="peak" fill="#94a3b8" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="peak" name="peak" fill="#1e293b" radius={[4, 4, 0, 0]} />
                 <Bar dataKey="current" name="current" fill="#3b82f6" radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>
           <div className="flex gap-4 mt-2 text-xs text-slate-800 font-medium">
-            <div className="flex items-center gap-1.5"><div className="w-3 h-3 rounded bg-slate-400" /> Peak Private Valuation</div>
+            <div className="flex items-center gap-1.5"><div className="w-3 h-3 rounded bg-slate-900" /> Peak Private Valuation</div>
             <div className="flex items-center gap-1.5"><div className="w-3 h-3 rounded bg-blue-500" /> Current Market Cap</div>
           </div>
         </div>
