@@ -1,6 +1,6 @@
-// IPO Dashboard Data — US-listed IPOs 2021-2025
-// Source: Public market data compiled May 8-10, 2026
-// 70 companies across all valuation tiers
+// IPO Dashboard Data — US-listed IPOs 2020-2025
+// Source: Excel master dataset + yfinance market caps, May 2026
+// 94 companies across all valuation tiers
 
 export const COMPANIES = [
     {
@@ -1122,20 +1122,404 @@ export const COMPANIES = [
       listingType: "Traditional IPO",
       status: "Active",
       wideBucket: "$40B+"
+    },
+    {
+      year: 2020,
+      ticker: "ABNB",
+      company: "Airbnb",
+      sector: "Consumer",
+      subSector: "Travel / marketplace",
+      ipoVal: 47.3,
+      currentCap: 84.119,
+      ret: 0.7784,
+      moic: 1.7784,
+      bucket: "$40B+",
+      outcome: "Positive",
+      listingType: "Traditional IPO",
+      status: "Active",
+      wideBucket: "$40B+"
+    },
+    {
+      year: 2020,
+      ticker: "SNOW",
+      company: "Snowflake",
+      sector: "SaaS / Software",
+      subSector: "Data cloud platform",
+      ipoVal: 33.2,
+      currentCap: 52.702,
+      ret: 0.5874,
+      moic: 1.5874,
+      bucket: "$20-40B",
+      outcome: "Positive",
+      listingType: "Traditional IPO",
+      status: "Active",
+      wideBucket: "$20-40B"
+    },
+    {
+      year: 2020,
+      ticker: "DASH",
+      company: "DoorDash",
+      sector: "Marketplace / Commerce",
+      subSector: "Food delivery marketplace",
+      ipoVal: 32.4,
+      currentCap: 71.427,
+      ret: 1.2045,
+      moic: 2.2045,
+      bucket: "$20-40B",
+      outcome: "100%+ Winner",
+      listingType: "Traditional IPO",
+      status: "Active",
+      wideBucket: "$20-40B"
+    },
+    {
+      year: 2020,
+      ticker: "PLTR",
+      company: "Palantir Technologies",
+      sector: "AI / Data Infra",
+      subSector: "AI / defense analytics",
+      ipoVal: 21.8,
+      currentCap: 330.35,
+      ret: 14.1537,
+      moic: 15.1537,
+      bucket: "$20-40B",
+      outcome: "100%+ Winner",
+      listingType: "Direct listing",
+      status: "Active",
+      wideBucket: "$20-40B"
+    },
+    {
+      year: 2020,
+      ticker: "GDRX",
+      company: "GoodRx Holdings",
+      sector: "Healthcare",
+      subSector: "Healthtech / pharmacy savings",
+      ipoVal: 18.9,
+      currentCap: 0.989,
+      ret: -0.9477,
+      moic: 0.0523,
+      bucket: "$10-20B",
+      outcome: "50%+ Decline",
+      listingType: "Traditional IPO",
+      status: "Active",
+      wideBucket: "$10-20B"
+    },
+    {
+      year: 2020,
+      ticker: "WISH",
+      company: "ContextLogic (Wish)",
+      sector: "Marketplace / Commerce",
+      subSector: "Ecommerce / discount marketplace",
+      ipoVal: 14.1,
+      currentCap: 0.17,
+      ret: -0.9879,
+      moic: 0.0121,
+      bucket: "$10-20B",
+      outcome: "50%+ Decline",
+      listingType: "Traditional IPO",
+      status: "Acquired",
+      wideBucket: "$10-20B"
+    },
+    {
+      year: 2020,
+      ticker: "U",
+      company: "Unity Technologies",
+      sector: "SaaS / Software",
+      subSector: "Gaming engine / developer platform",
+      ipoVal: 13.7,
+      currentCap: 12.293,
+      ret: -0.1027,
+      moic: 0.8973,
+      bucket: "$10-20B",
+      outcome: "Moderate Loss",
+      listingType: "Traditional IPO",
+      status: "Active",
+      wideBucket: "$10-20B"
+    },
+    {
+      year: 2020,
+      ticker: "LI",
+      company: "Li Auto",
+      sector: "Mobility / Transport",
+      subSector: "EV / China ADR",
+      ipoVal: 10.0,
+      currentCap: 18.379,
+      ret: 0.8379,
+      moic: 1.8379,
+      bucket: "$10-20B",
+      outcome: "Positive",
+      listingType: "Traditional IPO",
+      status: "Active",
+      wideBucket: "$10-20B"
+    },
+    {
+      year: 2020,
+      ticker: "DNB",
+      company: "Dun & Bradstreet",
+      sector: "SaaS / Software",
+      subSector: "B2B data / analytics",
+      ipoVal: 9.0,
+      currentCap: 8.8,
+      ret: -0.0222,
+      moic: 0.9778,
+      bucket: "$7-10B",
+      outcome: "Moderate Loss",
+      listingType: "Traditional IPO",
+      status: "Acquired",
+      wideBucket: "$0-10B"
+    },
+    {
+      year: 2020,
+      ticker: "ZI",
+      company: "ZoomInfo Technologies",
+      sector: "SaaS / Software",
+      subSector: "SaaS / sales intelligence",
+      ipoVal: 8.2,
+      currentCap: 3.6,
+      ret: -0.561,
+      moic: 0.439,
+      bucket: "$7-10B",
+      outcome: "50%+ Decline",
+      listingType: "Traditional IPO",
+      status: "Acquired",
+      wideBucket: "$0-10B"
+    },
+    {
+      year: 2020,
+      ticker: "ROOT",
+      company: "Root Insurance",
+      sector: "Insurance",
+      subSector: "Insurtech / auto insurance",
+      ipoVal: 6.7,
+      currentCap: 0.893,
+      ret: -0.8667,
+      moic: 0.1333,
+      bucket: "$5-7B",
+      outcome: "50%+ Decline",
+      listingType: "Traditional IPO",
+      status: "Active",
+      wideBucket: "$0-10B"
+    },
+    {
+      year: 2020,
+      ticker: "AI",
+      company: "C3.ai",
+      sector: "AI / Data Infra",
+      subSector: "Enterprise AI software",
+      ipoVal: 6.5,
+      currentCap: 1.434,
+      ret: -0.7794,
+      moic: 0.2206,
+      bucket: "$5-7B",
+      outcome: "50%+ Decline",
+      listingType: "Traditional IPO",
+      status: "Active",
+      wideBucket: "$0-10B"
+    },
+    {
+      year: 2020,
+      ticker: "ASAN",
+      company: "Asana",
+      sector: "SaaS / Software",
+      subSector: "SaaS / work management",
+      ipoVal: 5.6,
+      currentCap: 1.579,
+      ret: -0.718,
+      moic: 0.282,
+      bucket: "$5-7B",
+      outcome: "50%+ Decline",
+      listingType: "Direct listing",
+      status: "Active",
+      wideBucket: "$0-10B"
+    },
+    {
+      year: 2020,
+      ticker: "AMWL",
+      company: "Amwell",
+      sector: "Healthcare",
+      subSector: "Healthtech / telemedicine",
+      ipoVal: 5.0,
+      currentCap: 0.133,
+      ret: -0.9734,
+      moic: 0.0266,
+      bucket: "$5-7B",
+      outcome: "50%+ Decline",
+      listingType: "Traditional IPO",
+      status: "Active",
+      wideBucket: "$0-10B"
+    },
+    {
+      year: 2020,
+      ticker: "FROG",
+      company: "JFrog",
+      sector: "SaaS / Software",
+      subSector: "DevOps / software delivery",
+      ipoVal: 3.9,
+      currentCap: 8.548,
+      ret: 1.1918,
+      moic: 2.1918,
+      bucket: "$3-5B",
+      outcome: "100%+ Winner",
+      listingType: "Traditional IPO",
+      status: "Active",
+      wideBucket: "$0-10B"
+    },
+    {
+      year: 2020,
+      ticker: "NCNO",
+      company: "nCino",
+      sector: "Fintech",
+      subSector: "Fintech / banking SaaS",
+      ipoVal: 3.0,
+      currentCap: 2.036,
+      ret: -0.3213,
+      moic: 0.6787,
+      bucket: "$3-5B",
+      outcome: "Moderate Loss",
+      listingType: "Traditional IPO",
+      status: "Active",
+      wideBucket: "$0-10B"
+    },
+    {
+      year: 2020,
+      ticker: "JAMF",
+      company: "Jamf Holding",
+      sector: "SaaS / Software",
+      subSector: "SaaS / Apple device management",
+      ipoVal: 3.0,
+      currentCap: 2.8,
+      ret: -0.0667,
+      moic: 0.9333,
+      bucket: "$3-5B",
+      outcome: "Moderate Loss",
+      listingType: "Traditional IPO",
+      status: "Acquired",
+      wideBucket: "$0-10B"
+    },
+    {
+      year: 2020,
+      ticker: "SUMO",
+      company: "Sumo Logic",
+      sector: "Cybersecurity",
+      subSector: "SaaS / security analytics",
+      ipoVal: 2.7,
+      currentCap: 1.69,
+      ret: -0.3741,
+      moic: 0.6259,
+      bucket: "$2-3B",
+      outcome: "Moderate Loss",
+      listingType: "Traditional IPO",
+      status: "Acquired",
+      wideBucket: "$0-10B"
+    },
+    {
+      year: 2020,
+      ticker: "VRM",
+      company: "Vroom",
+      sector: "Marketplace / Commerce",
+      subSector: "Online used car marketplace",
+      ipoVal: 2.5,
+      currentCap: 0.03,
+      ret: -0.988,
+      moic: 0.012,
+      bucket: "$2-3B",
+      outcome: "50%+ Decline",
+      listingType: "Traditional IPO",
+      status: "Bankrupt",
+      wideBucket: "$0-10B"
+    },
+    {
+      year: 2020,
+      ticker: "STEP",
+      company: "StepStone Group",
+      sector: "Asset Management",
+      subSector: "Private markets asset management",
+      ipoVal: 2.2,
+      currentCap: 6.967,
+      ret: 2.1668,
+      moic: 3.1668,
+      bucket: "$2-3B",
+      outcome: "100%+ Winner",
+      listingType: "Traditional IPO",
+      status: "Active",
+      wideBucket: "$0-10B"
+    },
+    {
+      year: 2020,
+      ticker: "UPST",
+      company: "Upstart Holdings",
+      sector: "Fintech",
+      subSector: "Fintech / AI lending",
+      ipoVal: 1.8,
+      currentCap: 2.772,
+      ret: 0.54,
+      moic: 1.54,
+      bucket: "$1-2B",
+      outcome: "Positive",
+      listingType: "Traditional IPO",
+      status: "Active",
+      wideBucket: "$0-10B"
+    },
+    {
+      year: 2020,
+      ticker: "LMND",
+      company: "Lemonade",
+      sector: "Insurance",
+      subSector: "Insurtech / homeowners insurance",
+      ipoVal: 1.6,
+      currentCap: 4.226,
+      ret: 1.6412,
+      moic: 2.6412,
+      bucket: "$1-2B",
+      outcome: "100%+ Winner",
+      listingType: "Traditional IPO",
+      status: "Active",
+      wideBucket: "$0-10B"
+    },
+    {
+      year: 2020,
+      ticker: "BIGC",
+      company: "BigCommerce Holdings",
+      sector: "SaaS / Software",
+      subSector: "SaaS / ecommerce platform",
+      ipoVal: 1.5,
+      currentCap: 0.22,
+      ret: -0.8533,
+      moic: 0.1467,
+      bucket: "$1-2B",
+      outcome: "50%+ Decline",
+      listingType: "Traditional IPO",
+      status: "Active",
+      wideBucket: "$0-10B"
+    },
+    {
+      year: 2020,
+      ticker: "ACMR",
+      company: "ACM Research",
+      sector: "Semiconductors",
+      subSector: "Semiconductor / wafer cleaning",
+      ipoVal: 1.2,
+      currentCap: 3.963,
+      ret: 2.3025,
+      moic: 3.3025,
+      bucket: "$1-2B",
+      outcome: "100%+ Winner",
+      listingType: "Traditional IPO",
+      status: "Active",
+      wideBucket: "$0-10B"
     }
   ];
 
 export const WIDE_BUCKETS = [
     {
       label: "$0-10B",
-      n: 55,
-      winRate: 0.4,
-      meanRet: 1.2128,
-      medRet: -0.1025,
-      bigWin: 0.2182,
-      bigLoss: 0.2727,
+      n: 71,
+      winRate: 0.3803,
+      meanRet: 0.9581,
+      medRet: -0.1408,
+      bigWin: 0.2254,
+      bigLoss: 0.3099,
       color: "#3fb950",
-      note: "Power-law distribution: the top 5 winners (CRDO, ATAT, RDDT, ALAB, GPCR) drive the entire bucket's mean return. But 27% of companies lost 50%+ of their value. The alpha is in finding the outliers early.",
+      note: "Power-law distribution: a handful of outliers (PLTR, CRDO, HOOD, DASH, ATAT) drive the mean. The median tells the real story \u2014 most companies lose value. The alpha is in picking the outliers early.",
       examples: [
         {
           t: "CRDO",
@@ -1174,29 +1558,29 @@ export const WIDE_BUCKETS = [
           ret: -0.9888
         },
         {
-          t: "BMBL",
-          v: 8.2,
-          mc: 0.472,
-          ret: -0.9424
+          t: "VRM",
+          v: 2.5,
+          mc: 0.03,
+          ret: -0.988
         },
         {
-          t: "GEMI",
-          v: 3.3,
-          mc: 0.35,
-          ret: -0.8939
+          t: "AMWL",
+          v: 5.0,
+          mc: 0.133,
+          ret: -0.9734
         }
       ]
     },
     {
       label: "$10-20B",
-      n: 5,
-      winRate: 0.2,
-      meanRet: -0.1618,
+      n: 9,
+      winRate: 0.2222,
+      meanRet: -0.2233,
       medRet: -0.4091,
-      bigWin: 0.2,
-      bigLoss: 0.2,
+      bigWin: 0.1111,
+      bigLoss: 0.3333,
       color: "#f85149",
-      note: "The dead zone. Only 1 of 5 companies is above water (ONON). Companies IPO'ing at $10\u201320B are priced for perfection with no room for error. Zero 100%+ winners \u2014 but ONON is the exception.",
+      note: "The dead zone persists across both 2020 and 2021-2025 cohorts. GDRX (-95%), WISH (-99%), U (-10%), LI (+84%) \u2014 only 3 of 9 companies are above water. Priced for perfection with no margin for error.",
       examples: [
         {
           t: "ONON",
@@ -1205,10 +1589,22 @@ export const WIDE_BUCKETS = [
           ret: 1
         },
         {
+          t: "LI",
+          v: 10.0,
+          mc: 18.379,
+          ret: 0.8379
+        },
+        {
           t: "XPEV",
           v: 15,
           mc: 14,
           ret: -0.0667
+        },
+        {
+          t: "U",
+          v: 13.7,
+          mc: 12.293,
+          ret: -0.1027
         },
         {
           t: "DOCS",
@@ -1217,10 +1613,16 @@ export const WIDE_BUCKETS = [
           ret: -0.4091
         },
         {
-          t: "DNUT",
-          v: 12,
-          mc: 6.2,
-          ret: -0.4833
+          t: "WISH",
+          v: 14.1,
+          mc: 0.17,
+          ret: -0.9879
+        },
+        {
+          t: "GDRX",
+          v: 18.9,
+          mc: 0.989,
+          ret: -0.9477
         },
         {
           t: "TASK",
@@ -1232,20 +1634,38 @@ export const WIDE_BUCKETS = [
     },
     {
       label: "$20-40B",
-      n: 4,
-      winRate: 0.5,
-      meanRet: 0.3986,
-      medRet: -0.0223,
-      bigWin: 0.25,
+      n: 7,
+      winRate: 0.7143,
+      meanRet: 2.5057,
+      medRet: 0.5874,
+      bigWin: 0.4286,
       bigLoss: 0.0,
       color: "#39d2c0",
-      note: "Small sample. CoreWeave (+174%) saves the bucket. The real median is near breakeven (-2%), not the rosy picture some assume. RBLX flatlined at exactly 0% and TOST is down 10%.",
+      note: "Palantir alone rewrites this bucket's story: +1415% from a $21.8B direct listing. Without PLTR, the bucket median is deeply negative. SNOW (+59%), DASH (+120%), ABNB... wait, those are in $40B+. The rule: you need a once-in-a-decade company at this valuation.",
       examples: [
+        {
+          t: "PLTR",
+          v: 21.8,
+          mc: 330.35,
+          ret: 14.1537
+        },
         {
           t: "CRWV",
           v: 23,
           mc: 63,
           ret: 1.7391
+        },
+        {
+          t: "DASH",
+          v: 32.4,
+          mc: 71.427,
+          ret: 1.2045
+        },
+        {
+          t: "SNOW",
+          v: 33.2,
+          mc: 52.702,
+          ret: 0.5874
         },
         {
           t: "RBLX",
@@ -1254,35 +1674,41 @@ export const WIDE_BUCKETS = [
           ret: 0
         },
         {
-          t: "MDLN",
-          v: 38,
-          mc: 36.3,
-          ret: -0.0447
-        },
-        {
           t: "TOST",
           v: 20,
           mc: 18,
           ret: -0.1
+        },
+        {
+          t: "MDLN",
+          v: 38,
+          mc: 36.3,
+          ret: -0.0447
         }
       ]
     },
     {
       label: "$40B+",
-      n: 6,
-      winRate: 0.1667,
-      meanRet: -0.1546,
-      medRet: -0.4954,
-      bigWin: 0.1667,
-      bigLoss: 0.5,
+      n: 7,
+      winRate: 0.2857,
+      meanRet: -0.0213,
+      medRet: -0.3,
+      bigWin: 0.1429,
+      bigLoss: 0.4286,
       color: "#e3a85a",
-      note: "Mega-IPO graveyard. Median company lost nearly half its value. ARM is the lone massive winner (+196%). RIVN, DiDi, and Venture Global show what happens when peak-hype pricing meets reality.",
+      note: "Mega-IPO graveyard \u2014 but the 2020 class added ABNB (+78%), which is a win. ARM (+196%) remains the standout in the 2021-2025 era. The median is still deeply negative: RIVN, DiDi, GDRX, Venture Global. Scale alone doesn't protect you.",
       examples: [
         {
           t: "ARM",
           v: 54,
           mc: 160,
           ret: 1.963
+        },
+        {
+          t: "ABNB",
+          v: 47.3,
+          mc: 84.119,
+          ret: 0.7784
         },
         {
           t: "COIN",
@@ -1303,16 +1729,16 @@ export const WIDE_BUCKETS = [
           ret: -0.6909
         },
         {
-          t: "RIVN",
-          v: 77,
-          mc: 19,
-          ret: -0.7532
-        },
-        {
           t: "DIDI",
           v: 68,
           mc: 0.5,
           ret: -0.9926
+        },
+        {
+          t: "RIVN",
+          v: 77,
+          mc: 19,
+          ret: -0.7532
         }
       ]
     }
@@ -1370,12 +1796,12 @@ export const FINE_BUCKETS = [
     },
     {
       label: "$1-2B",
-      n: 6,
-      winRate: 0.5,
-      meanRet: 5.7145,
-      medRet: 1.9263,
+      n: 10,
+      winRate: 0.6,
+      meanRet: 3.7917,
+      medRet: 1.0906,
       bigWin: 0.5,
-      bigLoss: 0.0,
+      bigLoss: 0.1,
       color: "#3fb950",
       note: "",
       examples: [
@@ -1398,33 +1824,45 @@ export const FINE_BUCKETS = [
           ret: 4.0525
         },
         {
-          t: "SLDE",
-          v: 1.5,
-          mc: 1.2,
-          ret: -0.2
+          t: "ACMR",
+          v: 1.2,
+          mc: 3.963,
+          ret: 2.3025
         },
         {
-          t: "MNTN",
+          t: "LMND",
+          v: 1.6,
+          mc: 4.226,
+          ret: 1.6412
+        },
+        {
+          t: "BIGC",
           v: 1.5,
-          mc: 1.2,
-          ret: -0.2
+          mc: 0.22,
+          ret: -0.8533
         },
         {
           t: "NRDS",
           v: 1.2,
           mc: 0.635,
           ret: -0.4708
+        },
+        {
+          t: "MNTN",
+          v: 1.5,
+          mc: 1.2,
+          ret: -0.2
         }
       ]
     },
     {
       label: "$2-3B",
-      n: 5,
-      winRate: 0.4,
-      meanRet: 0.2683,
-      medRet: -0.2,
-      bigWin: 0.2,
-      bigLoss: 0.4,
+      n: 8,
+      winRate: 0.375,
+      meanRet: 0.2682,
+      medRet: -0.2871,
+      bigWin: 0.25,
+      bigLoss: 0.375,
       color: "#3fb950",
       note: "",
       examples: [
@@ -1433,6 +1871,12 @@ export const FINE_BUCKETS = [
           v: 2.5,
           mc: 9.391,
           ret: 2.7564
+        },
+        {
+          t: "STEP",
+          v: 2.2,
+          mc: 6.967,
+          ret: 2.1668
         },
         {
           t: "HSAI",
@@ -1447,27 +1891,39 @@ export const FINE_BUCKETS = [
           ret: -0.2
         },
         {
-          t: "IBTA",
+          t: "SUMO",
           v: 2.7,
-          mc: 0.857,
-          ret: -0.6826
+          mc: 1.69,
+          ret: -0.3741
+        },
+        {
+          t: "VRM",
+          v: 2.5,
+          mc: 0.03,
+          ret: -0.988
         },
         {
           t: "ODD",
           v: 2.8,
           mc: 0.841,
           ret: -0.6996
+        },
+        {
+          t: "IBTA",
+          v: 2.7,
+          mc: 0.857,
+          ret: -0.6826
         }
       ]
     },
     {
       label: "$3-5B",
-      n: 11,
-      winRate: 0.4545,
-      meanRet: 0.1277,
-      medRet: -0.2524,
-      bigWin: 0.0909,
-      bigLoss: 0.4545,
+      n: 14,
+      winRate: 0.4286,
+      meanRet: 0.1577,
+      medRet: -0.1595,
+      bigWin: 0.1429,
+      bigLoss: 0.3571,
       color: "#3fb950",
       note: "",
       examples: [
@@ -1476,6 +1932,12 @@ export const FINE_BUCKETS = [
           v: 3.5,
           mc: 19.38,
           ret: 4.5371
+        },
+        {
+          t: "FROG",
+          v: 3.9,
+          mc: 8.548,
+          ret: 1.1918
         },
         {
           t: "GLBE",
@@ -1494,12 +1956,6 @@ export const FINE_BUCKETS = [
           v: 3.8,
           mc: 5,
           ret: 0.3158
-        },
-        {
-          t: "WAY",
-          v: 3.7,
-          mc: 4.172,
-          ret: 0.1276
         },
         {
           t: "BIRD",
@@ -1523,12 +1979,12 @@ export const FINE_BUCKETS = [
     },
     {
       label: "$5-7B",
-      n: 12,
-      winRate: 0.4167,
-      meanRet: 1.0091,
-      medRet: -0.1855,
-      bigWin: 0.3333,
-      bigLoss: 0.25,
+      n: 16,
+      winRate: 0.3125,
+      meanRet: 0.5482,
+      medRet: -0.4316,
+      bigWin: 0.25,
+      bigLoss: 0.4375,
       color: "#3fb950",
       note: "",
       examples: [
@@ -1563,33 +2019,33 @@ export const FINE_BUCKETS = [
           ret: 0.4628
         },
         {
+          t: "AMWL",
+          v: 5.0,
+          mc: 0.133,
+          ret: -0.9734
+        },
+        {
+          t: "ROOT",
+          v: 6.7,
+          mc: 0.893,
+          ret: -0.8667
+        },
+        {
           t: "SG",
           v: 5.5,
           mc: 0.842,
           ret: -0.8469
-        },
-        {
-          t: "BRZE",
-          v: 6,
-          mc: 2.338,
-          ret: -0.6103
-        },
-        {
-          t: "FIGR",
-          v: 5.3,
-          mc: 2.1,
-          ret: -0.6038
         }
       ]
     },
     {
       label: "$7-10B",
-      n: 15,
-      winRate: 0.3333,
-      meanRet: 0.3105,
+      n: 17,
+      winRate: 0.2941,
+      meanRet: 0.2396,
       medRet: -0.1025,
-      bigWin: 0.0667,
-      bigLoss: 0.2667,
+      bigWin: 0.0588,
+      bigLoss: 0.2941,
       color: "#3fb950",
       note: "",
       examples: [
@@ -1645,12 +2101,12 @@ export const FINE_BUCKETS = [
     },
     {
       label: "$10-20B",
-      n: 5,
-      winRate: 0.2,
-      meanRet: -0.1618,
+      n: 9,
+      winRate: 0.2222,
+      meanRet: -0.2233,
       medRet: -0.4091,
-      bigWin: 0.2,
-      bigLoss: 0.2,
+      bigWin: 0.1111,
+      bigLoss: 0.3333,
       color: "#f85149",
       note: "",
       examples: [
@@ -1661,10 +2117,22 @@ export const FINE_BUCKETS = [
           ret: 1
         },
         {
+          t: "LI",
+          v: 10.0,
+          mc: 18.379,
+          ret: 0.8379
+        },
+        {
           t: "XPEV",
           v: 15,
           mc: 14,
           ret: -0.0667
+        },
+        {
+          t: "U",
+          v: 13.7,
+          mc: 12.293,
+          ret: -0.1027
         },
         {
           t: "DOCS",
@@ -1673,10 +2141,16 @@ export const FINE_BUCKETS = [
           ret: -0.4091
         },
         {
-          t: "DNUT",
-          v: 12,
-          mc: 6.2,
-          ret: -0.4833
+          t: "WISH",
+          v: 14.1,
+          mc: 0.17,
+          ret: -0.9879
+        },
+        {
+          t: "GDRX",
+          v: 18.9,
+          mc: 0.989,
+          ret: -0.9477
         },
         {
           t: "TASK",
@@ -1688,20 +2162,38 @@ export const FINE_BUCKETS = [
     },
     {
       label: "$20-40B",
-      n: 4,
-      winRate: 0.5,
-      meanRet: 0.3986,
-      medRet: -0.0223,
-      bigWin: 0.25,
+      n: 7,
+      winRate: 0.7143,
+      meanRet: 2.5057,
+      medRet: 0.5874,
+      bigWin: 0.4286,
       bigLoss: 0.0,
       color: "#39d2c0",
       note: "",
       examples: [
         {
+          t: "PLTR",
+          v: 21.8,
+          mc: 330.35,
+          ret: 14.1537
+        },
+        {
           t: "CRWV",
           v: 23,
           mc: 63,
           ret: 1.7391
+        },
+        {
+          t: "DASH",
+          v: 32.4,
+          mc: 71.427,
+          ret: 1.2045
+        },
+        {
+          t: "SNOW",
+          v: 33.2,
+          mc: 52.702,
+          ret: 0.5874
         },
         {
           t: "RBLX",
@@ -1710,27 +2202,27 @@ export const FINE_BUCKETS = [
           ret: 0
         },
         {
-          t: "MDLN",
-          v: 38,
-          mc: 36.3,
-          ret: -0.0447
-        },
-        {
           t: "TOST",
           v: 20,
           mc: 18,
           ret: -0.1
+        },
+        {
+          t: "MDLN",
+          v: 38,
+          mc: 36.3,
+          ret: -0.0447
         }
       ]
     },
     {
       label: "$40B+",
-      n: 6,
-      winRate: 0.1667,
-      meanRet: -0.1546,
-      medRet: -0.4954,
-      bigWin: 0.1667,
-      bigLoss: 0.5,
+      n: 7,
+      winRate: 0.2857,
+      meanRet: -0.0213,
+      medRet: -0.3,
+      bigWin: 0.1429,
+      bigLoss: 0.4286,
       color: "#e3a85a",
       note: "",
       examples: [
@@ -1739,6 +2231,12 @@ export const FINE_BUCKETS = [
           v: 54,
           mc: 160,
           ret: 1.963
+        },
+        {
+          t: "ABNB",
+          v: 47.3,
+          mc: 84.119,
+          ret: 0.7784
         },
         {
           t: "COIN",
@@ -1759,22 +2257,31 @@ export const FINE_BUCKETS = [
           ret: -0.6909
         },
         {
-          t: "RIVN",
-          v: 77,
-          mc: 19,
-          ret: -0.7532
-        },
-        {
           t: "DIDI",
           v: 68,
           mc: 0.5,
           ret: -0.9926
+        },
+        {
+          t: "RIVN",
+          v: 77,
+          mc: 19,
+          ret: -0.7532
         }
       ]
     }
   ];
 
 export const YEAR_STATS = [
+    {
+      year: 2020,
+      n: 24,
+      winRate: 0.4167,
+      meanRet: 0.7017,
+      medRet: -0.0847,
+      bigWin: 0.25,
+      bigLoss: 0.375
+    },
     {
       year: 2021,
       n: 27,
@@ -1825,12 +2332,12 @@ export const YEAR_STATS = [
 export const SECTOR_STATS = [
     {
       sector: "AI / Data Infra",
-      n: 1,
-      winRate: 1.0,
-      meanRet: 1.7391,
+      n: 3,
+      winRate: 0.6667,
+      meanRet: 5.0378,
       medRet: 1.7391,
-      bigWin: 1.0,
-      bigLoss: 0.0
+      bigWin: 0.6667,
+      bigLoss: 0.3333
     },
     {
       sector: "Adtech",
@@ -1843,21 +2350,21 @@ export const SECTOR_STATS = [
     },
     {
       sector: "Asset Management",
-      n: 1,
+      n: 2,
       winRate: 1.0,
-      meanRet: 0.8814,
-      medRet: 0.8814,
-      bigWin: 0.0,
+      meanRet: 1.5241,
+      medRet: 1.5241,
+      bigWin: 0.5,
       bigLoss: 0.0
     },
     {
       sector: "Consumer",
-      n: 14,
-      winRate: 0.3571,
-      meanRet: 0.2036,
-      medRet: -0.2612,
-      bigWin: 0.2143,
-      bigLoss: 0.3571
+      n: 15,
+      winRate: 0.4,
+      meanRet: 0.2419,
+      medRet: -0.1408,
+      bigWin: 0.2,
+      bigLoss: 0.3333
     },
     {
       sector: "Crypto / Web3",
@@ -1870,11 +2377,11 @@ export const SECTOR_STATS = [
     },
     {
       sector: "Cybersecurity",
-      n: 1,
-      winRate: 1.0,
-      meanRet: 1.2084,
-      medRet: 1.2084,
-      bigWin: 1.0,
+      n: 2,
+      winRate: 0.5,
+      meanRet: 0.4171,
+      medRet: 0.4171,
+      bigWin: 0.5,
       bigLoss: 0.0
     },
     {
@@ -1897,21 +2404,21 @@ export const SECTOR_STATS = [
     },
     {
       sector: "Fintech",
-      n: 8,
-      winRate: 0.25,
-      meanRet: 0.6895,
+      n: 10,
+      winRate: 0.3,
+      meanRet: 0.5735,
       medRet: -0.2616,
-      bigWin: 0.125,
-      bigLoss: 0.25
+      bigWin: 0.1,
+      bigLoss: 0.2
     },
     {
       sector: "Healthcare",
-      n: 9,
-      winRate: 0.3333,
-      meanRet: 1.4097,
-      medRet: -0.0878,
-      bigWin: 0.2222,
-      bigLoss: 0.1111
+      n: 11,
+      winRate: 0.2727,
+      meanRet: 0.9788,
+      medRet: -0.2,
+      bigWin: 0.1818,
+      bigLoss: 0.2727
     },
     {
       sector: "Hospitality",
@@ -1924,12 +2431,12 @@ export const SECTOR_STATS = [
     },
     {
       sector: "Insurance",
-      n: 2,
-      winRate: 0.0,
-      meanRet: -0.2417,
+      n: 4,
+      winRate: 0.25,
+      meanRet: 0.0728,
       medRet: -0.2417,
-      bigWin: 0.0,
-      bigLoss: 0.0
+      bigWin: 0.25,
+      bigLoss: 0.25
     },
     {
       sector: "Legaltech",
@@ -1942,21 +2449,21 @@ export const SECTOR_STATS = [
     },
     {
       sector: "Marketplace / Commerce",
-      n: 5,
-      winRate: 0.4,
-      meanRet: -0.3155,
-      medRet: -0.3,
-      bigWin: 0.0,
-      bigLoss: 0.4
+      n: 8,
+      winRate: 0.375,
+      meanRet: -0.2936,
+      medRet: -0.5548,
+      bigWin: 0.125,
+      bigLoss: 0.5
     },
     {
       sector: "Mobility / Transport",
-      n: 5,
-      winRate: 0.2,
-      meanRet: -0.4491,
-      medRet: -0.6,
+      n: 6,
+      winRate: 0.3333,
+      meanRet: -0.2346,
+      medRet: -0.3333,
       bigWin: 0.0,
-      bigLoss: 0.6
+      bigLoss: 0.5
     },
     {
       sector: "Real Estate / Proptech",
@@ -1969,19 +2476,19 @@ export const SECTOR_STATS = [
     },
     {
       sector: "SaaS / Software",
-      n: 7,
-      winRate: 0.2857,
-      meanRet: -0.2981,
-      medRet: -0.4815,
-      bigWin: 0.0,
-      bigLoss: 0.2857
+      n: 15,
+      winRate: 0.2667,
+      meanRet: -0.1754,
+      medRet: -0.1027,
+      bigWin: 0.0667,
+      bigLoss: 0.3333
     },
     {
       sector: "Semiconductors",
-      n: 3,
+      n: 4,
       winRate: 1.0,
-      meanRet: 9.7222,
-      medRet: 5.5805,
+      meanRet: 7.8673,
+      medRet: 3.9415,
       bigWin: 1.0,
       bigLoss: 0.0
     },
