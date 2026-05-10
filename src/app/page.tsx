@@ -1,84 +1,178 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
-  BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer,
-  Cell, CartesianGrid, ReferenceLine, ScatterChart, Scatter, Line, Legend,
+  BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell,
+  CartesianGrid, ReferenceLine, ScatterChart, Scatter, ComposedChart,
+  Line, Legend,
 } from "recharts";
-import { WIDE_BUCKETS, YEAR_STATS, COMPANIES } from "@/lib/ipoData";
+import { WIDE_BUCKETS, YEAR_STATS, COMPANIES, SECTOR_STATS } from "@/lib/ipoData";
 
-// ─── Palette (matches ValueAddVC reference) ───────────────────────────────────
+// ─── Palette ───────────────────────────────────────────────────────────────────
 const C = {
-  bg:      "#0f172a",
-  card:    "#1e293b",
-  card2:   "rgba(15,23,42,0.6)",
-  border:  "#334155",
-  text:    "#f1f5f9",
-  desc:    "#cbd5e1",
-  muted:   "#94a3b8",
-  accent:  "#38bdf8",   // sky blue
-  teal:    "#14b8a6",
-  green:   "#22c55e",
-  orange:  "#f97316",
-  red:     "#ef4444",
-  gold:    "#eab308",
+  bg:     "#07111f",
+  card:   "rgba(255,255,255,0.035)",
+  card2:  "rgba(255,255,255,0.02)",
+  border: "rgba(255,255,255,0.075)",
+  borderHover: "rgba(56,189,248,0.35)",
+  text:   "#f1f5f9",
+  desc:   "#cbd5e1",
+  muted:  "#64748b",
+  accent: "#38bdf8",
+  teal:   "#2dd4bf",
+  green:  "#4ade80",
+  orange: "#fb923c",
+  red:    "#f87171",
+  gold:   "#fbbf24",
+  indigo: "#a78bfa",
 };
 
-const fmt    = (n: number) => (n * 100).toFixed(0) + "%";
-const fmtRet = (n: number) => (n >= 0 ? "+" : "") + (n * 100).toFixed(0) + "%";
+// ─── Utilities ─────────────────────────────────────────────────────────────────
+const pct = (n: number) => (n >= 0 ? "+" : "") + (n * 100).toFixed(0) + "%";
+const winPct = (n: number) => Math.round(n * 100) + "%";
 const retColor = (n: number) => n >= 1 ? C.green : n >= 0 ? C.accent : n > -0.5 ? C.orange : C.red;
+function median(arr: number[]) {
+  if (!arr.length) return 0;
+  const s = [...arr].sort((a, b) => a - b);
+  const m = Math.floor(s.length / 2);
+  return s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2;
+}
+function mean(arr: number[]) {
+  return arr.length ? arr.reduce((a, b) => a + b, 0) / arr.length : 0;
+}
 
-// ─── Static data ──────────────────────────────────────────────────────────────
-const NOTABLE_IPOS = [
-  { date: "Dec 2020", ticker: "ABNB", name: "Airbnb",        firstDay: "+113%", ipoVal: "$47.3B", note: "Pandemic IPO that doubled overnight. Proved tech demand survived COVID.", stat2: "$3.5B raised" },
-  { date: "Dec 2020", ticker: "DASH", name: "DoorDash",      firstDay: "+86%",  ipoVal: "$32.4B", note: "Food delivery king. Priced at $102, first-day close $189. +120% since.", stat2: "$3.4B raised" },
-  { date: "Sep 2020", ticker: "SNOW", name: "Snowflake",      firstDay: "+112%", ipoVal: "$33.2B", note: "Largest software IPO ever at the time. Buffett bought in at IPO. +59% since.", stat2: "$3.4B raised" },
-  { date: "Sep 2020", ticker: "PLTR", name: "Palantir",       firstDay: "+38%",  ipoVal: "$21.8B", note: "Direct listing — no underwriters. AI defense analytics. +1415% since.", stat2: "Direct listing" },
-  { date: "Sep 2020", ticker: "GDRX", name: "GoodRx",         firstDay: "+51%",  ipoVal: "$18.9B", note: "The dead zone in action. $18.9B IPO → $1B today. -95% value destruction.", stat2: "$1.1B raised" },
-  { date: "Nov 2021", ticker: "RIVN", name: "Rivian",         firstDay: "+29%",  ipoVal: "$77.0B", note: "Largest US IPO since Facebook. Peaked at $175B. Now -75% from IPO val.", stat2: "$13.7B raised" },
-  { date: "Sep 2023", ticker: "ARM",  name: "ARM Holdings",   firstDay: "+25%",  ipoVal: "$54.0B", note: "The only $40B+ IPO to massively outperform. +196% on AI chip demand.", stat2: "$4.9B raised" },
-  { date: "Mar 2024", ticker: "RDDT", name: "Reddit",         firstDay: "+48%",  ipoVal: "$6.4B",  note: "Social media's biggest IPO in years. AI data licensing strategy paying off. +393%.", stat2: "$748M raised" },
-  { date: "Mar 2025", ticker: "CRWV", name: "CoreWeave",      firstDay: "-4%",   ipoVal: "$23.0B", note: "Down on day 1 — then +174% in 2 months. AI infrastructure demand is real.", stat2: "$1.5B raised" },
+// ─── Derived / Static Data ─────────────────────────────────────────────────────
+const allRets = COMPANIES.filter(c => c.ret !== null).map(c => c.ret as number);
+const totalN  = COMPANIES.length;
+const overallWin = Math.round(COMPANIES.filter(c => (c.ret ?? 0) >= 0).length / totalN * 100);
+const overallMed = Math.round(median(allRets) * 100);
+
+const sorted = [...COMPANIES].filter(c => c.ret !== null).sort((a,b) => (b.ret as number)-(a.ret as number));
+const top5tickers  = sorted.slice(0,5).map(c => c.ticker);
+const bot5tickers  = sorted.slice(-5).map(c => c.ticker);
+
+const filterRets = (exclude: string[]) =>
+  COMPANIES.filter(c => c.ret !== null && !exclude.includes(c.ticker)).map(c => c.ret as number);
+
+const SENSITIVITY = [
+  { label: "Full Dataset",     sub: "All 94 IPOs",              rets: allRets,                       color: C.accent },
+  { label: "No PLTR",          sub: "Remove Palantir (+1415%)",  rets: filterRets(["PLTR"]),          color: C.teal  },
+  { label: "No DIDI+RIVN",     sub: "Remove 2 biggest losers",  rets: filterRets(["DIDI","RIVN"]),   color: C.orange },
+  { label: "No Top 5",         sub: "Remove top 5 by return",   rets: filterRets(top5tickers),       color: C.gold  },
+  { label: "No Bottom 5",      sub: "Remove worst 5 by return", rets: filterRets(bot5tickers),       color: C.green },
+  { label: "No Extremes",      sub: "Remove top & bottom 10",   rets: filterRets([...top5tickers,...bot5tickers]), color: C.indigo },
+].map(s => ({
+  ...s,
+  n:      s.rets.length,
+  medRet: Math.round(median(s.rets) * 100),
+  meanRet: Math.round(mean(s.rets) * 100),
+  winRate: Math.round(s.rets.filter(r => r >= 0).length / s.rets.length * 100),
+}));
+
+const RETURN_DIST = [
+  { label: "< -80%",        min: -Infinity, max: -0.8,    color: "#ef4444" },
+  { label: "-80 to -50%",   min: -0.8,      max: -0.5,    color: "#f97316" },
+  { label: "-50 to -20%",   min: -0.5,      max: -0.2,    color: "#fb923c" },
+  { label: "-20 to 0%",     min: -0.2,      max: 0,       color: "#fbbf24" },
+  { label: "0 to +50%",     min: 0,         max: 0.5,     color: "#a3e635" },
+  { label: "+50 to +100%",  min: 0.5,       max: 1,       color: "#4ade80" },
+  { label: "+100 to +300%", min: 1,         max: 3,       color: "#2dd4bf" },
+  { label: "> +300%",       min: 3,         max: Infinity, color: "#38bdf8" },
+].map(b => ({
+  ...b,
+  count: COMPANIES.filter(c => c.ret !== null && (c.ret as number) >= b.min && (c.ret as number) < b.max).length,
+}));
+
+const SECTOR_CHART = SECTOR_STATS
+  .filter(s => s.n >= 3)
+  .sort((a, b) => b.medRet - a.medRet)
+  .map(s => ({ ...s, medPct: Math.round(s.medRet * 100), winPct: Math.round(s.winRate * 100) }));
+
+const YEAR_CHART = YEAR_STATS.map(y => ({
+  ...y,
+  label: String(y.year),
+  winPct: Math.round(y.winRate * 100),
+  medPct: Math.round(y.medRet * 100),
+  meanPct: Math.round(y.meanRet * 100),
+  color: y.winRate >= 0.5 ? C.green : y.winRate >= 0.35 ? C.gold : C.red,
+}));
+
+const LISTING_DATA = (() => {
+  const types = ["Traditional IPO", "Direct listing", "ADR IPO"];
+  return types.map(t => {
+    const cos = COMPANIES.filter(c => c.listingType === t && c.ret !== null);
+    if (!cos.length) return null;
+    const rs = cos.map(c => c.ret as number);
+    return {
+      type: t === "Traditional IPO" ? "Traditional" : t === "Direct listing" ? "Direct Listing" : "ADR",
+      n: cos.length,
+      winPct: Math.round(cos.filter(c => (c.ret as number) >= 0).length / cos.length * 100),
+      medPct: Math.round(median(rs) * 100),
+    };
+  }).filter(Boolean);
+})() as { type: string; n: number; winPct: number; medPct: number }[];
+
+const SCATTER_DATA = COMPANIES
+  .filter(c => c.ret !== null)
+  .map(c => ({ t: c.ticker, v: c.ipoVal, mc: c.currentCap, ret: c.ret as number, retCap: Math.min(Math.max(c.ret as number, -1), 10), sector: c.sector, year: c.year }));
+
+const NOTABLE = [
+  { ticker: "PLTR", name: "Palantir",       year: 2020, ret: "+1415%", val: "$21.8B", note: "Greatest outlier in dataset. AI defense → $330B.",  color: C.accent },
+  { ticker: "CRDO", name: "Credo Tech",     year: 2022, ret: "+2162%", val: "$1.6B",  note: "Best return in dataset. 22x. Semiconductors win.",  color: C.green  },
+  { ticker: "GDRX", name: "GoodRx",         year: 2020, ret: "−95%",   val: "$18.9B", note: "Dead zone proof. Profitable. Losing. $18.9B→$1B.", color: C.red    },
+  { ticker: "RIVN", name: "Rivian",         year: 2021, ret: "−75%",   val: "$77B",   note: "Largest US IPO since Facebook. Still sinking.",     color: C.red    },
+  { ticker: "ARM",  name: "ARM Holdings",   year: 2023, ret: "+196%",  val: "$54B",   note: "Only $40B+ mega-IPO to massively outperform.",      color: C.teal   },
+  { ticker: "RDDT", name: "Reddit",         year: 2024, ret: "+393%",  val: "$6.4B",  note: "AI data licensing changed the calculus.",           color: C.teal   },
+  { ticker: "HOOD", name: "Robinhood",      year: 2021, ret: "+781%",  val: "$8B",    note: "2021 disaster turned 8x winner. Crypto cycle.",     color: C.accent },
+  { ticker: "CRWV", name: "CoreWeave",      year: 2025, ret: "+174%",  val: "$23B",   note: "Down on day 1. Up 174% in 2 months. AI infra.",     color: C.teal   },
+];
+
+const INSIGHTS = [
+  { n:1,  title: "The PLTR Paradox",                  body: "Remove Palantir (+1415%) and the overall mean collapses from +96% to +30%. One company rewrites the dataset narrative. The median (-14%) barely moves — showing just how extreme this one outlier is." },
+  { n:2,  title: "The $10–20B Dead Zone Is Structural", body: "9 companies IPO'd at $10–20B. Only 2 are positive. Median: -41%. This isn't bad luck — companies at this valuation are priced to perfection with zero tolerance for execution risk." },
+  { n:3,  title: "2021: The Worst Vintage Since the Dot-Com Crash", body: "The median 2021 IPO has lost 47% of its value. Peak ZIRP, peak FOMO, peak multiples — companies that priced at 50-100× revenue are still paying the price 4+ years later." },
+  { n:4,  title: "2022 Was the Best Vintage in the Dataset",  body: "5 companies that IPO'd in 2022 have an 88% median return. When the window nearly closes, only the genuinely strong fight through. Forced discipline created the best cohort." },
+  { n:5,  title: "Semiconductors: 100% Win Rate",             body: "Every single semiconductor IPO in the dataset is positive. CRDO (+2162%), ATAT (+948%), ARM (+196%), ACMR (+230%). The AI chip supercycle created category-wide multiple expansion." },
+  { n:6,  title: "The Power Law Is Violent",                  body: "The $0–10B bucket: 38% win rate, +96% mean return. The gap shows how extreme the winners are. CRDO at 22x isn't just a win — it obliterates the losses of 10 companies." },
+  { n:7,  title: "Size Doesn't Buy Safety at IPO",            body: "$40B+ IPOs: 29% win rate, -30% median. DiDi -99%, Rivian -75%, Venture Global -69%. Mega-valuations at IPO amplify downside — there's nowhere to grow into." },
+  { n:8,  title: "Direct Listings Price More Fairly",         body: "Direct listings (PLTR, COIN, RBLX, ASAN) structurally set prices without underwriter pressure or first-day pop games. Price discovery is more honest and the starting bar is set correctly." },
+  { n:9,  title: "GoodRx: The Dead Zone in Real Time",        body: "GoodRx: profitable, dominant market share, real revenue. IPO'd $18.9B in 2020. Now $1B. -95%. The dead zone doesn't care about your fundamentals when the multiple is wrong." },
+  { n:10, title: "AI Tailwind Is Sector-Defining",            body: "AI/Data Infra: 67% win rate, +174% median. Semiconductors: 100% win rate. The AI cycle is creating multiple expansion across every company in the compute stack." },
+  { n:11, title: "Marketplace Models Underperform",           body: "Marketplaces: 38% win, -55% median. VRM -99%, WISH -99%, UDMY -81%, STUB -88%. Take-rate businesses require massive ongoing capital — markets eventually reprice this." },
+  { n:12, title: "2025 Is Already Printing Losses",           body: "2025 cohort: 27% win rate, -20% median. StubHub -88%, Gemini -89%. High rates + high scrutiny = brutal environment. CRWV (+174%) is the exception that proves the rule." },
 ];
 
 const RECORDS = [
-  { emoji: "🚀", value: "+2,162%", label: "Best Return", detail: "CRDO — Credo Technology, $1.6B IPO (2022)" },
-  { emoji: "💀", value: "-99%",    label: "Worst Return", detail: "DIDI — DiDi Global, $68B IPO (2021)" },
-  { emoji: "🔥", value: "+1,415%", label: "Biggest Outlier", detail: "PLTR — Palantir, $21.8B direct listing (2020)" },
-  { emoji: "📉", value: "$77B",    label: "Largest Mega-Flop at IPO", detail: "RIVN — Rivian, now worth $19B (-75%)" },
-  { emoji: "🎯", value: "19%",     label: "2021 Win Rate", detail: "Worst vintage — only 1 in 5 companies positive" },
-  { emoji: "💡", value: "60%",     label: "2022–24 Win Rate", detail: "Best back-to-back vintages in dataset" },
+  { emoji: "🚀", value: "+2,162%", label: "Best Return",          detail: "CRDO · Credo Technology · 2022 · $1.6B IPO" },
+  { emoji: "💀", value: "−99%",    label: "Worst Return",         detail: "DIDI · DiDi Global · 2021 · $68B IPO" },
+  { emoji: "🔥", value: "+1,415%", label: "Biggest Outlier",      detail: "PLTR · Palantir · 2020 · $21.8B direct listing" },
+  { emoji: "📉", value: "$77B",    label: "Largest Mega-Flop",    detail: "RIVN · Rivian · 2021 · now worth $19B (−75%)" },
+  { emoji: "🎯", value: "100%",    label: "Semis Win Rate",        detail: "CRDO · ARM · ATAT · ACMR — every chip IPO wins" },
+  { emoji: "⚡", value: "22×",     label: "Best MOIC",             detail: "CRDO · $1.6B → $36B in 3 years" },
 ];
 
-const FUN_FACTS = [
-  { n: 1,  title: "The PLTR Paradox",          body: "Palantir's $21.8B direct listing is worth $330B today — a +1415% return. Remove it from the $20–40B bucket and the median collapses from +59% to deeply negative. One company rewrites the story." },
-  { n: 2,  title: "The $10–20B Graveyard",     body: "Not one company that IPO'd between $10B–$20B has ever doubled since IPO in our dataset. The dead zone isn't a theory — it's 9 companies, 0 doubles, 33% wiped out 50%+." },
-  { n: 3,  title: "2021: The Worst Vintage",   body: "The median 2021 IPO has lost 47% of its value. Companies that IPO'd at peak valuations during zero-rate euphoria are still paying the price 4+ years later." },
-  { n: 4,  title: "GoodRx: Dead Zone Proof",   body: "GoodRx IPO'd at $18.9B in Sep 2020 — a textbook dead zone entry. It's now worth $1B. 95% value destruction from a profitable, growing healthcare company." },
-  { n: 5,  title: "The 2022 Comeback",         body: "The 5 companies that IPO'd in 2022 have an 88% median return — the best vintage in the dataset. The IPO market forced discipline: only the best companies went public." },
-  { n: 6,  title: "ARM: The Exception",        body: "ARM is the only $40B+ IPO in the dataset with positive returns. It's +196% from a $54B valuation. Every other mega-IPO — RIVN, DiDi, Venture Global — is deeply underwater." },
-  { n: 7,  title: "Sub-$10B Power Law",        body: "The $0–10B bucket has a 38% win rate but a mean return of +96%. That gap — 38% winners, +96% mean — is the power law in action. The winners don't just win; they obliterate." },
-  { n: 8,  title: "CRDO: The 22x",             body: "Credo Technology IPO'd at $1.6B in 2022. It's now worth $36B — a 22x return. It's the best-performing IPO in the dataset. It makes semiconductors the best-performing sector." },
-];
+// ─── Sub-components ─────────────────────────────────────────────────────────────
+function SectionLabel({ children }: { children: React.ReactNode }) {
+  return (
+    <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: 3, color: C.accent, textTransform: "uppercase", marginBottom: 10 }}>
+      {children}
+    </div>
+  );
+}
 
-// ─── Derived stats ─────────────────────────────────────────────────────────
-const totalN      = COMPANIES.length;
-const winners     = COMPANIES.filter(c => (c.ret ?? 0) >= 0).length;
-const overallWin  = Math.round((winners / totalN) * 100);
-const scatterAll  = COMPANIES
-  .filter(c => c.ret !== null)
-  .map(c => ({ ...c, t: c.ticker, v: c.ipoVal, mc: c.currentCap, retCap: Math.min(Math.max(c.ret as number, -1), 15) }));
+function SectionTitle({ children }: { children: React.ReactNode }) {
+  return (
+    <h2 style={{ fontSize: 24, fontWeight: 700, letterSpacing: -0.5, color: C.text, marginBottom: 6 }}>
+      {children}
+    </h2>
+  );
+}
 
-const BUCKET_COLORS: Record<string, string> = {
-  "$0-10B": C.green, "$10-20B": C.red, "$20-40B": C.teal, "$40B+": C.gold,
-};
-
-// ─── Reusable components ───────────────────────────────────────────────────
 function ChartTitle({ children }: { children: React.ReactNode }) {
   return (
-    <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 6 }}>
-      <div style={{ width: 4, height: 22, borderRadius: 2, background: C.accent, flexShrink: 0 }} />
-      <span style={{ fontSize: 14, fontWeight: 600, color: C.text }}>{children}</span>
+    <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 18 }}>
+      <div style={{ width: 3, height: 18, borderRadius: 2, background: C.accent, flexShrink: 0 }} />
+      <span style={{ fontSize: 13, fontWeight: 600, color: C.text }}>{children}</span>
     </div>
   );
 }
@@ -86,459 +180,537 @@ function ChartTitle({ children }: { children: React.ReactNode }) {
 function InsightBox({ children }: { children: React.ReactNode }) {
   return (
     <div style={{
-      background: "linear-gradient(135deg,rgba(56,189,248,0.08),rgba(20,184,166,0.08))",
-      border: `1px solid rgba(56,189,248,0.25)`, borderRadius: 10, padding: "12px 16px", marginTop: 14,
+      background: "linear-gradient(135deg,rgba(56,189,248,0.07),rgba(45,212,191,0.05))",
+      border: "1px solid rgba(56,189,248,0.2)", borderRadius: 12, padding: "14px 18px", marginTop: 16,
     }}>
-      <div style={{ fontSize: 12, fontWeight: 600, color: C.accent, marginBottom: 6 }}>💡 Key Insight</div>
-      <div style={{ fontSize: 12, color: C.desc, lineHeight: 1.6 }}>{children}</div>
+      <span style={{ fontSize: 11, fontWeight: 700, color: C.accent, marginRight: 8 }}>KEY INSIGHT</span>
+      <span style={{ fontSize: 12, color: C.desc, lineHeight: 1.7 }}>{children}</span>
     </div>
   );
 }
 
-const TT_STYLE = { background: "#1e293b", border: `1px solid ${C.border}`, borderRadius: 8, fontSize: 11, color: C.text };
+function GlassCard({ children, style = {} }: { children: React.ReactNode; style?: React.CSSProperties }) {
+  return (
+    <div className="card-hover" style={{
+      background: C.card, border: `1px solid ${C.border}`, borderRadius: 18,
+      backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)",
+      ...style,
+    }}>
+      {children}
+    </div>
+  );
+}
 
+const TT = { contentStyle: { background: "#1e293b", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 10, fontSize: 11, color: C.text }, cursor: { fill: "rgba(255,255,255,0.04)" } };
+
+// ─── Main App ──────────────────────────────────────────────────────────────────
 export default function App() {
-  const [chartTab, setChartTab]     = useState<"volume"|"winrate"|"scatter"|"buckets">("volume");
-  const [expanded, setExpanded]     = useState<number|null>(null);
-  const [cmpYear1, setCmpYear1]     = useState(2021);
-  const [cmpYear2, setCmpYear2]     = useState(2023);
+  const [chartTab,   setChartTab]   = useState<"volume"|"returns"|"dist"|"sector">("volume");
+  const [sensitIdx,  setSensitIdx]  = useState(0);
+  const [expanded,   setExpanded]   = useState<number|null>(null);
+  const [cmpYear1,   setCmpYear1]   = useState(2021);
+  const [cmpYear2,   setCmpYear2]   = useState(2023);
+  useEffect(() => { document.body.style.opacity = "1"; }, []);
 
   const y1 = YEAR_STATS.find(y => y.year === cmpYear1)!;
   const y2 = YEAR_STATS.find(y => y.year === cmpYear2)!;
 
-  const bucketChartData = WIDE_BUCKETS.map(b => ({
-    label: b.label, winRate: b.winRate, medRet: b.medRet, meanRet: b.meanRet,
-    bigWin: b.bigWin, bigLoss: b.bigLoss, n: b.n,
-    color: BUCKET_COLORS[b.label] ?? C.accent,
-  }));
+  const activeSens = SENSITIVITY[sensitIdx];
 
   return (
-    <div style={{ background: C.bg, color: C.text, minHeight: "100vh", padding: "24px 20px", fontFamily: "-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif" }}>
-      <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+    <>
+      <style>{`
+        @keyframes fadeInUp { from { opacity:0; transform:translateY(28px); } to { opacity:1; transform:translateY(0); } }
+        @keyframes fadeIn   { from { opacity:0; } to { opacity:1; } }
+        @keyframes glow     { 0%,100% { opacity:.6; } 50% { opacity:1; } }
+        .card-hover { transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease; }
+        .card-hover:hover { transform: translateY(-3px); box-shadow: 0 16px 48px rgba(56,189,248,.1); border-color: rgba(56,189,248,.3) !important; }
+        .s1 { animation: fadeInUp .6s ease forwards; }
+        .s2 { animation: fadeInUp .6s .1s ease both; }
+        .s3 { animation: fadeInUp .6s .2s ease both; }
+        .s4 { animation: fadeInUp .6s .3s ease both; }
+        .tab-pill { transition: all .18s ease; cursor:pointer; border:none; }
+        .tab-pill:hover { background:rgba(56,189,248,.12) !important; }
+        .insight-row { transition: border-color .18s, background .18s; }
+        .insight-row:hover { background:rgba(56,189,248,.04) !important; border-color:rgba(56,189,248,.2) !important; }
+        ::-webkit-scrollbar { width:6px; } ::-webkit-scrollbar-track { background:#0a1626; } ::-webkit-scrollbar-thumb { background:#334155; border-radius:3px; }
+      `}</style>
 
-        {/* ── HEADER ─────────────────────────────────────────────────────── */}
-        <div style={{
-          textAlign: "center", marginBottom: 40, padding: "36px 30px",
-          background: "linear-gradient(135deg,#1e3a5f 0%,#0f172a 100%)",
-          borderRadius: 20, border: `1px solid ${C.border}`,
-        }}>
-          <h1 style={{ fontSize: 32, fontWeight: 700, color: C.accent, marginBottom: 10, letterSpacing: -0.5 }}>
-            IPO Valuation Dashboard
-          </h1>
-          <p style={{ color: C.desc, fontSize: 15, marginBottom: 6 }}>
-            94 US IPOs · 2020–2025 · The Valuation Dead Zone Exposed
-          </p>
-          <p style={{ color: C.muted, fontSize: 12 }}>
-            Market caps verified via yfinance, May 2026 · Excludes SPACs, blank-check, and warrants-only listings
-          </p>
-        </div>
+      <div style={{ background: C.bg, color: C.text, minHeight: "100vh", fontFamily: "-apple-system,'SF Pro Display',BlinkMacSystemFont,'Segoe UI',sans-serif" }}>
+        <div style={{ maxWidth: 1160, margin: "0 auto", padding: "32px 20px 80px" }}>
 
-        {/* ── KPI CARDS ──────────────────────────────────────────────────── */}
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(6,1fr)", gap: 12, marginBottom: 40 }}>
-          {[
-            { val: totalN,            label: "Total IPOs",       sub: "2020–2025",          color: C.accent },
-            { val: `${overallWin}%`,  label: "Overall Win Rate", sub: "above IPO valuation", color: C.green },
-            { val: "$0–10B",          label: "Best Bucket",      sub: "38% win rate, +96% mean", color: C.green },
-            { val: "$10–20B",         label: "Dead Zone",        sub: "22% win rate, 0 doubles", color: C.red },
-            { val: "+1,415%",         label: "Best Return",      sub: "PLTR · $21.8B → $330B",   color: C.accent },
-            { val: "-99%",            label: "Worst Return",     sub: "DIDI · $68B → $0.5B",     color: C.red },
-          ].map((k, i) => (
-            <div key={i} style={{
-              background: C.card, borderRadius: 14, padding: "20px 16px",
-              border: `1px solid ${C.border}`, textAlign: "center",
-            }}>
-              <div style={{ fontSize: 22, fontWeight: 700, color: k.color, fontVariantNumeric: "tabular-nums" }}>{k.val}</div>
-              <div style={{ fontSize: 12, color: C.text, fontWeight: 600, marginTop: 4 }}>{k.label}</div>
-              <div style={{ fontSize: 10, color: C.muted, marginTop: 2, lineHeight: 1.4 }}>{k.sub}</div>
+          {/* ── HEADER ─────────────────────────────────────────────────────────── */}
+          <div className="s1" style={{
+            textAlign: "center", padding: "60px 32px 52px", marginBottom: 52,
+            background: "radial-gradient(ellipse 80% 60% at 50% 0%, rgba(56,189,248,.1) 0%, transparent 70%), linear-gradient(180deg,rgba(14,30,55,.85) 0%,transparent 100%)",
+            borderRadius: 28, border: `1px solid ${C.border}`, position: "relative", overflow: "hidden",
+          }}>
+            <div style={{
+              position: "absolute", inset: 0, borderRadius: 28, pointerEvents: "none",
+              background: "radial-gradient(ellipse 50% 1px at 50% 0%, rgba(56,189,248,.5) 0%, transparent 100%)",
+            }} />
+            <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: 4, color: C.accent, textTransform: "uppercase", marginBottom: 20 }}>
+              2020 – 2025 · 94 US IPOs · Verified May 2026
             </div>
-          ))}
-        </div>
+            <h1 style={{
+              fontSize: 58, fontWeight: 800, letterSpacing: -2, lineHeight: 1.05, marginBottom: 20,
+              background: `linear-gradient(140deg, #fff 0%, ${C.accent} 55%, ${C.teal} 100%)`,
+              WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
+            }}>
+              IPO Valuation<br />Intelligence
+            </h1>
+            <p style={{ color: C.desc, fontSize: 16, maxWidth: 580, margin: "0 auto 10px", lineHeight: 1.6 }}>
+              The valuation dead zone, power-law winners, sector timing, and what 94 IPOs reveal about when and at what price to go public.
+            </p>
+            <p style={{ color: C.muted, fontSize: 12 }}>
+              Excludes SPACs · blank-check companies · warrants-only listings
+            </p>
+          </div>
 
-        {/* ── CHARTS ─────────────────────────────────────────────────────── */}
-        <div style={{ background: C.card, borderRadius: 20, padding: 28, marginBottom: 40, border: `1px solid ${C.border}` }}>
-          {/* tab strip */}
-          <div style={{ display: "flex", gap: 8, marginBottom: 24, flexWrap: "wrap" }}>
-            {([
-              ["volume",  "IPO Count by Year"],
-              ["winrate", "Win Rate & Returns"],
-              ["scatter", "Valuation vs Return"],
-              ["buckets", "Bucket Risk Profile"],
-            ] as const).map(([id, label]) => (
-              <button key={id} onClick={() => setChartTab(id)} style={{
-                padding: "9px 18px", borderRadius: 8, cursor: "pointer", fontSize: 13, fontWeight: 500,
-                transition: "all 0.2s",
-                background:   chartTab === id ? C.accent : C.card2,
-                color:        chartTab === id ? C.bg     : C.desc,
-                border:       chartTab === id ? `1px solid ${C.accent}` : `1px solid ${C.border}`,
-              }}>{label}</button>
+          {/* ── KPI STRIP ──────────────────────────────────────────────────────── */}
+          <div className="s2" style={{ display: "grid", gridTemplateColumns: "repeat(6,1fr)", gap: 12, marginBottom: 52 }}>
+            {[
+              { val: "94",            label: "Total IPOs",       sub: "2020–2025",               col: C.accent },
+              { val: `${overallWin}%`, label: "Win Rate",        sub: "above IPO valuation",      col: C.green  },
+              { val: `${overallMed}%`, label: "Median Return",   sub: "honest measure",           col: overallMed >= 0 ? C.green : C.orange },
+              { val: "19%",           label: "2021 Win Rate",    sub: "worst vintage",            col: C.red    },
+              { val: "100%",          label: "Semis Win Rate",   sub: "CRDO, ARM, ATAT, ACMR",   col: C.teal   },
+              { val: "+2162%",        label: "Best Return",      sub: "CRDO · $1.6B IPO (2022)", col: C.accent },
+            ].map((k, i) => (
+              <GlassCard key={i} style={{ padding: "22px 16px", textAlign: "center" }}>
+                <div style={{ fontSize: 24, fontWeight: 800, color: k.col, fontVariantNumeric: "tabular-nums", lineHeight: 1 }}>{k.val}</div>
+                <div style={{ fontSize: 12, color: C.text, fontWeight: 600, marginTop: 8 }}>{k.label}</div>
+                <div style={{ fontSize: 10, color: C.muted, marginTop: 4, lineHeight: 1.4 }}>{k.sub}</div>
+              </GlassCard>
             ))}
           </div>
 
-          {chartTab === "volume" && (
-            <>
-              <ChartTitle>IPO Count by Vintage Year</ChartTitle>
-              <div style={{ fontSize: 12, color: C.muted, marginBottom: 16 }}>
-                2021 had the highest count (27). 2022 saw extreme drought — only 5 quality companies went public.
+          {/* ── CHART HUB ──────────────────────────────────────────────────────── */}
+          <div className="s3" style={{ marginBottom: 52 }}>
+            <GlassCard style={{ padding: 32 }}>
+              <div style={{ display: "flex", gap: 6, marginBottom: 28, flexWrap: "wrap" }}>
+                {(["volume","returns","dist","sector"] as const).map(id => {
+                  const labels: Record<string,string> = { volume: "Volume & Win Rate", returns: "Year Returns", dist: "Return Distribution", sector: "Sector Performance" };
+                  const active = chartTab === id;
+                  return (
+                    <button key={id} className="tab-pill" onClick={() => setChartTab(id)} style={{
+                      padding: "9px 20px", borderRadius: 10, fontSize: 12, fontWeight: 600,
+                      background: active ? C.accent : "rgba(255,255,255,.05)",
+                      color:  active ? "#07111f" : C.desc,
+                      border: active ? `1px solid ${C.accent}` : `1px solid ${C.border}`,
+                    }}>{labels[id]}</button>
+                  );
+                })}
               </div>
-              <ResponsiveContainer width="100%" height={280}>
-                <BarChart data={YEAR_STATS} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
-                  <CartesianGrid strokeDasharray="3 3" stroke={C.border} />
-                  <XAxis dataKey="year" tick={{ fill: C.muted, fontSize: 12 }} />
-                  <YAxis tick={{ fill: C.muted, fontSize: 11 }} />
-                  <Tooltip contentStyle={TT_STYLE} labelStyle={{ color: C.text }} formatter={(v) => [`${v} companies`, "Count"]} />
-                  <Bar dataKey="n" name="IPO Count" radius={[6, 6, 0, 0]}>
-                    {YEAR_STATS.map((d, i) => (
-                      <Cell key={i} fill={d.year === 2021 ? C.red : d.year === 2025 ? C.orange : C.accent} fillOpacity={0.85} />
-                    ))}
-                  </Bar>
-                </BarChart>
-              </ResponsiveContainer>
-              <InsightBox>
-                <strong style={{ color: C.text }}>2021 dominated by volume, but quality collapsed.</strong> 27 IPOs in 2021 vs. 5 in 2022 — yet the 2022 class has an 88% median return while 2021 sits at -47%. Fewer, better companies went public in 2022. The 2021 flood reflects zero-rate desperation.
-              </InsightBox>
-            </>
-          )}
 
-          {chartTab === "winrate" && (
-            <>
-              <ChartTitle>Win Rate & Median Return by Vintage</ChartTitle>
-              <div style={{ fontSize: 12, color: C.muted, marginBottom: 16 }}>
-                Win rate = % above IPO valuation · Bars = win rate · Line = median return
-              </div>
-              <ResponsiveContainer width="100%" height={280}>
-                <BarChart data={YEAR_STATS} margin={{ top: 5, right: 40, bottom: 5, left: 0 }}>
-                  <CartesianGrid strokeDasharray="3 3" stroke={C.border} />
-                  <XAxis dataKey="year" tick={{ fill: C.muted, fontSize: 12 }} />
-                  <YAxis yAxisId="left" tickFormatter={v => fmt(v)} tick={{ fill: C.muted, fontSize: 11 }} domain={[0, 0.75]} />
-                  <YAxis yAxisId="right" orientation="right" tickFormatter={v => fmtRet(v)} tick={{ fill: C.muted, fontSize: 11 }} domain={[-0.6, 1.1]} />
-                  <ReferenceLine yAxisId="left" y={0.5} stroke={C.green} strokeDasharray="4 4" strokeOpacity={0.5} />
-                  <Tooltip contentStyle={TT_STYLE} labelStyle={{ color: C.text }}
-                    formatter={(v, name) => [name === "Win Rate" ? fmt(Number(v)) : fmtRet(Number(v)), name]} />
-                  <Bar yAxisId="left" dataKey="winRate" name="Win Rate" radius={[6, 6, 0, 0]} fillOpacity={0.85}>
-                    {YEAR_STATS.map((d, i) => (
-                      <Cell key={i} fill={d.winRate >= 0.5 ? C.green : d.winRate >= 0.35 ? C.orange : C.red} />
-                    ))}
-                  </Bar>
-                  <Line yAxisId="right" type="monotone" dataKey="medRet" name="Median Return" stroke={C.accent} strokeWidth={2.5} dot={{ r: 4, fill: C.accent }} />
-                </BarChart>
-              </ResponsiveContainer>
-              <InsightBox>
-                <strong style={{ color: C.red }}>2021 is a catastrophe.</strong> 19% win rate, -47% median. Companies IPO&apos;d at peak valuations during zero-rate euphoria and have never recovered. The <strong style={{ color: C.green }}>2022–2024 window</strong> is the opposite: 60%+ win rates with positive medians — the best back-to-back vintages in the dataset.
-              </InsightBox>
-            </>
-          )}
+              {/* Tab: Volume & Win Rate */}
+              {chartTab === "volume" && (
+                <>
+                  <ChartTitle>IPO Count & Win Rate by Vintage Year</ChartTitle>
+                  <ResponsiveContainer width="100%" height={300}>
+                    <ComposedChart data={YEAR_CHART} margin={{ top: 10, right: 30, bottom: 0, left: 0 }}>
+                      <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,.05)" />
+                      <XAxis dataKey="label" tick={{ fill: C.muted, fontSize: 12 }} axisLine={false} tickLine={false} />
+                      <YAxis yAxisId="left" tick={{ fill: C.muted, fontSize: 11 }} axisLine={false} tickLine={false} />
+                      <YAxis yAxisId="right" orientation="right" domain={[0,100]} tickFormatter={v => v+"%"} tick={{ fill: C.muted, fontSize: 11 }} axisLine={false} tickLine={false} />
+                      <Tooltip {...TT} formatter={(v, name) => { const n = String(name); const lbl = n === "n" ? "Count" : n === "winPct" ? "Win Rate" : n; return [n === "n" ? String(v) : Number(v) + "%", lbl] as [string,string]; }} />
+                      <Bar yAxisId="left" dataKey="n" name="n" radius={[6,6,0,0]} maxBarSize={48}>
+                        {YEAR_CHART.map((d, i) => <Cell key={i} fill={d.color} opacity={0.85} />)}
+                      </Bar>
+                      <Line yAxisId="right" type="monotone" dataKey="winPct" name="winPct" stroke={C.accent} strokeWidth={2.5} dot={{ fill: C.accent, r: 5 }} />
+                    </ComposedChart>
+                  </ResponsiveContainer>
+                  <InsightBox>2021 had the most IPOs (27) but the worst win rate (19%). 2022 had just 5 IPOs — only the strongest could get through — and they delivered an 88% median return. The IPO market&apos;s discipline is the best filter.</InsightBox>
+                </>
+              )}
 
-          {chartTab === "scatter" && (
-            <>
-              <ChartTitle>IPO Valuation vs Return — All 94 Companies</ChartTitle>
-              <div style={{ fontSize: 12, color: C.muted, marginBottom: 16 }}>
-                Returns capped at 1500% · Hover for details · Color = valuation bucket
-              </div>
-              <ResponsiveContainer width="100%" height={340}>
-                <ScatterChart margin={{ top: 10, right: 20, bottom: 30, left: 10 }}>
-                  <CartesianGrid strokeDasharray="3 3" stroke={C.border} />
-                  <XAxis type="number" dataKey="v" domain={[0, 80]} tick={{ fill: C.muted, fontSize: 10 }}
-                    label={{ value: "IPO Valuation ($B)", position: "bottom", offset: 12, fill: C.muted, fontSize: 11 }} />
-                  <YAxis type="number" dataKey="retCap" domain={[-1.1, 15]} tick={{ fill: C.muted, fontSize: 10 }}
-                    tickFormatter={v => fmt(v)} />
-                  <ReferenceLine y={0}  stroke={C.muted}  strokeDasharray="4 4" />
-                  <ReferenceLine x={10} stroke={C.orange} strokeDasharray="3 3" strokeOpacity={0.5} />
-                  <ReferenceLine x={20} stroke={C.teal}   strokeDasharray="3 3" strokeOpacity={0.5} />
-                  <ReferenceLine x={40} stroke={C.gold}   strokeDasharray="3 3" strokeOpacity={0.5} />
-                  <Tooltip content={({ active, payload }) => {
-                    if (!active || !payload?.length) return null;
-                    const d = payload[0].payload;
-                    return (
-                      <div style={{ ...TT_STYLE, padding: "10px 14px" }}>
-                        <div style={{ fontWeight: 700, fontSize: 13 }}>{d.t} — {d.company}</div>
-                        <div style={{ color: C.muted, fontSize: 11 }}>{d.sector} · {d.year}</div>
-                        <div style={{ fontSize: 12, marginTop: 4 }}>${d.v}B → ${d.mc}B</div>
-                        <div style={{ color: retColor(d.ret ?? 0), fontWeight: 600, fontSize: 13 }}>
-                          {fmtRet(d.ret ?? 0)} · {d.moic}x MOIC
+              {/* Tab: Year Returns */}
+              {chartTab === "returns" && (
+                <>
+                  <ChartTitle>Median vs Mean Return by Vintage Year (%)</ChartTitle>
+                  <ResponsiveContainer width="100%" height={300}>
+                    <ComposedChart data={YEAR_CHART} margin={{ top: 10, right: 20, bottom: 0, left: 0 }}>
+                      <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,.05)" />
+                      <XAxis dataKey="label" tick={{ fill: C.muted, fontSize: 12 }} axisLine={false} tickLine={false} />
+                      <YAxis tickFormatter={v => v+"%"} tick={{ fill: C.muted, fontSize: 11 }} axisLine={false} tickLine={false} />
+                      <Tooltip {...TT} formatter={(v) => [Number(v) + "%", ""] as [string,string]} />
+                      <ReferenceLine y={0} stroke="rgba(255,255,255,.2)" strokeDasharray="4 4" />
+                      <Bar dataKey="medPct" name="Median Return" radius={[5,5,0,0]} maxBarSize={36} fill={C.teal} opacity={0.9} />
+                      <Line type="monotone" dataKey="meanPct" name="Mean Return" stroke={C.gold} strokeWidth={2.5} strokeDasharray="6 3" dot={{ fill: C.gold, r: 5 }} />
+                    </ComposedChart>
+                  </ResponsiveContainer>
+                  <Legend wrapperStyle={{ fontSize: 11, color: C.muted, paddingTop: 12 }} />
+                  <InsightBox>The gap between mean (gold line) and median (teal bars) reveals the power law. In 2022, the mean (+637%) dwarfs the median (+88%) because CRDO returned 22×. In 2021, mean and median are both negative — no outliers saved the vintage.</InsightBox>
+                </>
+              )}
+
+              {/* Tab: Return Distribution */}
+              {chartTab === "dist" && (
+                <>
+                  <ChartTitle>Return Distribution — How 94 IPOs Are Spread Across Outcomes</ChartTitle>
+                  <ResponsiveContainer width="100%" height={300}>
+                    <BarChart data={RETURN_DIST} margin={{ top: 10, right: 10, bottom: 40, left: 0 }}>
+                      <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,.05)" />
+                      <XAxis dataKey="label" tick={{ fill: C.muted, fontSize: 10, angle: -30, textAnchor: "end" }} axisLine={false} tickLine={false} interval={0} />
+                      <YAxis tick={{ fill: C.muted, fontSize: 11 }} axisLine={false} tickLine={false} />
+                      <Tooltip {...TT} formatter={(v) => [String(v), "Companies"] as [string,string]} />
+                      <Bar dataKey="count" radius={[6,6,0,0]} maxBarSize={58}>
+                        {RETURN_DIST.map((d, i) => <Cell key={i} fill={d.color} opacity={0.9} />)}
+                      </Bar>
+                    </BarChart>
+                  </ResponsiveContainer>
+                  <InsightBox>The distribution is right-skewed and bimodal: a cluster of losers on the left (many in -80 to -50% range) and a long tail of outlier winners on the right (&gt;+300%). This classic power-law shape is why median ≠ mean, and why stock-picking matters more than diversification in IPOs.</InsightBox>
+                </>
+              )}
+
+              {/* Tab: Sector Performance */}
+              {chartTab === "sector" && (
+                <>
+                  <ChartTitle>Sector Median Return — Sectors with 3+ IPOs</ChartTitle>
+                  <ResponsiveContainer width="100%" height={360}>
+                    <BarChart data={SECTOR_CHART} layout="vertical" margin={{ top: 0, right: 60, bottom: 0, left: 130 }}>
+                      <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,.05)" horizontal={false} />
+                      <XAxis type="number" tickFormatter={v => v+"%"} tick={{ fill: C.muted, fontSize: 11 }} axisLine={false} tickLine={false} />
+                      <YAxis type="category" dataKey="sector" tick={{ fill: C.desc, fontSize: 11 }} axisLine={false} tickLine={false} width={120} />
+                      <ReferenceLine x={0} stroke="rgba(255,255,255,.2)" />
+                      <Tooltip {...TT} formatter={(v) => [Number(v) + "%", "Median Return"] as [string,string]} />
+                      <Bar dataKey="medPct" radius={[0,6,6,0]} maxBarSize={20}>
+                        {SECTOR_CHART.map((d, i) => <Cell key={i} fill={d.medPct >= 0 ? C.teal : C.red} opacity={0.9} />)}
+                      </Bar>
+                    </BarChart>
+                  </ResponsiveContainer>
+                  <InsightBox>Semiconductors and AI/Data Infra dominate. SaaS/Software, despite being the largest category, has a -10% median — peak 2021 multiples wiped out most of the cohort. Marketplace models are the worst sector (-55% median): take-rate businesses proved far more capital-intensive than investors priced in.</InsightBox>
+                </>
+              )}
+            </GlassCard>
+          </div>
+
+          {/* ── SCATTER: VALUATION vs RETURN ───────────────────────────────────── */}
+          <div className="s4" style={{ marginBottom: 52 }}>
+            <GlassCard style={{ padding: 32 }}>
+              <SectionLabel>Scatter Analysis</SectionLabel>
+              <SectionTitle>IPO Valuation vs Total Return</SectionTitle>
+              <p style={{ color: C.muted, fontSize: 13, marginBottom: 24, marginTop: 4 }}>
+                Each dot is one company. X = IPO valuation ($B), Y = total return (capped at 10× for readability). PLTR and CRDO extend far above the visible range.
+              </p>
+              <ResponsiveContainer width="100%" height={360}>
+                <ScatterChart margin={{ top: 10, right: 20, bottom: 20, left: 0 }}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,.05)" />
+                  <XAxis dataKey="v" name="IPO Val ($B)" type="number" tick={{ fill: C.muted, fontSize: 11 }} axisLine={false} tickLine={false} tickFormatter={v => "$"+v+"B"} />
+                  <YAxis dataKey="retCap" name="Return" type="number" tick={{ fill: C.muted, fontSize: 11 }} axisLine={false} tickLine={false} tickFormatter={v => pct(v)} domain={[-1.1, 11]} />
+                  <ReferenceLine y={0} stroke="rgba(255,255,255,.2)" strokeDasharray="4 4" />
+                  <Tooltip
+                    {...TT}
+                    content={({ payload }) => {
+                      if (!payload?.length) return null;
+                      const d = payload[0].payload;
+                      return (
+                        <div style={{ background: "#1e293b", border: "1px solid rgba(255,255,255,.1)", borderRadius: 10, padding: "10px 14px", fontSize: 12 }}>
+                          <div style={{ fontWeight: 700, color: C.accent }}>{d.t}</div>
+                          <div style={{ color: C.desc }}>IPO: ${d.v}B → ${d.mc.toFixed(1)}B</div>
+                          <div style={{ color: retColor(d.ret) }}>Return: {pct(d.ret)}</div>
+                          <div style={{ color: C.muted }}>{d.sector} · {d.year}</div>
                         </div>
-                      </div>
-                    );
-                  }} />
-                  <Scatter data={scatterAll}>
-                    {scatterAll.map((d, i) => {
-                      const c = d.v < 10 ? C.green : d.v < 20 ? C.red : d.v < 40 ? C.teal : C.gold;
-                      return <Cell key={i} fill={c} fillOpacity={0.8} r={4.5} />;
-                    })}
+                      );
+                    }}
+                  />
+                  <Scatter data={SCATTER_DATA} name="IPOs">
+                    {SCATTER_DATA.map((d, i) => (
+                      <Cell key={i} fill={retColor(d.ret)} opacity={0.75} />
+                    ))}
                   </Scatter>
                 </ScatterChart>
               </ResponsiveContainer>
-              <div style={{ display: "flex", justifyContent: "center", gap: 20, marginTop: 8 }}>
-                {[["$0-10B", C.green], ["$10-20B", C.red], ["$20-40B", C.teal], ["$40B+", C.gold]].map(([l,c]) => (
-                  <span key={l} style={{ fontSize: 11, color: C.muted, display: "flex", alignItems: "center", gap: 5 }}>
-                    <span style={{ width: 8, height: 8, borderRadius: "50%", background: c, display: "inline-block" }} />{l}
-                  </span>
+              <InsightBox>No clear correlation between IPO valuation and return — but there is a band of destruction at $10–20B (all red) and a cluster of winners at &lt;$5B. The most striking pattern: the $20–40B bucket is bimodal — either PLTR-level outliers or total wipeouts. Nothing in between.</InsightBox>
+            </GlassCard>
+          </div>
+
+          {/* ── SENSITIVITY ANALYSIS ───────────────────────────────────────────── */}
+          <div style={{ marginBottom: 52 }}>
+            <GlassCard style={{ padding: 32 }}>
+              <SectionLabel>Sensitivity Analysis</SectionLabel>
+              <SectionTitle>What Happens When You Remove Outliers?</SectionTitle>
+              <p style={{ color: C.muted, fontSize: 13, marginTop: 4, marginBottom: 24 }}>
+                How dependent are the results on a handful of extreme winners and losers? Select a scenario to see how the dataset shifts.
+              </p>
+
+              {/* Scenario pills */}
+              <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 28 }}>
+                {SENSITIVITY.map((s, i) => (
+                  <button key={i} className="tab-pill" onClick={() => setSensitIdx(i)} style={{
+                    padding: "8px 16px", borderRadius: 20, fontSize: 12, fontWeight: 600,
+                    background: sensitIdx === i ? s.color : "rgba(255,255,255,.05)",
+                    color: sensitIdx === i ? "#07111f" : C.desc,
+                    border: sensitIdx === i ? `1px solid ${s.color}` : `1px solid ${C.border}`,
+                  }}>
+                    {s.label}
+                  </button>
                 ))}
               </div>
-              <InsightBox>
-                The scatter reveals the <strong style={{ color: C.text }}>valuation smile</strong>: returns cluster negative in the $10–40B range, with outliers only at the extremes. PLTR ($21.8B, +1415%) and ARM ($54B, +196%) are visible as lone high dots. The $10–20B band is almost entirely below the zero line.
-              </InsightBox>
-            </>
-          )}
 
-          {chartTab === "buckets" && (
-            <>
-              <ChartTitle>Risk Profile: 100%+ Winners vs 50%+ Losers by Bucket</ChartTitle>
-              <div style={{ fontSize: 12, color: C.muted, marginBottom: 16 }}>
-                The only bucket where big winners outnumber big losers is $0–10B
+              {/* Active stats */}
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 14, marginBottom: 28 }}>
+                {[
+                  { label: "Companies", val: activeSens.n },
+                  { label: "Win Rate",  val: activeSens.winRate + "%", col: activeSens.winRate >= 40 ? C.green : C.orange },
+                  { label: "Median Return", val: (activeSens.medRet >= 0 ? "+" : "") + activeSens.medRet + "%", col: activeSens.medRet >= 0 ? C.green : C.red },
+                  { label: "Mean Return",   val: (activeSens.meanRet >= 0 ? "+" : "") + activeSens.meanRet + "%", col: activeSens.meanRet >= 0 ? C.accent : C.orange },
+                ].map((k, i) => (
+                  <div key={i} style={{ background: "rgba(255,255,255,.03)", borderRadius: 12, padding: "18px 16px", textAlign: "center", border: `1px solid ${C.border}` }}>
+                    <div style={{ fontSize: 22, fontWeight: 800, color: k.col ?? C.text, fontVariantNumeric: "tabular-nums" }}>{k.val}</div>
+                    <div style={{ fontSize: 11, color: C.muted, marginTop: 6, fontWeight: 600, textTransform: "uppercase", letterSpacing: 1 }}>{k.label}</div>
+                  </div>
+                ))}
               </div>
+
+              {/* Comparison bar chart */}
+              <ChartTitle>Median vs Mean Return Across All Scenarios</ChartTitle>
               <ResponsiveContainer width="100%" height={260}>
-                <BarChart data={bucketChartData} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
-                  <CartesianGrid strokeDasharray="3 3" stroke={C.border} />
-                  <XAxis dataKey="label" tick={{ fill: C.muted, fontSize: 12 }} />
-                  <YAxis tickFormatter={v => fmt(v)} tick={{ fill: C.muted, fontSize: 11 }} domain={[0, 0.5]} />
-                  <Tooltip contentStyle={TT_STYLE} formatter={(v) => fmt(Number(v))} />
-                  <Legend wrapperStyle={{ fontSize: 12, color: C.muted }} />
-                  <Bar dataKey="bigWin"  name="100%+ Winners" fill={C.green}  fillOpacity={0.8} radius={[4, 4, 0, 0]} />
-                  <Bar dataKey="bigLoss" name="50%+ Losers"   fill={C.red}    fillOpacity={0.8} radius={[4, 4, 0, 0]} />
+                <ComposedChart data={SENSITIVITY} margin={{ top: 10, right: 20, bottom: 0, left: 0 }}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,.05)" />
+                  <XAxis dataKey="label" tick={{ fill: C.muted, fontSize: 10 }} axisLine={false} tickLine={false} />
+                  <YAxis tickFormatter={v => v+"%"} tick={{ fill: C.muted, fontSize: 11 }} axisLine={false} tickLine={false} />
+                  <ReferenceLine y={0} stroke="rgba(255,255,255,.25)" strokeDasharray="4 4" />
+                  <Tooltip {...TT} formatter={(v) => [Number(v) + "%", ""] as [string,string]} />
+                  <Bar dataKey="medRet" name="Median Return" fill={C.teal} opacity={0.85} radius={[5,5,0,0]} maxBarSize={40} />
+                  <Line type="monotone" dataKey="meanRet" name="Mean Return" stroke={C.gold} strokeWidth={2.5} dot={{ fill: C.gold, r: 5 }} />
+                </ComposedChart>
+              </ResponsiveContainer>
+              <InsightBox>Removing PLTR barely moves the median (-14% → -16%) but crashes the mean (+96% → +30%). Removing the top 5 winners leaves a -20% median. Removing the bottom 5 losers pushes median to +3%. The dataset is far more sensitive to winners than losers — confirming the power-law asymmetry.</InsightBox>
+            </GlassCard>
+          </div>
+
+          {/* ── VALUATION BUCKETS ──────────────────────────────────────────────── */}
+          <div style={{ marginBottom: 52 }}>
+            <GlassCard style={{ padding: 32 }}>
+              <SectionLabel>Bucket Analysis</SectionLabel>
+              <SectionTitle>Valuation Bucket Risk Profile</SectionTitle>
+              <p style={{ color: C.muted, fontSize: 13, marginTop: 4, marginBottom: 28 }}>
+                Wide valuation brackets vs outcome. Each bucket&apos;s full story, with examples.
+              </p>
+
+              <ResponsiveContainer width="100%" height={220}>
+                <BarChart data={WIDE_BUCKETS.map(b => ({
+                  ...b, winPct: Math.round(b.winRate * 100), medPct: Math.round(b.medRet * 100),
+                }))} margin={{ top: 5, right: 20, bottom: 0, left: 0 }}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,.05)" />
+                  <XAxis dataKey="label" tick={{ fill: C.muted, fontSize: 12 }} axisLine={false} tickLine={false} />
+                  <YAxis tickFormatter={v => v+"%"} tick={{ fill: C.muted, fontSize: 11 }} axisLine={false} tickLine={false} />
+                  <ReferenceLine y={0} stroke="rgba(255,255,255,.2)" strokeDasharray="4 4" />
+                  <Tooltip {...TT} formatter={(v) => [Number(v) + "%", ""] as [string,string]} />
+                  <Bar dataKey="winPct" name="Win Rate" fill={C.accent} opacity={0.8} radius={[4,4,0,0]} maxBarSize={50} />
+                  <Bar dataKey="medPct" name="Median Return" fill={C.teal} opacity={0.7} radius={[4,4,0,0]} maxBarSize={50} />
+                  <Legend wrapperStyle={{ fontSize: 11, color: C.muted, paddingTop: 8 }} />
                 </BarChart>
               </ResponsiveContainer>
-              <InsightBox>
-                <strong style={{ color: C.red }}>$10–20B: zero doubles, 33% wiped out.</strong> At $40B+, half of all companies lost 50%+ of their value. The $0–10B bucket is the only one where the power law works in your favor — 23% of companies more than doubled.
-              </InsightBox>
-            </>
-          )}
-        </div>
 
-        {/* ── YEAR COMPARISON TOOL ───────────────────────────────────────── */}
-        <div style={{
-          background: "linear-gradient(135deg,#1e3a5f 0%,#1e293b 100%)",
-          borderRadius: 20, padding: 30, marginBottom: 40, border: `1px solid ${C.border}`,
-        }}>
-          <h2 style={{ textAlign: "center", fontSize: 20, fontWeight: 700, color: C.text, marginBottom: 6 }}>Vintage Year Comparison</h2>
-          <p style={{ textAlign: "center", fontSize: 13, color: C.muted, marginBottom: 28 }}>Compare any two IPO years side by side</p>
-
-          <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 20, marginBottom: 28 }}>
-            {[
-              { val: cmpYear1, set: setCmpYear1 },
-              { val: cmpYear2, set: setCmpYear2 },
-            ].map((sel, idx) => (
-              <div key={idx} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 6 }}>
-                <label style={{ fontSize: 11, color: C.muted, textTransform: "uppercase", letterSpacing: 1 }}>Year {idx + 1}</label>
-                <select value={sel.val} onChange={e => sel.set(Number(e.target.value))} style={{
-                  background: C.card2, border: `1px solid ${C.border}`, borderRadius: 8, padding: "8px 16px",
-                  color: C.text, fontSize: 16, fontWeight: 700, cursor: "pointer",
-                }}>
-                  {YEAR_STATS.map(y => <option key={y.year} value={y.year}>{y.year}</option>)}
-                </select>
-              </div>
-            ))}
-            <div style={{ fontSize: 18, fontWeight: 900, color: C.muted, marginTop: 16 }}>VS</div>
-          </div>
-
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
-            {[y1, y2].map((y, idx) => (
-              <div key={idx} style={{ background: C.card2, borderRadius: 14, padding: 24, border: `1px solid ${C.border}` }}>
-                <h3 style={{ fontSize: 24, fontWeight: 700, color: C.accent, marginBottom: 16, textAlign: "center" }}>{y.year}</h3>
-                {[
-                  { label: "Companies", val: String(y.n) },
-                  { label: "Win Rate",  val: fmt(y.winRate), color: y.winRate >= 0.5 ? C.green : y.winRate >= 0.35 ? C.orange : C.red },
-                  { label: "Median Return", val: fmtRet(y.medRet), color: y.medRet >= 0 ? C.green : C.red },
-                  { label: "Mean Return",   val: fmtRet(y.meanRet), color: y.meanRet >= 0 ? C.green : C.red },
-                  { label: "100%+ Winners", val: fmt(y.bigWin),  color: C.green },
-                  { label: "50%+ Losers",   val: fmt(y.bigLoss), color: y.bigLoss > 0.3 ? C.red : C.orange },
-                ].map(s => (
-                  <div key={s.label} style={{ display: "flex", justifyContent: "space-between", padding: "9px 0", borderBottom: `1px solid ${C.border}` }}>
-                    <span style={{ fontSize: 13, color: C.muted }}>{s.label}</span>
-                    <span style={{ fontSize: 14, fontWeight: 700, color: s.color ?? C.text }}>{s.val}</span>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(2,1fr)", gap: 14, marginTop: 24 }}>
+                {WIDE_BUCKETS.map((b, i) => (
+                  <div key={i} className="card-hover insight-row" style={{
+                    borderRadius: 14, border: `1px solid ${C.border}`, padding: "18px 20px",
+                    background: "rgba(255,255,255,.02)", cursor: "pointer",
+                  }} onClick={() => setExpanded(expanded === i ? null : i)}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+                      <div>
+                        <div style={{ fontSize: 16, fontWeight: 700, color: b.color }}>{b.label}</div>
+                        <div style={{ fontSize: 11, color: C.muted, marginTop: 2 }}>{b.n} companies</div>
+                      </div>
+                      <div style={{ textAlign: "right" }}>
+                        <div style={{ fontSize: 13, fontWeight: 700, color: b.winRate >= 0.5 ? C.green : b.winRate >= 0.3 ? C.gold : C.red }}>
+                          {Math.round(b.winRate * 100)}% win
+                        </div>
+                        <div style={{ fontSize: 12, color: retColor(b.medRet) }}>{pct(b.medRet)} median</div>
+                      </div>
+                    </div>
+                    {expanded === i && (
+                      <>
+                        <p style={{ fontSize: 12, color: C.desc, marginTop: 12, lineHeight: 1.7 }}>{b.note}</p>
+                        <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginTop: 12 }}>
+                          {b.examples.map((e) => (
+                            <span key={e.t} style={{
+                              fontSize: 11, padding: "4px 10px", borderRadius: 8, fontWeight: 600,
+                              background: `${retColor(e.ret)}18`, color: retColor(e.ret),
+                              border: `1px solid ${retColor(e.ret)}35`,
+                            }}>
+                              {e.t} {pct(e.ret)}
+                            </span>
+                          ))}
+                        </div>
+                      </>
+                    )}
                   </div>
                 ))}
               </div>
-            ))}
+            </GlassCard>
           </div>
-        </div>
 
-        {/* ── NOTABLE IPO TIMELINE ───────────────────────────────────────── */}
-        <div style={{ marginBottom: 40 }}>
-          <div style={{ textAlign: "center", marginBottom: 28 }}>
-            <h2 style={{ fontSize: 22, fontWeight: 700, color: C.text }}>Notable IPO Moments</h2>
-            <p style={{ fontSize: 13, color: C.muted, marginTop: 4 }}>Landmark offerings that defined the 2020–2025 cycle</p>
+          {/* ── LISTING TYPE + YEAR COMPARISON ─────────────────────────────────── */}
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20, marginBottom: 52 }}>
+            {/* Listing Type */}
+            <GlassCard style={{ padding: 28 }}>
+              <SectionLabel>Structure Matters</SectionLabel>
+              <h3 style={{ fontSize: 18, fontWeight: 700, letterSpacing: -0.3, color: C.text, marginBottom: 6 }}>IPO Type vs Performance</h3>
+              <ResponsiveContainer width="100%" height={220}>
+                <BarChart data={LISTING_DATA} margin={{ top: 10, right: 10, bottom: 0, left: 0 }}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,.05)" />
+                  <XAxis dataKey="type" tick={{ fill: C.muted, fontSize: 11 }} axisLine={false} tickLine={false} />
+                  <YAxis tickFormatter={v => v+"%"} tick={{ fill: C.muted, fontSize: 11 }} axisLine={false} tickLine={false} />
+                  <ReferenceLine y={0} stroke="rgba(255,255,255,.2)" strokeDasharray="4 4" />
+                  <Tooltip {...TT} formatter={(v) => [Number(v) + "%", ""] as [string,string]} />
+                  <Bar dataKey="winPct" name="Win Rate" fill={C.accent} opacity={0.8} radius={[5,5,0,0]} maxBarSize={40} />
+                  <Bar dataKey="medPct" name="Median Return" fill={C.teal} opacity={0.7} radius={[5,5,0,0]} maxBarSize={40} />
+                  <Legend wrapperStyle={{ fontSize: 11, color: C.muted, paddingTop: 6 }} />
+                </BarChart>
+              </ResponsiveContainer>
+              <InsightBox>Direct listings show stronger median performance — without underwriter first-day pop pressure, prices are set more fairly from day one.</InsightBox>
+            </GlassCard>
+
+            {/* Year Comparison */}
+            <GlassCard style={{ padding: 28 }}>
+              <SectionLabel>Vintage Comparison</SectionLabel>
+              <h3 style={{ fontSize: 18, fontWeight: 700, letterSpacing: -0.3, color: C.text, marginBottom: 6 }}>Head-to-Head: Two Vintages</h3>
+              <div style={{ display: "flex", gap: 10, marginBottom: 20, marginTop: 8 }}>
+                {[setCmpYear1, setCmpYear2].map((setter, i) => (
+                  <select key={i} value={i === 0 ? cmpYear1 : cmpYear2} onChange={e => setter(Number(e.target.value))} style={{
+                    flex: 1, background: "rgba(255,255,255,.06)", border: `1px solid ${C.border}`, borderRadius: 10,
+                    color: C.text, padding: "9px 12px", fontSize: 13, cursor: "pointer", outline: "none",
+                  }}>
+                    {YEAR_STATS.map(y => <option key={y.year} value={y.year}>{y.year}</option>)}
+                  </select>
+                ))}
+              </div>
+              {[
+                { label: "Companies",     v1: y1.n,                                      v2: y2.n,                                      fmt: (v: number) => String(v),     better: "higher" as const },
+                { label: "Win Rate",      v1: y1.winRate,                                v2: y2.winRate,                                fmt: (v: number) => winPct(v),     better: "higher" as const },
+                { label: "Median Return", v1: y1.medRet,                                 v2: y2.medRet,                                 fmt: (v: number) => pct(v),        better: "higher" as const },
+                { label: "Mean Return",   v1: y1.meanRet,                                v2: y2.meanRet,                                fmt: (v: number) => pct(v),        better: "higher" as const },
+                { label: "Big Winners",   v1: y1.bigWin,                                 v2: y2.bigWin,                                 fmt: (v: number) => winPct(v),     better: "higher" as const },
+                { label: "Big Losers",    v1: y1.bigLoss,                                v2: y2.bigLoss,                                fmt: (v: number) => winPct(v),     better: "lower"  as const },
+              ].map((row, i) => {
+                const w1 = row.better === "higher" ? row.v1 > row.v2 : row.v1 < row.v2;
+                const w2 = row.better === "higher" ? row.v2 > row.v1 : row.v2 < row.v1;
+                return (
+                  <div key={i} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "8px 0", borderBottom: i < 5 ? `1px solid ${C.border}` : "none" }}>
+                    <span style={{ fontSize: 11, color: C.muted, fontWeight: 600, width: 90, textTransform: "uppercase", letterSpacing: 0.5 }}>{row.label}</span>
+                    <span style={{ fontSize: 13, fontWeight: 700, color: w1 ? C.green : w2 ? C.red : C.muted, minWidth: 70, textAlign: "center" }}>{row.fmt(row.v1)}</span>
+                    <span style={{ fontSize: 11, color: C.muted }}>vs</span>
+                    <span style={{ fontSize: 13, fontWeight: 700, color: w2 ? C.green : w1 ? C.red : C.muted, minWidth: 70, textAlign: "center" }}>{row.fmt(row.v2)}</span>
+                  </div>
+                );
+              })}
+            </GlassCard>
           </div>
-          <div style={{ position: "relative", paddingLeft: 32 }}>
-            <div style={{ position: "absolute", left: 10, top: 0, bottom: 0, width: 2, background: C.border }} />
-            {NOTABLE_IPOS.map((ev, i) => (
-              <div key={i} style={{ position: "relative", marginBottom: 24, paddingLeft: 24 }}>
-                <div style={{ position: "absolute", left: -22, top: 4, width: 12, height: 12, borderRadius: "50%", background: C.accent, border: `2px solid ${C.bg}` }} />
-                <div style={{ background: C.card, borderRadius: 12, padding: "16px 20px", border: `1px solid ${C.border}`, transition: "border-color 0.2s" }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 8 }}>
+
+          {/* ── NOTABLE IPOs ────────────────────────────────────────────────────── */}
+          <div style={{ marginBottom: 52 }}>
+            <GlassCard style={{ padding: 32 }}>
+              <SectionLabel>Hall of Fame & Shame</SectionLabel>
+              <SectionTitle>8 IPOs That Define the Era</SectionTitle>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(2,1fr)", gap: 14, marginTop: 24 }}>
+                {NOTABLE.map((n, i) => (
+                  <div key={i} className="card-hover" style={{
+                    borderRadius: 14, border: `1px solid ${C.border}`, padding: "18px 20px",
+                    background: "rgba(255,255,255,.025)", display: "flex", gap: 14, alignItems: "flex-start",
+                  }}>
+                    <div style={{
+                      width: 44, height: 44, borderRadius: 12, display: "flex", alignItems: "center", justifyContent: "center",
+                      background: `${n.color}18`, border: `1px solid ${n.color}30`, flexShrink: 0,
+                      fontSize: 13, fontWeight: 800, color: n.color,
+                    }}>{n.ticker}</div>
                     <div>
-                      <div style={{ fontSize: 11, color: C.muted, marginBottom: 2 }}>{ev.date}</div>
-                      <div style={{ fontSize: 16, fontWeight: 700, color: C.text }}>{ev.ticker} — {ev.name}</div>
+                      <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                        <span style={{ fontSize: 14, fontWeight: 700, color: C.text }}>{n.name}</span>
+                        <span style={{ fontSize: 12, fontWeight: 700, color: n.color }}>{n.ret}</span>
+                        <span style={{ fontSize: 11, color: C.muted }}>{n.val} · {n.year}</span>
+                      </div>
+                      <p style={{ fontSize: 12, color: C.desc, marginTop: 4, lineHeight: 1.6 }}>{n.note}</p>
                     </div>
-                    <div style={{ display: "flex", gap: 8 }}>
-                      <span style={{ background: "rgba(56,189,248,0.12)", color: C.accent, border: `1px solid rgba(56,189,248,0.3)`, borderRadius: 6, padding: "3px 10px", fontSize: 11, fontWeight: 600 }}>{ev.ipoVal} IPO</span>
-                      <span style={{ background: Number(ev.firstDay.replace("%","").replace("+","")) >= 0 ? "rgba(34,197,94,0.12)" : "rgba(239,68,68,0.12)", color: Number(ev.firstDay.replace("%","").replace("+","")) >= 0 ? C.green : C.red, border: `1px solid`, borderColor: Number(ev.firstDay.replace("%","").replace("+","")) >= 0 ? "rgba(34,197,94,0.3)" : "rgba(239,68,68,0.3)", borderRadius: 6, padding: "3px 10px", fontSize: 11, fontWeight: 600 }}>Day 1: {ev.firstDay}</span>
-                      <span style={{ background: "rgba(100,116,139,0.15)", color: C.muted, border: `1px solid ${C.border}`, borderRadius: 6, padding: "3px 10px", fontSize: 11 }}>{ev.stat2}</span>
-                    </div>
-                  </div>
-                  <p style={{ fontSize: 12, color: C.desc, marginTop: 10, lineHeight: 1.5 }}>{ev.note}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* ── RECORD HOLDERS ─────────────────────────────────────────────── */}
-        <div style={{ marginBottom: 40 }}>
-          <div style={{ textAlign: "center", marginBottom: 24 }}>
-            <h2 style={{ fontSize: 22, fontWeight: 700, color: C.text }}>Record Holders & Extremes</h2>
-            <p style={{ fontSize: 13, color: C.muted, marginTop: 4 }}>The outliers that define the dataset</p>
-          </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 16 }}>
-            {RECORDS.map((r, i) => (
-              <div key={i} style={{
-                background: "linear-gradient(135deg,#1e293b 0%,#0f172a 100%)",
-                borderRadius: 16, padding: 24, border: `1px solid ${C.border}`, textAlign: "center",
-                transition: "transform 0.2s", cursor: "default",
-              }}
-                onMouseEnter={e => (e.currentTarget.style.transform = "translateY(-4px)")}
-                onMouseLeave={e => (e.currentTarget.style.transform = "translateY(0)")}
-              >
-                <div style={{ fontSize: 32, marginBottom: 10 }}>{r.emoji}</div>
-                <div style={{ fontSize: 26, fontWeight: 700, color: C.accent, marginBottom: 6 }}>{r.value}</div>
-                <div style={{ fontSize: 13, fontWeight: 600, color: C.text, marginBottom: 4 }}>{r.label}</div>
-                <div style={{ fontSize: 11, color: C.muted }}>{r.detail}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* ── FUN FACTS ──────────────────────────────────────────────────── */}
-        <div style={{
-          background: "linear-gradient(135deg,#1e3a5f 0%,#1e293b 100%)",
-          borderRadius: 20, padding: 30, marginBottom: 40, border: `1px solid ${C.border}`,
-        }}>
-          <h2 style={{ textAlign: "center", fontSize: 22, fontWeight: 700, color: C.text, marginBottom: 6 }}>
-            8 Freakonomics Findings
-          </h2>
-          <p style={{ textAlign: "center", fontSize: 13, color: C.muted, marginBottom: 28 }}>Non-obvious patterns from 94 IPOs across 6 years</p>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(2,1fr)", gap: 16 }}>
-            {FUN_FACTS.map(f => (
-              <div key={f.n} style={{
-                background: C.card2, borderRadius: 12, padding: 20, border: `1px solid ${C.border}`,
-                display: "flex", gap: 16, alignItems: "flex-start",
-                transition: "border-color 0.2s, transform 0.2s", cursor: "default",
-              }}
-                onMouseEnter={e => { e.currentTarget.style.borderColor = C.accent; e.currentTarget.style.transform = "translateX(4px)"; }}
-                onMouseLeave={e => { e.currentTarget.style.borderColor = C.border; e.currentTarget.style.transform = "translateX(0)"; }}
-              >
-                <div style={{ background: C.accent, color: C.bg, width: 30, height: 30, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 700, fontSize: 13, flexShrink: 0 }}>{f.n}</div>
-                <div>
-                  <h4 style={{ fontSize: 13, fontWeight: 600, color: C.text, marginBottom: 6 }}>{f.title}</h4>
-                  <p style={{ fontSize: 12, color: C.desc, lineHeight: 1.6 }}>{f.body}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* ── VALUATION BUCKET CARDS ─────────────────────────────────────── */}
-        <div style={{ marginBottom: 12 }}>
-          <div style={{ textAlign: "center", marginBottom: 24 }}>
-            <h2 style={{ fontSize: 22, fontWeight: 700, color: C.text }}>Valuation Bucket Analysis</h2>
-            <p style={{ fontSize: 13, color: C.muted, marginTop: 4 }}>Click any bucket to expand company-level detail</p>
-          </div>
-        </div>
-
-        {WIDE_BUCKETS.map((b, idx) => (
-          <div key={b.label}
-            style={{
-              background: C.card,
-              border: `1px solid ${expanded === idx ? b.color + "80" : C.border}`,
-              borderRadius: 14, padding: "16px 20px", marginBottom: 12,
-              cursor: "pointer", transition: "border-color 0.2s, background 0.2s",
-            }}
-            onClick={() => setExpanded(expanded === idx ? null : idx)}
-          >
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-                <div style={{ width: 5, height: 36, borderRadius: 3, background: b.color }} />
-                <div>
-                  <div style={{ fontSize: 17, fontWeight: 700, color: C.text }}>{b.label}</div>
-                  <div style={{ fontSize: 11, color: C.muted }}>{b.n} companies</div>
-                </div>
-              </div>
-              <div style={{ display: "flex", gap: 20, alignItems: "center" }}>
-                {[
-                  { label: "Win Rate", val: fmt(b.winRate),    color: b.winRate >= 0.4 ? C.green : C.red },
-                  { label: "Median",   val: fmtRet(b.medRet),  color: b.medRet >= 0 ? C.green : C.red },
-                  { label: "Mean",     val: fmtRet(b.meanRet), color: b.meanRet >= 0 ? C.green : C.red },
-                ].map(s => (
-                  <div key={s.label} style={{ textAlign: "center" }}>
-                    <div style={{ fontSize: 10, color: C.muted }}>{s.label}</div>
-                    <div style={{ fontSize: 17, fontWeight: 700, color: s.color }}>{s.val}</div>
                   </div>
                 ))}
-                <div style={{ fontSize: 18, color: C.muted, transform: expanded === idx ? "rotate(180deg)" : "rotate(0deg)", transition: "transform 0.2s" }}>▼</div>
               </div>
+            </GlassCard>
+          </div>
+
+          {/* ── RECORDS ─────────────────────────────────────────────────────────── */}
+          <div style={{ marginBottom: 52 }}>
+            <div style={{ textAlign: "center", marginBottom: 28 }}>
+              <SectionLabel>Records</SectionLabel>
+              <SectionTitle>Extremes & Milestones</SectionTitle>
             </div>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 14 }}>
+              {RECORDS.map((r, i) => (
+                <GlassCard key={i} style={{ padding: "28px 20px", textAlign: "center" }}>
+                  <div style={{ fontSize: 36, marginBottom: 10 }}>{r.emoji}</div>
+                  <div style={{ fontSize: 28, fontWeight: 800, color: C.accent, letterSpacing: -0.5 }}>{r.value}</div>
+                  <div style={{ fontSize: 13, fontWeight: 600, color: C.text, marginTop: 6 }}>{r.label}</div>
+                  <div style={{ fontSize: 11, color: C.muted, marginTop: 6, lineHeight: 1.5 }}>{r.detail}</div>
+                </GlassCard>
+              ))}
+            </div>
+          </div>
 
-            {expanded === idx && (
-              <div style={{ marginTop: 16, paddingTop: 16, borderTop: `1px solid ${C.border}` }}>
-                <div style={{ display: "grid", gridTemplateColumns: "repeat(5,1fr)", gap: 8, marginBottom: 14 }}>
-                  {[
-                    { l: "Mean Return",   v: fmtRet(b.meanRet), c: b.meanRet >= 0 ? C.green : C.red },
-                    { l: "Median Return", v: fmtRet(b.medRet),  c: b.medRet  >= 0 ? C.green : C.red },
-                    { l: "Win Rate",      v: fmt(b.winRate),     c: b.winRate >= 0.4 ? C.green : C.red },
-                    { l: "100%+ Hits",    v: fmt(b.bigWin),      c: C.green },
-                    { l: "50%+ Wipes",    v: fmt(b.bigLoss),     c: b.bigLoss > 0 ? C.red : C.green },
-                  ].map(s => (
-                    <div key={s.l} style={{ background: C.bg, borderRadius: 8, padding: "10px 12px", textAlign: "center" }}>
-                      <div style={{ fontSize: 9, color: C.muted, textTransform: "uppercase", letterSpacing: 0.6, marginBottom: 4 }}>{s.l}</div>
-                      <div style={{ fontSize: 16, fontWeight: 700, color: s.c }}>{s.v}</div>
+          {/* ── INSIGHTS ────────────────────────────────────────────────────────── */}
+          <div style={{ marginBottom: 52 }}>
+            <GlassCard style={{ padding: 32 }}>
+              <SectionLabel>Research Findings</SectionLabel>
+              <SectionTitle>12 Freakonomics-Style Insights</SectionTitle>
+              <p style={{ color: C.muted, fontSize: 13, marginTop: 4, marginBottom: 28 }}>
+                What 94 IPOs across 6 years actually reveal — beyond the headlines.
+              </p>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(2,1fr)", gap: 12 }}>
+                {INSIGHTS.map((ins, i) => (
+                  <div key={i} className="card-hover insight-row" style={{
+                    borderRadius: 14, border: `1px solid ${C.border}`, padding: "18px 20px",
+                    background: "rgba(255,255,255,.02)", display: "flex", gap: 14,
+                  }}>
+                    <div style={{
+                      width: 28, height: 28, borderRadius: 8, background: `${C.accent}18`, border: `1px solid ${C.accent}30`,
+                      display: "flex", alignItems: "center", justifyContent: "center",
+                      fontSize: 11, fontWeight: 800, color: C.accent, flexShrink: 0, marginTop: 1,
+                    }}>{ins.n}</div>
+                    <div>
+                      <div style={{ fontSize: 13, fontWeight: 700, color: C.text, marginBottom: 6 }}>{ins.title}</div>
+                      <div style={{ fontSize: 12, color: C.desc, lineHeight: 1.7 }}>{ins.body}</div>
                     </div>
-                  ))}
-                </div>
-                <p style={{ fontSize: 12, color: C.desc, lineHeight: 1.6, marginBottom: 12 }}>{b.note}</p>
-                <div style={{ display: "flex", flexWrap: "wrap", gap: 5 }}>
-                  {[...b.examples].sort((a,bx) => (bx.ret??-999)-(a.ret??-999)).map(d => (
-                    <span key={d.t} style={{
-                      fontSize: 11, padding: "4px 10px", borderRadius: 5,
-                      background: (d.ret??0) >= 1 ? C.green+"18" : (d.ret??0) >= 0 ? C.accent+"18" : (d.ret??0) > -0.5 ? C.orange+"18" : C.red+"18",
-                      color:      (d.ret??0) >= 1 ? C.green      : (d.ret??0) >= 0 ? C.accent      : (d.ret??0) > -0.5 ? C.orange      : C.red,
-                      border: `1px solid ${(d.ret??0) >= 0 ? C.green : C.red}30`,
-                    }}>
-                      {d.t} ${d.v}B→${d.mc}B {fmtRet(d.ret??0)}
-                    </span>
-                  ))}
-                </div>
+                  </div>
+                ))}
               </div>
-            )}
+            </GlassCard>
           </div>
-        ))}
 
-        {/* ── THESIS ─────────────────────────────────────────────────────── */}
-        <div style={{ marginTop: 40, padding: 28, background: C.card, border: `1px solid ${C.border}`, borderRadius: 20 }}>
-          <h2 style={{ fontSize: 18, fontWeight: 700, color: C.text, marginBottom: 14 }}>The Valuation Smile — What the Data Says</h2>
-          <p style={{ fontSize: 13, color: C.desc, lineHeight: 1.8 }}>
-            IPO returns follow a U-shaped curve across valuation tiers.{" "}
-            <span style={{ color: C.green, fontWeight: 600 }}>Sub-$10B</span> companies generate power-law returns: most lose, but the winners obliterate. CRDO (+2162%), PLTR (+1415%), HOOD (+781%), RDDT (+393%) are real.{" "}
-            <span style={{ color: C.red, fontWeight: 600 }}>$10–20B</span> is structurally broken — priced for perfection, no room to grow, no platform moat. GDRX (-95%), WISH (-99%), TASK (-85%).{" "}
-            <span style={{ color: C.teal, fontWeight: 600 }}>$20–40B</span> requires a generational company: Palantir (+1415%) rescues the whole bucket. Without PLTR, the $20-40B median collapses.{" "}
-            <span style={{ color: C.gold, fontWeight: 600 }}>$40B+</span> is mostly graveyard — RIVN (-75%), DiDi (-99%), Venture Global (-69%). ARM (+196%) is the lone exception that proves the rule.
-          </p>
-          <div style={{ marginTop: 16, padding: "12px 16px", background: "#0a1929", borderRadius: 10, border: `1px solid rgba(56,189,248,0.2)`, fontSize: 12, color: C.accent, lineHeight: 1.6 }}>
-            <strong>Coming next:</strong> Expanding to 2015–2019 to test if the $10–20B dead zone is structural or a 2020–2021 bubble artifact. Uber IPO&apos;d at $82B in 2019 — how does that fit? Does the dead zone shift in different rate environments?
+          {/* ── THESIS ──────────────────────────────────────────────────────────── */}
+          <div style={{ marginBottom: 52 }}>
+            <div style={{
+              borderRadius: 24, padding: "40px 40px",
+              background: "linear-gradient(135deg,rgba(56,189,248,.07) 0%,rgba(45,212,191,.05) 50%,rgba(167,139,250,.05) 100%)",
+              border: "1px solid rgba(56,189,248,.15)", textAlign: "center",
+            }}>
+              <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: 3, color: C.accent, textTransform: "uppercase", marginBottom: 16 }}>The Thesis</div>
+              <h2 style={{ fontSize: 28, fontWeight: 700, letterSpacing: -0.5, color: C.text, marginBottom: 16, maxWidth: 700, margin: "0 auto 16px" }}>
+                The IPO valuation dead zone is real, structural, and predictable
+              </h2>
+              <p style={{ color: C.desc, fontSize: 15, maxWidth: 680, margin: "0 auto 16px", lineHeight: 1.7 }}>
+                Companies that IPO between $10B–$20B face a structural trap: too big to be overlooked, too small to have pricing power, priced to perfection with no margin for error. The data shows this across every market cycle in the dataset.
+              </p>
+              <p style={{ color: C.muted, fontSize: 13, maxWidth: 640, margin: "0 auto" }}>
+                The best returns cluster at &lt;$5B (power-law small caps) and the rare $20–40B outlier that compounds into a category-defining company. Everything in between is a valuation compression waiting to happen.
+              </p>
+            </div>
           </div>
-          <div style={{ fontSize: 11, color: C.muted, marginTop: 14 }}>
-            94 companies · US-listed 2020–2025 · Market caps as of May 2026 · Excludes SPACs and blank-check IPOs
+
+          {/* ── FOOTER ──────────────────────────────────────────────────────────── */}
+          <div style={{ textAlign: "center", padding: "32px 0 0", borderTop: `1px solid ${C.border}` }}>
+            <p style={{ color: C.muted, fontSize: 12, marginBottom: 12 }}>
+              Data sourced from public filings, yfinance (May 2026). Excludes SPACs, blank-check companies, and warrants-only listings.
+            </p>
+            <div style={{ display: "flex", justifyContent: "center", gap: 28 }}>
+              <a href="https://x.com/Trace_Cohen" target="_blank" rel="noreferrer" style={{ color: C.accent, fontSize: 13, fontWeight: 600, textDecoration: "none" }}>𝕏 @Trace_Cohen</a>
+              <a href="mailto:t@nyvp.com" style={{ color: C.accent, fontSize: 13, fontWeight: 600, textDecoration: "none" }}>t@nyvp.com</a>
+            </div>
           </div>
+
         </div>
-
-        {/* ── FOOTER ─────────────────────────────────────────────────────── */}
-        <div style={{ marginTop: 40, paddingTop: 24, borderTop: `1px solid ${C.border}`, textAlign: "center" }}>
-          <p style={{ color: C.muted, fontSize: 13, marginBottom: 12 }}>Built on public market data · Updated May 2026</p>
-          <div style={{ display: "flex", justifyContent: "center", gap: 24, fontSize: 13 }}>
-            <a href="https://x.com/Trace_Cohen" target="_blank" rel="noopener noreferrer" style={{ color: C.accent, textDecoration: "none" }}>↗ @Trace_Cohen</a>
-            <a href="mailto:t@nyvp.com" style={{ color: C.accent, textDecoration: "none" }}>✉ t@nyvp.com</a>
-          </div>
-        </div>
-
       </div>
-    </div>
+    </>
   );
 }
