@@ -17,6 +17,14 @@ export const COMPANIES = [
       outcome: "100%+ Winner",
       listingType: "Traditional IPO",
       status: "Active",
+      qqqAtIPO: 367,
+      spyAtIPO: 441,
+      qqqRet: 0.9635,
+      spyRet: 0.3764,
+      alphaQQQ: 6.847,
+      alphaSPY: 7.434,
+      beatQQQ: true,
+      beatSPY: true,
       wideBucket: "$0-10B"
     },
     {
@@ -33,6 +41,14 @@ export const COMPANIES = [
       outcome: "50%+ Decline",
       listingType: "Traditional IPO",
       status: "Active",
+      qqqAtIPO: 338,
+      spyAtIPO: 392,
+      qqqRet: 1.1319,
+      spyRet: 0.5485,
+      alphaQQQ: -2.074,
+      alphaSPY: -1.491,
+      beatQQQ: false,
+      beatSPY: false,
       wideBucket: "$0-10B"
     },
     {
@@ -49,6 +65,14 @@ export const COMPANIES = [
       outcome: "Positive",
       listingType: "Traditional IPO",
       status: "Active",
+      qqqAtIPO: 367,
+      spyAtIPO: 440,
+      qqqRet: 0.9635,
+      spyRet: 0.3795,
+      alphaQQQ: -0.603,
+      alphaSPY: -0.02,
+      beatQQQ: false,
+      beatSPY: false,
       wideBucket: "$0-10B"
     },
     {
@@ -65,6 +89,14 @@ export const COMPANIES = [
       outcome: "Moderate Loss",
       listingType: "Direct listing",
       status: "Active",
+      qqqAtIPO: 363,
+      spyAtIPO: 432,
+      qqqRet: 0.9851,
+      spyRet: 0.4051,
+      alphaQQQ: -1.367,
+      alphaSPY: -0.787,
+      beatQQQ: false,
+      beatSPY: false,
       wideBucket: "$0-10B"
     },
     {
@@ -81,6 +113,14 @@ export const COMPANIES = [
       outcome: "50%+ Decline",
       listingType: "Traditional IPO",
       status: "Active",
+      qqqAtIPO: 397,
+      spyAtIPO: 464,
+      qqqRet: 0.8151,
+      spyRet: 0.3082,
+      alphaQQQ: -1.804,
+      alphaSPY: -1.297,
+      beatQQQ: false,
+      beatSPY: false,
       wideBucket: "$0-10B"
     },
     {
@@ -97,6 +137,14 @@ export const COMPANIES = [
       outcome: "50%+ Decline",
       listingType: "Traditional IPO",
       status: "Active",
+      qqqAtIPO: 399,
+      spyAtIPO: 468,
+      qqqRet: 0.806,
+      spyRet: 0.297,
+      alphaQQQ: -1.653,
+      alphaSPY: -1.144,
+      beatQQQ: false,
+      beatSPY: false,
       wideBucket: "$0-10B"
     },
     {
@@ -113,6 +161,14 @@ export const COMPANIES = [
       outcome: "50%+ Decline",
       listingType: "Traditional IPO",
       status: "Active",
+      qqqAtIPO: 402,
+      spyAtIPO: 470,
+      qqqRet: 0.7925,
+      spyRet: 0.2915,
+      alphaQQQ: -1.403,
+      alphaSPY: -0.902,
+      beatQQQ: false,
+      beatSPY: false,
       wideBucket: "$0-10B"
     },
     {
@@ -129,6 +185,14 @@ export const COMPANIES = [
       outcome: "50%+ Decline",
       listingType: "Traditional IPO",
       status: "Active",
+      qqqAtIPO: 387,
+      spyAtIPO: 461,
+      qqqRet: 0.862,
+      spyRet: 0.3167,
+      alphaQQQ: -1.672,
+      alphaSPY: -1.126,
+      beatQQQ: false,
+      beatSPY: false,
       wideBucket: "$0-10B"
     },
     {
@@ -145,6 +209,14 @@ export const COMPANIES = [
       outcome: "Moderate Loss",
       listingType: "Traditional IPO",
       status: "Active",
+      qqqAtIPO: 399,
+      spyAtIPO: 466,
+      qqqRet: 0.806,
+      spyRet: 0.3026,
+      alphaQQQ: -1.277,
+      alphaSPY: -0.773,
+      beatQQQ: false,
+      beatSPY: false,
       wideBucket: "$0-10B"
     },
     {
@@ -161,6 +233,14 @@ export const COMPANIES = [
       outcome: "50%+ Decline",
       listingType: "Traditional IPO",
       status: "Active",
+      qqqAtIPO: 330,
+      spyAtIPO: 396,
+      qqqRet: 1.1836,
+      spyRet: 0.5328,
+      alphaQQQ: -1.957,
+      alphaSPY: -1.306,
+      beatQQQ: false,
+      beatSPY: false,
       wideBucket: "$0-10B"
     },
     {
@@ -177,6 +257,14 @@ export const COMPANIES = [
       outcome: "Moderate Loss",
       listingType: "Traditional IPO",
       status: "Active",
+      qqqAtIPO: 334,
+      spyAtIPO: 400,
+      qqqRet: 1.1575,
+      spyRet: 0.5175,
+      alphaQQQ: -1.26,
+      alphaSPY: -0.62,
+      beatQQQ: false,
+      beatSPY: false,
       wideBucket: "$0-10B"
     },
     {
@@ -193,6 +281,14 @@ export const COMPANIES = [
       outcome: "Positive",
       listingType: "Traditional IPO",
       status: "Active",
+      qqqAtIPO: 325,
+      spyAtIPO: 413,
+      qqqRet: 1.2172,
+      spyRet: 0.4697,
+      alphaQQQ: -0.835,
+      alphaSPY: -0.088,
+      beatQQQ: false,
+      beatSPY: false,
       wideBucket: "$0-10B"
     },
     {
@@ -209,6 +305,14 @@ export const COMPANIES = [
       outcome: "50%+ Decline",
       listingType: "Traditional IPO",
       status: "Active",
+      qqqAtIPO: 356,
+      spyAtIPO: 429,
+      qqqRet: 1.0241,
+      spyRet: 0.4149,
+      alphaQQQ: -1.869,
+      alphaSPY: -1.26,
+      beatQQQ: false,
+      beatSPY: false,
       wideBucket: "$0-10B"
     },
     {
@@ -225,6 +329,14 @@ export const COMPANIES = [
       outcome: "50%+ Decline",
       listingType: "Traditional IPO",
       status: "Active",
+      qqqAtIPO: 341,
+      spyAtIPO: 422,
+      qqqRet: 1.1132,
+      spyRet: 0.4384,
+      alphaQQQ: -1.903,
+      alphaSPY: -1.228,
+      beatQQQ: false,
+      beatSPY: false,
       wideBucket: "$0-10B"
     },
     {
@@ -241,6 +353,14 @@ export const COMPANIES = [
       outcome: "Moderate Loss",
       listingType: "Traditional IPO",
       status: "Active",
+      qqqAtIPO: 342,
+      spyAtIPO: 423,
+      qqqRet: 1.107,
+      spyRet: 0.435,
+      alphaQQQ: -1.588,
+      alphaSPY: -0.916,
+      beatQQQ: false,
+      beatSPY: false,
       wideBucket: "$0-10B"
     },
     {
@@ -257,6 +377,14 @@ export const COMPANIES = [
       outcome: "Moderate Loss",
       listingType: "Traditional IPO",
       status: "Active",
+      qqqAtIPO: 364,
+      spyAtIPO: 439,
+      qqqRet: 0.9796,
+      spyRet: 0.3827,
+      alphaQQQ: -1.263,
+      alphaSPY: -0.666,
+      beatQQQ: false,
+      beatSPY: false,
       wideBucket: "$0-10B"
     },
     {
@@ -273,6 +401,14 @@ export const COMPANIES = [
       outcome: "Positive",
       listingType: "Traditional IPO",
       status: "Active",
+      qqqAtIPO: 385,
+      spyAtIPO: 464,
+      qqqRet: 0.8717,
+      spyRet: 0.3082,
+      alphaQQQ: 0.01,
+      alphaSPY: 0.573,
+      beatQQQ: true,
+      beatSPY: true,
       wideBucket: "$0-10B"
     },
     {
@@ -289,6 +425,14 @@ export const COMPANIES = [
       outcome: "Moderate Loss",
       listingType: "Traditional IPO",
       status: "Active",
+      qqqAtIPO: 308,
+      spyAtIPO: 411,
+      qqqRet: 1.3396,
+      spyRet: 0.4769,
+      alphaQQQ: -1.427,
+      alphaSPY: -0.565,
+      beatQQQ: false,
+      beatSPY: false,
       wideBucket: "$0-10B"
     },
     {
@@ -305,6 +449,14 @@ export const COMPANIES = [
       outcome: "100%+ Winner",
       listingType: "Traditional IPO",
       status: "Active",
+      qqqAtIPO: 354,
+      spyAtIPO: 434,
+      qqqRet: 1.0356,
+      spyRet: 0.3986,
+      alphaQQQ: 20.588,
+      alphaSPY: 21.225,
+      beatQQQ: true,
+      beatSPY: true,
       wideBucket: "$0-10B"
     },
     {
@@ -321,6 +473,14 @@ export const COMPANIES = [
       outcome: "100%+ Winner",
       listingType: "Traditional IPO",
       status: "Active",
+      qqqAtIPO: 283,
+      spyAtIPO: 395,
+      qqqRet: 1.5463,
+      spyRet: 0.5367,
+      alphaQQQ: 7.936,
+      alphaSPY: 8.945,
+      beatQQQ: true,
+      beatSPY: true,
       wideBucket: "$0-10B"
     },
     {
@@ -337,6 +497,14 @@ export const COMPANIES = [
       outcome: "Moderate Loss",
       listingType: "Traditional IPO",
       status: "Active",
+      qqqAtIPO: 278,
+      spyAtIPO: 374,
+      qqqRet: 1.5921,
+      spyRet: 0.623,
+      alphaQQQ: -1.623,
+      alphaSPY: -0.654,
+      beatQQQ: false,
+      beatSPY: false,
       wideBucket: "$0-10B"
     },
     {
@@ -353,6 +521,14 @@ export const COMPANIES = [
       outcome: "100%+ Winner",
       listingType: "Traditional IPO",
       status: "Active",
+      qqqAtIPO: 370,
+      spyAtIPO: 443,
+      qqqRet: 0.9475,
+      spyRet: 0.3702,
+      alphaQQQ: 1.809,
+      alphaSPY: 2.386,
+      beatQQQ: true,
+      beatSPY: true,
       wideBucket: "$0-10B"
     },
     {
@@ -369,6 +545,14 @@ export const COMPANIES = [
       outcome: "Positive",
       listingType: "Traditional IPO",
       status: "Active",
+      qqqAtIPO: 370,
+      spyAtIPO: 444,
+      qqqRet: 0.9475,
+      spyRet: 0.3671,
+      alphaQQQ: -0.914,
+      alphaSPY: -0.333,
+      beatQQQ: false,
+      beatSPY: false,
       wideBucket: "$0-10B"
     },
     {
@@ -385,6 +569,14 @@ export const COMPANIES = [
       outcome: "Moderate Loss",
       listingType: "Traditional IPO",
       status: "Active",
+      qqqAtIPO: 367,
+      spyAtIPO: 435,
+      qqqRet: 0.9635,
+      spyRet: 0.3954,
+      alphaQQQ: -1.458,
+      alphaSPY: -0.89,
+      beatQQQ: false,
+      beatSPY: false,
       wideBucket: "$0-10B"
     },
     {
@@ -401,6 +593,14 @@ export const COMPANIES = [
       outcome: "Moderate Loss",
       listingType: "Traditional IPO",
       status: "Active",
+      qqqAtIPO: 374,
+      spyAtIPO: 438,
+      qqqRet: 0.9267,
+      spyRet: 0.3858,
+      alphaQQQ: -1.068,
+      alphaSPY: -0.527,
+      beatQQQ: false,
+      beatSPY: false,
       wideBucket: "$0-10B"
     },
     {
@@ -417,6 +617,14 @@ export const COMPANIES = [
       outcome: "100%+ Winner",
       listingType: "Traditional IPO",
       status: "Active",
+      qqqAtIPO: 299,
+      spyAtIPO: 411,
+      qqqRet: 1.41,
+      spyRet: 0.4769,
+      alphaQQQ: 3.127,
+      alphaSPY: 4.06,
+      beatQQQ: true,
+      beatSPY: true,
       wideBucket: "$0-10B"
     },
     {
@@ -433,6 +641,14 @@ export const COMPANIES = [
       outcome: "50%+ Decline",
       listingType: "Traditional IPO",
       status: "Active",
+      qqqAtIPO: 385,
+      spyAtIPO: 455,
+      qqqRet: 0.8717,
+      spyRet: 0.3341,
+      alphaQQQ: -1.571,
+      alphaSPY: -1.034,
+      beatQQQ: false,
+      beatSPY: false,
       wideBucket: "$0-10B"
     },
     {
@@ -449,6 +665,14 @@ export const COMPANIES = [
       outcome: "100%+ Winner",
       listingType: "Traditional IPO",
       status: "Active",
+      qqqAtIPO: 372,
+      spyAtIPO: 443,
+      qqqRet: 0.9371,
+      spyRet: 0.3702,
+      alphaQQQ: 3.115,
+      alphaSPY: 3.682,
+      beatQQQ: true,
+      beatSPY: true,
       wideBucket: "$0-10B"
     },
     {
@@ -465,6 +689,14 @@ export const COMPANIES = [
       outcome: "100%+ Winner",
       listingType: "Traditional IPO",
       status: "Active",
+      qqqAtIPO: 381,
+      spyAtIPO: 452,
+      qqqRet: 0.8913,
+      spyRet: 0.3429,
+      alphaQQQ: 3.531,
+      alphaSPY: 4.079,
+      beatQQQ: true,
+      beatSPY: true,
       wideBucket: "$0-10B"
     },
     {
@@ -481,6 +713,14 @@ export const COMPANIES = [
       outcome: "50%+ Decline",
       listingType: "Traditional IPO",
       status: "Active",
+      qqqAtIPO: 374,
+      spyAtIPO: 450,
+      qqqRet: 0.9267,
+      spyRet: 0.3489,
+      alphaQQQ: -1.716,
+      alphaSPY: -1.138,
+      beatQQQ: false,
+      beatSPY: false,
       wideBucket: "$0-10B"
     },
     {
@@ -497,6 +737,14 @@ export const COMPANIES = [
       outcome: "Moderate Loss",
       listingType: "Traditional IPO",
       status: "Active",
+      qqqAtIPO: 387,
+      spyAtIPO: 452,
+      qqqRet: 0.862,
+      spyRet: 0.3429,
+      alphaQQQ: -1.15,
+      alphaSPY: -0.631,
+      beatQQQ: false,
+      beatSPY: false,
       wideBucket: "$0-10B"
     },
     {
@@ -513,6 +761,14 @@ export const COMPANIES = [
       outcome: "100%+ Winner",
       listingType: "ADR IPO",
       status: "Active",
+      qqqAtIPO: 304,
+      spyAtIPO: 415,
+      qqqRet: 1.3704,
+      spyRet: 0.4627,
+      alphaQQQ: 8.251,
+      alphaSPY: 9.159,
+      beatQQQ: true,
+      beatSPY: true,
       wideBucket: "$0-10B"
     },
     {
@@ -529,6 +785,14 @@ export const COMPANIES = [
       outcome: "Positive",
       listingType: "ADR IPO",
       status: "Active",
+      qqqAtIPO: 299,
+      spyAtIPO: 411,
+      qqqRet: 1.41,
+      spyRet: 0.4769,
+      alphaQQQ: -1.243,
+      alphaSPY: -0.31,
+      beatQQQ: false,
+      beatSPY: false,
       wideBucket: "$0-10B"
     },
     {
@@ -545,6 +809,14 @@ export const COMPANIES = [
       outcome: "100%+ Winner",
       listingType: "Traditional IPO",
       status: "Active",
+      qqqAtIPO: 444,
+      spyAtIPO: 524,
+      qqqRet: 0.623,
+      spyRet: 0.1584,
+      alphaQQQ: 3.307,
+      alphaSPY: 3.772,
+      beatQQQ: true,
+      beatSPY: true,
       wideBucket: "$0-10B"
     },
     {
@@ -561,6 +833,14 @@ export const COMPANIES = [
       outcome: "100%+ Winner",
       listingType: "Traditional IPO",
       status: "Active",
+      qqqAtIPO: 443,
+      spyAtIPO: 524,
+      qqqRet: 0.6266,
+      spyRet: 0.1584,
+      alphaQQQ: 4.954,
+      alphaSPY: 5.422,
+      beatQQQ: true,
+      beatSPY: true,
       wideBucket: "$0-10B"
     },
     {
@@ -577,6 +857,14 @@ export const COMPANIES = [
       outcome: "100%+ Winner",
       listingType: "Traditional IPO",
       status: "Active",
+      qqqAtIPO: 430,
+      spyAtIPO: 504,
+      qqqRet: 0.6758,
+      spyRet: 0.2044,
+      alphaQQQ: 0.533,
+      alphaSPY: 1.004,
+      beatQQQ: true,
+      beatSPY: true,
       wideBucket: "$0-10B"
     },
     {
@@ -593,6 +881,14 @@ export const COMPANIES = [
       outcome: "50%+ Decline",
       listingType: "Traditional IPO",
       status: "Active",
+      qqqAtIPO: 432,
+      spyAtIPO: 502,
+      qqqRet: 0.668,
+      spyRet: 0.2092,
+      alphaQQQ: -1.351,
+      alphaSPY: -0.892,
+      beatQQQ: false,
+      beatSPY: false,
       wideBucket: "$0-10B"
     },
     {
@@ -609,6 +905,14 @@ export const COMPANIES = [
       outcome: "Positive",
       listingType: "Traditional IPO",
       status: "Active",
+      qqqAtIPO: 465,
+      spyAtIPO: 533,
+      qqqRet: 0.5497,
+      spyRet: 0.1388,
+      alphaQQQ: -0.422,
+      alphaSPY: -0.011,
+      beatQQQ: false,
+      beatSPY: false,
       wideBucket: "$0-10B"
     },
     {
@@ -625,6 +929,14 @@ export const COMPANIES = [
       outcome: "Positive",
       listingType: "Traditional IPO",
       status: "Active",
+      qqqAtIPO: 478,
+      spyAtIPO: 545,
+      qqqRet: 0.5075,
+      spyRet: 0.1138,
+      alphaQQQ: -0.045,
+      alphaSPY: 0.349,
+      beatQQQ: false,
+      beatSPY: true,
       wideBucket: "$0-10B"
     },
     {
@@ -641,6 +953,14 @@ export const COMPANIES = [
       outcome: "Moderate Loss",
       listingType: "Traditional IPO",
       status: "Active",
+      qqqAtIPO: 472,
+      spyAtIPO: 542,
+      qqqRet: 0.5267,
+      spyRet: 0.1199,
+      alphaQQQ: -0.541,
+      alphaSPY: -0.134,
+      beatQQQ: false,
+      beatSPY: false,
       wideBucket: "$0-10B"
     },
     {
@@ -657,6 +977,14 @@ export const COMPANIES = [
       outcome: "Moderate Loss",
       listingType: "Traditional IPO",
       status: "Active",
+      qqqAtIPO: 475,
+      spyAtIPO: 562,
+      qqqRet: 0.517,
+      spyRet: 0.0801,
+      alphaQQQ: -0.547,
+      alphaSPY: -0.11,
+      beatQQQ: false,
+      beatSPY: false,
       wideBucket: "$0-10B"
     },
     {
@@ -673,6 +1001,14 @@ export const COMPANIES = [
       outcome: "Positive",
       listingType: "Traditional IPO",
       status: "Active",
+      qqqAtIPO: 535,
+      spyAtIPO: 607,
+      qqqRet: 0.3469,
+      spyRet: 0.0,
+      alphaQQQ: -0.198,
+      alphaSPY: 0.149,
+      beatQQQ: false,
+      beatSPY: true,
       wideBucket: "$0-10B"
     },
     {
@@ -689,6 +1025,14 @@ export const COMPANIES = [
       outcome: "50%+ Decline",
       listingType: "Traditional IPO",
       status: "Active",
+      qqqAtIPO: 450,
+      spyAtIPO: 537,
+      qqqRet: 0.6013,
+      spyRet: 0.1304,
+      alphaQQQ: -1.495,
+      alphaSPY: -1.024,
+      beatQQQ: false,
+      beatSPY: false,
       wideBucket: "$0-10B"
     },
     {
@@ -705,6 +1049,14 @@ export const COMPANIES = [
       outcome: "50%+ Decline",
       listingType: "Traditional IPO",
       status: "Active",
+      qqqAtIPO: 430,
+      spyAtIPO: 505,
+      qqqRet: 0.6758,
+      spyRet: 0.202,
+      alphaQQQ: -1.28,
+      alphaSPY: -0.806,
+      beatQQQ: false,
+      beatSPY: false,
       wideBucket: "$0-10B"
     },
     {
@@ -721,6 +1073,14 @@ export const COMPANIES = [
       outcome: "50%+ Decline",
       listingType: "Traditional IPO",
       status: "Active",
+      qqqAtIPO: 482,
+      spyAtIPO: 558,
+      qqqRet: 0.495,
+      spyRet: 0.0878,
+      alphaQQQ: -1.379,
+      alphaSPY: -0.972,
+      beatQQQ: false,
+      beatSPY: false,
       wideBucket: "$0-10B"
     },
     {
@@ -737,6 +1097,14 @@ export const COMPANIES = [
       outcome: "50%+ Decline",
       listingType: "Traditional IPO",
       status: "Active",
+      qqqAtIPO: 470,
+      spyAtIPO: 556,
+      qqqRet: 0.5332,
+      spyRet: 0.0917,
+      alphaQQQ: -1.133,
+      alphaSPY: -0.692,
+      beatQQQ: false,
+      beatSPY: false,
       wideBucket: "$0-10B"
     },
     {
@@ -753,6 +1121,14 @@ export const COMPANIES = [
       outcome: "Moderate Loss",
       listingType: "Traditional IPO",
       status: "Active",
+      qqqAtIPO: 532,
+      spyAtIPO: 605,
+      qqqRet: 0.3545,
+      spyRet: 0.0033,
+      alphaQQQ: -0.399,
+      alphaSPY: -0.048,
+      beatQQQ: false,
+      beatSPY: false,
       wideBucket: "$20-40B"
     },
     {
@@ -769,6 +1145,14 @@ export const COMPANIES = [
       outcome: "Moderate Loss",
       listingType: "Traditional IPO",
       status: "Active",
+      qqqAtIPO: 500,
+      spyAtIPO: 568,
+      qqqRet: 0.4412,
+      spyRet: 0.0687,
+      alphaQQQ: -0.694,
+      alphaSPY: -0.321,
+      beatQQQ: false,
+      beatSPY: false,
       wideBucket: "$0-10B"
     },
     {
@@ -785,6 +1169,14 @@ export const COMPANIES = [
       outcome: "Moderate Loss",
       listingType: "Traditional IPO",
       status: "Active",
+      qqqAtIPO: 530,
+      spyAtIPO: 594,
+      qqqRet: 0.3596,
+      spyRet: 0.0219,
+      alphaQQQ: -0.394,
+      alphaSPY: -0.057,
+      beatQQQ: false,
+      beatSPY: false,
       wideBucket: "$0-10B"
     },
     {
@@ -801,6 +1193,14 @@ export const COMPANIES = [
       outcome: "100%+ Winner",
       listingType: "Traditional IPO",
       status: "Active",
+      qqqAtIPO: 485,
+      spyAtIPO: 556,
+      qqqRet: 0.4858,
+      spyRet: 0.0917,
+      alphaQQQ: 3.736,
+      alphaSPY: 4.13,
+      beatQQQ: true,
+      beatSPY: true,
       wideBucket: "$0-10B"
     },
     {
@@ -817,6 +1217,14 @@ export const COMPANIES = [
       outcome: "Moderate Loss",
       listingType: "Traditional IPO",
       status: "Active",
+      qqqAtIPO: 492,
+      spyAtIPO: 558,
+      qqqRet: 0.4646,
+      spyRet: 0.0878,
+      alphaQQQ: -0.735,
+      alphaSPY: -0.358,
+      beatQQQ: false,
+      beatSPY: false,
       wideBucket: "$0-10B"
     },
     {
@@ -833,6 +1241,14 @@ export const COMPANIES = [
       outcome: "Positive",
       listingType: "Traditional IPO",
       status: "Active",
+      qqqAtIPO: 535,
+      spyAtIPO: 587,
+      qqqRet: 0.3469,
+      spyRet: 0.0341,
+      alphaQQQ: -0.046,
+      alphaSPY: 0.267,
+      beatQQQ: false,
+      beatSPY: true,
       wideBucket: "$0-10B"
     },
     {
@@ -849,6 +1265,14 @@ export const COMPANIES = [
       outcome: "Moderate Loss",
       listingType: "Traditional IPO",
       status: "Active",
+      qqqAtIPO: 522,
+      spyAtIPO: 588,
+      qqqRet: 0.3804,
+      spyRet: 0.0323,
+      alphaQQQ: -0.58,
+      alphaSPY: -0.232,
+      beatQQQ: false,
+      beatSPY: false,
       wideBucket: "$0-10B"
     },
     {
@@ -865,6 +1289,14 @@ export const COMPANIES = [
       outcome: "Moderate Loss",
       listingType: "Traditional IPO",
       status: "Active",
+      qqqAtIPO: 495,
+      spyAtIPO: 564,
+      qqqRet: 0.4557,
+      spyRet: 0.0762,
+      alphaQQQ: -0.656,
+      alphaSPY: -0.276,
+      beatQQQ: false,
+      beatSPY: false,
       wideBucket: "$0-10B"
     },
     {
@@ -881,6 +1313,14 @@ export const COMPANIES = [
       outcome: "Moderate Loss",
       listingType: "Traditional IPO",
       status: "Active",
+      qqqAtIPO: 527,
+      spyAtIPO: 591,
+      qqqRet: 0.3673,
+      spyRet: 0.0271,
+      alphaQQQ: -0.567,
+      alphaSPY: -0.227,
+      beatQQQ: false,
+      beatSPY: false,
       wideBucket: "$0-10B"
     },
     {
@@ -897,6 +1337,14 @@ export const COMPANIES = [
       outcome: "Positive",
       listingType: "Traditional IPO",
       status: "Active",
+      qqqAtIPO: 528,
+      spyAtIPO: 592,
+      qqqRet: 0.3648,
+      spyRet: 0.0253,
+      alphaQQQ: -0.049,
+      alphaSPY: 0.29,
+      beatQQQ: false,
+      beatSPY: true,
       wideBucket: "$0-10B"
     },
     {
@@ -913,6 +1361,14 @@ export const COMPANIES = [
       outcome: "50%+ Decline",
       listingType: "Traditional IPO",
       status: "Active",
+      qqqAtIPO: 396,
+      spyAtIPO: 468,
+      qqqRet: 0.8197,
+      spyRet: 0.297,
+      alphaQQQ: -1.573,
+      alphaSPY: -1.05,
+      beatQQQ: false,
+      beatSPY: false,
       wideBucket: "$40B+"
     },
     {
@@ -929,6 +1385,14 @@ export const COMPANIES = [
       outcome: "Moderate Loss",
       listingType: "Direct listing",
       status: "Active",
+      qqqAtIPO: 340,
+      spyAtIPO: 412,
+      qqqRet: 1.1194,
+      spyRet: 0.4733,
+      alphaQQQ: -1.273,
+      alphaSPY: -0.627,
+      beatQQQ: false,
+      beatSPY: false,
       wideBucket: "$40B+"
     },
     {
@@ -945,6 +1409,14 @@ export const COMPANIES = [
       outcome: "Moderate Loss",
       listingType: "Traditional IPO",
       status: "Active",
+      qqqAtIPO: 323,
+      spyAtIPO: 394,
+      qqqRet: 1.2309,
+      spyRet: 0.5406,
+      alphaQQQ: -1.531,
+      alphaSPY: -0.841,
+      beatQQQ: false,
+      beatSPY: false,
       wideBucket: "$40B+"
     },
     {
@@ -961,6 +1433,14 @@ export const COMPANIES = [
       outcome: "50%+ Decline",
       listingType: "Traditional IPO",
       status: "Delisted",
+      qqqAtIPO: 356,
+      spyAtIPO: 429,
+      qqqRet: 1.0241,
+      spyRet: 0.4149,
+      alphaQQQ: -2.017,
+      alphaSPY: -1.408,
+      beatQQQ: false,
+      beatSPY: false,
       wideBucket: "$40B+"
     },
     {
@@ -977,6 +1457,14 @@ export const COMPANIES = [
       outcome: "Positive",
       listingType: "Direct listing",
       status: "Active",
+      qqqAtIPO: 316,
+      spyAtIPO: 390,
+      qqqRet: 1.2803,
+      spyRet: 0.5564,
+      alphaQQQ: -1.28,
+      alphaSPY: -0.556,
+      beatQQQ: false,
+      beatSPY: false,
       wideBucket: "$20-40B"
     },
     {
@@ -993,6 +1481,14 @@ export const COMPANIES = [
       outcome: "Moderate Loss",
       listingType: "Traditional IPO",
       status: "Active",
+      qqqAtIPO: 370,
+      spyAtIPO: 440,
+      qqqRet: 0.9475,
+      spyRet: 0.3795,
+      alphaQQQ: -1.048,
+      alphaSPY: -0.48,
+      beatQQQ: false,
+      beatSPY: false,
       wideBucket: "$20-40B"
     },
     {
@@ -1009,6 +1505,14 @@ export const COMPANIES = [
       outcome: "100%+ Winner",
       listingType: "Traditional IPO",
       status: "Active",
+      qqqAtIPO: 381,
+      spyAtIPO: 448,
+      qqqRet: 0.8913,
+      spyRet: 0.3549,
+      alphaQQQ: 0.109,
+      alphaSPY: 0.645,
+      beatQQQ: true,
+      beatSPY: true,
       wideBucket: "$10-20B"
     },
     {
@@ -1025,6 +1529,14 @@ export const COMPANIES = [
       outcome: "Moderate Loss",
       listingType: "Traditional IPO",
       status: "Active",
+      qqqAtIPO: 355,
+      spyAtIPO: 428,
+      qqqRet: 1.0298,
+      spyRet: 0.4182,
+      alphaQQQ: -1.439,
+      alphaSPY: -0.827,
+      beatQQQ: false,
+      beatSPY: false,
       wideBucket: "$10-20B"
     },
     {
@@ -1041,6 +1553,14 @@ export const COMPANIES = [
       outcome: "50%+ Decline",
       listingType: "Traditional IPO",
       status: "Active",
+      qqqAtIPO: 341,
+      spyAtIPO: 422,
+      qqqRet: 1.1132,
+      spyRet: 0.4384,
+      alphaQQQ: -1.963,
+      alphaSPY: -1.288,
+      beatQQQ: false,
+      beatSPY: false,
       wideBucket: "$10-20B"
     },
     {
@@ -1057,6 +1577,14 @@ export const COMPANIES = [
       outcome: "Moderate Loss",
       listingType: "Traditional IPO",
       status: "Active",
+      qqqAtIPO: 374,
+      spyAtIPO: 449,
+      qqqRet: 0.9267,
+      spyRet: 0.3519,
+      alphaQQQ: -0.993,
+      alphaSPY: -0.419,
+      beatQQQ: false,
+      beatSPY: false,
       wideBucket: "$10-20B"
     },
     {
@@ -1073,6 +1601,14 @@ export const COMPANIES = [
       outcome: "Moderate Loss",
       listingType: "Traditional IPO",
       status: "Active",
+      qqqAtIPO: 358,
+      spyAtIPO: 432,
+      qqqRet: 1.0128,
+      spyRet: 0.4051,
+      alphaQQQ: -1.496,
+      alphaSPY: -0.888,
+      beatQQQ: false,
+      beatSPY: false,
       wideBucket: "$10-20B"
     },
     {
@@ -1089,6 +1625,14 @@ export const COMPANIES = [
       outcome: "100%+ Winner",
       listingType: "Traditional IPO",
       status: "Active",
+      qqqAtIPO: 374,
+      spyAtIPO: 450,
+      qqqRet: 0.9267,
+      spyRet: 0.3489,
+      alphaQQQ: 1.036,
+      alphaSPY: 1.614,
+      beatQQQ: true,
+      beatSPY: true,
       wideBucket: "$40B+"
     },
     {
@@ -1105,6 +1649,14 @@ export const COMPANIES = [
       outcome: "100%+ Winner",
       listingType: "Traditional IPO",
       status: "Active",
+      qqqAtIPO: 468,
+      spyAtIPO: 553,
+      qqqRet: 0.5397,
+      spyRet: 0.0976,
+      alphaQQQ: 1.199,
+      alphaSPY: 1.641,
+      beatQQQ: true,
+      beatSPY: true,
       wideBucket: "$20-40B"
     },
     {
@@ -1121,6 +1673,14 @@ export const COMPANIES = [
       outcome: "50%+ Decline",
       listingType: "Traditional IPO",
       status: "Active",
+      qqqAtIPO: 425,
+      spyAtIPO: 487,
+      qqqRet: 0.6955,
+      spyRet: 0.2464,
+      alphaQQQ: -1.386,
+      alphaSPY: -0.937,
+      beatQQQ: false,
+      beatSPY: false,
       wideBucket: "$40B+"
     },
     {
@@ -2502,3 +3062,15 @@ export const SECTOR_STATS = [
       bigLoss: 0.0
     }
   ];
+
+export const BUCKET_BENCHMARK = [
+  { bucket: "<$1B",    n: 6,  meanIPORet: 2.151,  meanQQQRet: 1.027, meanSPYRet: 0.367, meanAlphaQQQ: 1.124,  meanAlphaSPY: 1.784,  beatQQQPct: 0.333, beatSPYPct: 0.333 },
+  { bucket: "$1-2B",   n: 6,  meanIPORet: 5.714,  meanQQQRet: 0.845, meanSPYRet: 0.278, meanAlphaQQQ: 4.869,  meanAlphaSPY: 5.437,  beatQQQPct: 0.500, beatSPYPct: 0.500 },
+  { bucket: "$2-3B",   n: 5,  meanIPORet: 0.268,  meanQQQRet: 0.871, meanSPYRet: 0.293, meanAlphaQQQ: -0.602, meanAlphaSPY: -0.025, beatQQQPct: 0.200, beatSPYPct: 0.200 },
+  { bucket: "$3-5B",   n: 11, meanIPORet: 0.128,  meanQQQRet: 0.813, meanSPYRet: 0.267, meanAlphaQQQ: -0.685, meanAlphaSPY: -0.139, beatQQQPct: 0.091, beatSPYPct: 0.182 },
+  { bucket: "$5-7B",   n: 13, meanIPORet: 0.866,  meanQQQRet: 0.818, meanSPYRet: 0.279, meanAlphaQQQ: 0.049,  meanAlphaSPY: 0.587,  beatQQQPct: 0.308, beatSPYPct: 0.385 },
+  { bucket: "$7-10B",  n: 14, meanIPORet: 0.393,  meanQQQRet: 0.758, meanSPYRet: 0.263, meanAlphaQQQ: -0.365, meanAlphaSPY: 0.130,  beatQQQPct: 0.143, beatSPYPct: 0.286 },
+  { bucket: "$10-20B", n: 6,  meanIPORet: -0.152, meanQQQRet: 0.987, meanSPYRet: 0.391, meanAlphaQQQ: -1.138, meanAlphaSPY: -0.543, beatQQQPct: 0.167, beatSPYPct: 0.167 },
+  { bucket: "$20-40B", n: 3,  meanIPORet: 0.565,  meanQQQRet: 0.725, meanSPYRet: 0.219, meanAlphaQQQ: -0.160, meanAlphaSPY: 0.346,  beatQQQPct: 0.333, beatSPYPct: 0.333 },
+  { bucket: "$40B+",   n: 6,  meanIPORet: -0.155, meanQQQRet: 0.969, meanSPYRet: 0.387, meanAlphaQQQ: -1.124, meanAlphaSPY: -0.541, beatQQQPct: 0.167, beatSPYPct: 0.167 },
+];

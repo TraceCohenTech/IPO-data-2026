@@ -6,7 +6,7 @@ import {
   CartesianGrid, ReferenceLine, ReferenceArea, ScatterChart, Scatter,
   ComposedChart, Line, AreaChart, Area, LabelList,
 } from "recharts";
-import { FINE_BUCKETS, YEAR_STATS, COMPANIES, SECTOR_STATS } from "@/lib/ipoData";
+import { FINE_BUCKETS, YEAR_STATS, COMPANIES, SECTOR_STATS, BUCKET_BENCHMARK } from "@/lib/ipoData";
 
 // ─── Design tokens ─────────────────────────────────────────────────────────────
 const C = {
@@ -181,6 +181,22 @@ const TT_STYLE = {
   contentStyle: { background: "#0f172a", border: "1px solid rgba(255,255,255,.1)", borderRadius: 10, fontSize: 11, color: C.text },
   cursor: { fill: "rgba(255,255,255,.03)" },
 };
+
+// ─── Benchmark derived data ────────────────────────────────────────────────────
+const benchCos = COMPANIES.filter((c: { alphaQQQ?: number }) => c.alphaQQQ !== undefined) as Array<{ ticker: string; company: string; bucket: string; alphaQQQ: number; alphaSPY: number; beatQQQ: boolean; beatSPY: boolean; ret: number }>;
+const allAlphasQQQ = benchCos.map(c => c.alphaQQQ);
+const medAlphaQQQ  = (() => { const s = [...allAlphasQQQ].sort((a,b)=>a-b), m = Math.floor(s.length/2); return s.length%2 ? s[m] : (s[m-1]+s[m])/2; })();
+const TOP_ALPHA    = [...benchCos].sort((a,b) => b.alphaQQQ - a.alphaQQQ).slice(0, 10);
+const BOT_ALPHA    = [...benchCos].sort((a,b) => a.alphaQQQ - b.alphaQQQ).slice(0, 10);
+const BENCH_CHART  = BUCKET_BENCHMARK.map(b => ({
+  ...b,
+  ipoRetPct:  Math.round(b.meanIPORet * 100),
+  qqqRetPct:  Math.round(b.meanQQQRet * 100),
+  spyRetPct:  Math.round(b.meanSPYRet * 100),
+  alphaQQQPct: parseFloat((b.meanAlphaQQQ).toFixed(3)),
+  beatQQQPct100: Math.round(b.beatQQQPct * 100),
+  beatSPYPct100: Math.round(b.beatSPYPct * 100),
+}));
 
 // ─── Hooks + components ────────────────────────────────────────────────────────
 function useFadeIn(threshold = 0.06) {
@@ -911,7 +927,167 @@ export default function App() {
             </Glass>
           </FadeIn>
 
-          {/* ═══ 11. KEY INSIGHTS ════════════════════════════════════════════════= */}
+          {/* ═══ 11. IPO VS INDEX BENCHMARKS ══════════════════════════════════════ */}
+          <FadeIn delay={40}>
+            <Glass style={{ padding: isMobile ? "20px 16px" : 36, marginBottom: 48 }}>
+              <SLabel>Benchmark Comparison</SLabel>
+              <STitle>IPO vs Index Benchmarks</STitle>
+              <p style={{ color: C.desc, fontSize: 13, marginBottom: 28, marginTop: 4 }}>
+                Comparing each IPO&apos;s return to QQQ and SPY measured from the same IPO date to May 15, 2026. Current benchmark prices: SPY $740.53 · QQQ $710.75 · NASDAQ 26,346.
+              </p>
+
+              {/* A. Headline stat row */}
+              <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "repeat(3,1fr)", gap: 16, marginBottom: 40 }}>
+                {[
+                  { val: "23%",  label: "of IPOs beat QQQ",  sub: "Only 16 out of 70 companies outperformed QQQ from their IPO date", col: C.red },
+                  { val: "29%",  label: "of IPOs beat SPY",  sub: "Only 20 out of 70 companies outperformed SPY from their IPO date",  col: C.orange },
+                  { val: (medAlphaQQQ >= 0 ? "+" : "") + medAlphaQQQ.toFixed(2) + "x", label: "median alpha vs QQQ", sub: "Median IPO underperformed QQQ by 1.28x — the index wins most of the time", col: medAlphaQQQ >= 0 ? C.green : C.red },
+                ].map((k, i) => (
+                  <div key={i} style={{ background: "rgba(255,255,255,.03)", borderRadius: 16, padding: "24px 20px", textAlign: "center", border: `1px solid ${C.border}` }}>
+                    <div style={{ fontSize: 38, fontWeight: 900, color: k.col, letterSpacing: -1, lineHeight: 1 }}>{k.val}</div>
+                    <div style={{ fontSize: 13, fontWeight: 700, color: C.text, marginTop: 8, marginBottom: 6 }}>{k.label}</div>
+                    <div style={{ fontSize: 11, color: C.muted, lineHeight: 1.5 }}>{k.sub}</div>
+                  </div>
+                ))}
+              </div>
+
+              {/* B. Grouped bar chart — IPO Return vs QQQ vs SPY by Bucket */}
+              <ChartTitle accent={C.accent}>IPO Return vs QQQ vs SPY by Valuation Bucket</ChartTitle>
+              <p style={{ color: C.desc, fontSize: 12, marginBottom: 16, marginTop: -12 }}>
+                Average return from IPO date to today vs what SPY and QQQ returned over the same holding period.
+              </p>
+              <ResponsiveContainer width="100%" height={isMobile ? 240 : 280}>
+                <BarChart data={BENCH_CHART} margin={{ top: 10, right: 10, bottom: 0, left: 0 }} barCategoryGap="20%">
+                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,.04)" />
+                  <XAxis dataKey="bucket" tick={{ fill: C.muted, fontSize: isMobile ? 8 : 10 }} axisLine={false} tickLine={false} />
+                  <YAxis tickFormatter={v => v + "%"} tick={{ fill: C.muted, fontSize: 10 }} axisLine={false} tickLine={false} />
+                  <ReferenceLine y={0} stroke="rgba(255,255,255,.2)" strokeDasharray="4 4" />
+                  <Tooltip
+                    {...TT_STYLE}
+                    content={({ payload, label }) => {
+                      if (!payload?.length) return null;
+                      return (
+                        <div style={{ background: "#0f172a", border: "1px solid rgba(255,255,255,.1)", borderRadius: 10, padding: "10px 14px", fontSize: 12 }}>
+                          <div style={{ fontWeight: 700, color: C.accent, marginBottom: 6 }}>{label}</div>
+                          {payload.map((p, i: number) => (
+                            <div key={i} style={{ color: p.color as string, marginBottom: 2 }}>
+                              {String(p.name)}: {(p.value as number) >= 0 ? "+" : ""}{p.value}%
+                            </div>
+                          ))}
+                        </div>
+                      );
+                    }}
+                  />
+                  <Bar dataKey="ipoRetPct"  name="IPO Return" fill={C.accent}  opacity={0.85} radius={[4,4,0,0]} maxBarSize={28} animationDuration={700} />
+                  <Bar dataKey="qqqRetPct"  name="QQQ Return" fill={C.orange}  opacity={0.85} radius={[4,4,0,0]} maxBarSize={28} animationDuration={800} />
+                  <Bar dataKey="spyRetPct"  name="SPY Return" fill={C.green}   opacity={0.85} radius={[4,4,0,0]} maxBarSize={28} animationDuration={900} />
+                </BarChart>
+              </ResponsiveContainer>
+              <div style={{ display: "flex", gap: 20, marginTop: 12, marginBottom: 36, flexWrap: "wrap" }}>
+                {[{ col: C.accent, label: "IPO Return" }, { col: C.orange, label: "QQQ Return" }, { col: C.green, label: "SPY Return" }].map(l => (
+                  <div key={l.label} style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                    <div style={{ width: 10, height: 10, borderRadius: 3, background: l.col }} />
+                    <span style={{ fontSize: 11, color: C.muted }}>{l.label}</span>
+                  </div>
+                ))}
+              </div>
+
+              {/* C. Alpha bar chart */}
+              <ChartTitle accent={C.teal}>Mean Alpha vs QQQ by Valuation Bucket</ChartTitle>
+              <p style={{ color: C.desc, fontSize: 12, marginBottom: 16, marginTop: -12 }}>
+                Alpha = IPO return minus QQQ return over the same period. Positive = IPO outperformed the index.
+              </p>
+              <ResponsiveContainer width="100%" height={isMobile ? 200 : 240}>
+                <BarChart data={BENCH_CHART} margin={{ top: 10, right: 10, bottom: 0, left: 0 }}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,.04)" />
+                  <XAxis dataKey="bucket" tick={{ fill: C.muted, fontSize: isMobile ? 8 : 10 }} axisLine={false} tickLine={false} />
+                  <YAxis tickFormatter={v => v + "x"} tick={{ fill: C.muted, fontSize: 10 }} axisLine={false} tickLine={false} />
+                  <ReferenceLine y={0} stroke="rgba(255,255,255,.2)" strokeDasharray="4 4" />
+                  <Tooltip
+                    {...TT_STYLE}
+                    formatter={(v) => [((v as number) >= 0 ? "+" : "") + (v as number).toFixed(3) + "x", "Mean Alpha vs QQQ"] as [string, string]}
+                  />
+                  <Bar dataKey="alphaQQQPct" name="Alpha vs QQQ" radius={[4,4,0,0]} maxBarSize={36} animationDuration={700}>
+                    {BENCH_CHART.map((entry, index) => (
+                      <Cell key={index} fill={entry.alphaQQQPct >= 0 ? C.green : C.red} opacity={0.85} />
+                    ))}
+                  </Bar>
+                </BarChart>
+              </ResponsiveContainer>
+
+              {/* D. Beat rate chart */}
+              <ChartTitle accent={C.gold} >% of IPOs That Beat QQQ vs SPY</ChartTitle>
+              <p style={{ color: C.desc, fontSize: 12, marginBottom: 16, marginTop: -12 }}>
+                How often individual IPOs beat the benchmark from their IPO date to today. 50% line = breakeven.
+              </p>
+              <ResponsiveContainer width="100%" height={isMobile ? 200 : 240}>
+                <BarChart data={BENCH_CHART} margin={{ top: 10, right: 10, bottom: 0, left: 0 }} barCategoryGap="20%">
+                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,.04)" />
+                  <XAxis dataKey="bucket" tick={{ fill: C.muted, fontSize: isMobile ? 8 : 10 }} axisLine={false} tickLine={false} />
+                  <YAxis tickFormatter={v => v + "%"} domain={[0, 100]} tick={{ fill: C.muted, fontSize: 10 }} axisLine={false} tickLine={false} />
+                  <ReferenceLine y={50} stroke={C.gold} strokeDasharray="6 3" label={{ value: "50%", fill: C.gold, fontSize: 10, position: "insideTopRight" }} />
+                  <Tooltip
+                    {...TT_STYLE}
+                    formatter={(v) => [(v as number) + "%", ""] as [string, string]}
+                  />
+                  <Bar dataKey="beatQQQPct100" name="Beat QQQ" fill={C.orange} opacity={0.85} radius={[4,4,0,0]} maxBarSize={28} animationDuration={700} />
+                  <Bar dataKey="beatSPYPct100" name="Beat SPY" fill={C.teal}   opacity={0.85} radius={[4,4,0,0]} maxBarSize={28} animationDuration={800} />
+                </BarChart>
+              </ResponsiveContainer>
+              <div style={{ display: "flex", gap: 20, marginTop: 12, marginBottom: 36, flexWrap: "wrap" }}>
+                {[{ col: C.orange, label: "Beat QQQ %" }, { col: C.teal, label: "Beat SPY %" }].map(l => (
+                  <div key={l.label} style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                    <div style={{ width: 10, height: 10, borderRadius: 3, background: l.col }} />
+                    <span style={{ fontSize: 11, color: C.muted }}>{l.label}</span>
+                  </div>
+                ))}
+              </div>
+
+              {/* E. Per-company alpha table — top 10 + bottom 10 */}
+              <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: 24 }}>
+                {[
+                  { title: "Top 10 by Alpha vs QQQ", data: TOP_ALPHA, isTop: true },
+                  { title: "Bottom 10 by Alpha vs QQQ", data: BOT_ALPHA, isTop: false },
+                ].map(({ title, data, isTop }) => (
+                  <div key={title}>
+                    <ChartTitle accent={isTop ? C.green : C.red}>{title}</ChartTitle>
+                    <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12 }}>
+                      <thead>
+                        <tr>
+                          {["Ticker", "Bucket", "Alpha vs QQQ", "Beat?"].map(h => (
+                            <th key={h} style={{ textAlign: "left", padding: "6px 8px", color: C.muted, fontWeight: 700, fontSize: 10, textTransform: "uppercase", letterSpacing: 0.8, borderBottom: `1px solid ${C.border}` }}>{h}</th>
+                          ))}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {data.map((c, i) => (
+                          <tr key={c.ticker} style={{ borderBottom: i < data.length - 1 ? `1px solid rgba(255,255,255,.04)` : "none" }}>
+                            <td style={{ padding: "8px 8px", fontWeight: 800, color: C.text }}>{c.ticker}</td>
+                            <td style={{ padding: "8px 8px", color: C.muted, fontSize: 11 }}>{c.bucket}</td>
+                            <td style={{ padding: "8px 8px", fontWeight: 700, color: c.alphaQQQ >= 0 ? C.green : C.red }}>
+                              {c.alphaQQQ >= 0 ? "+" : ""}{c.alphaQQQ.toFixed(1)}x
+                            </td>
+                            <td style={{ padding: "8px 8px" }}>
+                              <span style={{
+                                display: "inline-block", padding: "2px 8px", borderRadius: 20, fontSize: 10, fontWeight: 700,
+                                background: c.beatQQQ ? "rgba(16,185,129,.15)" : "rgba(239,68,68,.15)",
+                                color: c.beatQQQ ? C.green : C.red,
+                                border: `1px solid ${c.beatQQQ ? "rgba(16,185,129,.3)" : "rgba(239,68,68,.3)"}`,
+                              }}>{c.beatQQQ ? "YES" : "NO"}</span>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                ))}
+              </div>
+
+              <InsightCallout>Only 23% of IPOs beat QQQ — you&apos;d have been better off buying the index in most cases. The $1–2B bucket is the exception: 50% beat rate and massive alpha driven by CRDO (+20.6x vs QQQ). The $10–20B and $40B+ buckets have the worst beat rates (17%) and deepest negative alpha, confirming the dead zone is real on a risk-adjusted basis too.</InsightCallout>
+            </Glass>
+          </FadeIn>
+
+          {/* ═══ 12. KEY INSIGHTS ════════════════════════════════════════════════= */}
           <FadeIn delay={40}>
             <Glass style={{ padding: isMobile ? "20px 16px" : 36, marginBottom: 48 }}>
               <SLabel>Research Findings</SLabel>
